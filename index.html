@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cozy Executive - Premium Campaign Canvas</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for sleek icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=VT323&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        pixel: ['VT323', 'monospace'],
+                    },
+                    colors: {
+                        obsidian: {
+                            950: '#060A08',
+                            900: '#0C120F',
+                            800: '#141D19',
+                            700: '#1D2A24',
+                            600: '#273830',
+                        },
+                        champagne: {
+                            100: '#F5EFE4',
+                            200: '#EADFC9',
+                            300: '#D9C5A0',
+                            400: '#C7AC77',
+                            500: '#B08E4F',
+                            600: '#8E7039',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Hidden premium scrollbar classes to support horizontal swiping without scrollbar clutter */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none !important;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none !important;  /* IE and Edge */
+            scrollbar-width: none !important;  /* Firefox */
+        }
+        
+        /* Modern standard scrollbars for general overlay dropdowns */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #060A08;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #B08E4F;
+            border-radius: 10px;
+        }
+        
+        /* Ultra-premium glass panels */
+        .glass-panel {
+            background: rgba(12, 18, 15, 0.95);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(217, 197, 160, 0.15);
+            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+        }
+
+        .glass-panel-interactive {
+            background: rgba(12, 18, 15, 0.75);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(217, 197, 160, 0.12);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-panel-interactive:hover {
+            border-color: rgba(217, 197, 160, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px 0 rgba(176, 142, 79, 0.08);
+        }
+
+        /* Apple-style minimalist inputs */
+        .premium-input {
+            background: rgba(6, 10, 8, 0.4);
+            border: 1px solid rgba(217, 197, 160, 0.15);
+            color: #EADFC9;
+            transition: all 0.2s ease;
+        }
+
+        .premium-input:focus {
+            border-color: #B08E4F;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(176, 142, 79, 0.15);
+        }
+        
+        /* Interactive animations */
+        .gold-glow-hover:hover {
+            text-shadow: 0 0 12px rgba(217, 197, 160, 0.4);
+        }
+        
+        @keyframes subtle-pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.02); }
+        }
+        .luxury-pulse {
+            animation: subtle-pulse 4s infinite ease-in-out;
+        }
+
+        /* Popup animations */
+        @keyframes scale-up {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-scale-up {
+            animation: scale-up 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="bg-[#050807] text-champagne-100 font-sans min-h-screen selection:bg-champagne-500 selection:text-obsidian-950 pb-16">
+
+    <!-- Primary Sovereign Modal Box -->
+    <div id="game-modal" class="fixed inset-0 bg-[#060A08]/90 z-50 flex items-center justify-center p-4 hidden backdrop-blur-md">
+        <div class="glass-panel max-w-md w-full overflow-hidden rounded-3xl p-6 border border-champagne-400/20 animate-scale-up">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-10 h-10 rounded-full bg-champagne-500/10 flex items-center justify-center text-champagne-300 border border-champagne-300/20">
+                    <i class="fa-solid fa-crown text-sm"></i>
+                </div>
+                <h3 id="modal-title" class="font-serif text-lg font-bold text-champagne-200">
+                    Sovereign Command
+                </h3>
+            </div>
+            <p id="modal-desc" class="text-xs text-champagne-300 leading-relaxed mb-6"></p>
+            <div class="flex justify-end gap-3">
+                <button id="modal-cancel-btn" class="px-4 py-2 bg-transparent text-champagne-400 hover:text-champagne-100 text-xs font-semibold rounded-full transition">Cancel</button>
+                <button id="modal-confirm-btn" class="px-5 py-2 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-xs font-semibold rounded-full transition shadow-lg shadow-champagne-500/10">Proceed</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Key Settings Modal Box -->
+    <div id="key-modal" class="fixed inset-0 bg-[#060A08]/95 z-50 flex items-center justify-center p-4 hidden backdrop-blur-md">
+        <div class="glass-panel max-w-md w-full overflow-hidden rounded-3xl p-6 border border-champagne-400/25 animate-scale-up">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-champagne-500/10 flex items-center justify-center text-champagne-300 border border-champagne-300/20">
+                        <i class="fa-solid fa-key text-sm"></i>
+                    </div>
+                    <h3 class="font-serif text-lg font-bold text-champagne-200">Gemini Setup</h3>
+                </div>
+                <button onclick="closeKeyModal()" class="text-champagne-400 hover:text-champagne-100 transition"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-xs text-champagne-300 leading-relaxed mb-4">
+                Input your standard **Google AI Studio API Key** to route Crucible queries. 
+                Leaving this empty activates the default offline simulated responses.
+            </p>
+            <input type="password" id="input-api-key" placeholder="Paste your AI Studio API Key here..."
+                   class="w-full premium-input text-xs rounded-full px-4 py-2.5 mb-6 text-champagne-100 placeholder-champagne-600">
+            <div class="flex justify-end gap-3">
+                <button onclick="closeKeyModal()" class="px-4 py-2 bg-transparent text-champagne-400 hover:text-champagne-100 text-xs font-semibold rounded-full transition">Close</button>
+                <button onclick="saveApiKey()" class="px-5 py-2 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-xs font-semibold rounded-full transition shadow-lg">Save Key</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP 1: Executive Profile Modal -->
+    <div id="popup-profile" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-lg w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80">
+                <h3 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
+                    <i class="fa-solid fa-user-tie text-champagne-500 text-sm"></i> Executive Profile
+                </h3>
+                <button onclick="closePopup('popup-profile')" class="w-8 h-8 rounded-full bg-obsidian-900 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-champagne-400 hover:text-champagne-100 transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1 flex flex-col gap-6 no-scrollbar">
+                <!-- Profile Header Details -->
+                <div class="bg-obsidian-900/40 p-4 rounded-2xl border border-champagne-300/10 flex flex-col items-center justify-center text-center gap-4">
+                    <div class="relative">
+                        <div class="w-24 h-24 rounded-full bg-obsidian-950 border border-champagne-300/20 shadow-2xl flex items-center justify-center text-4xl select-none" id="char-avatar-render">
+                            🎩
+                        </div>
+                        <span class="absolute -bottom-1 -right-1 bg-champagne-500 text-obsidian-950 text-[10px] font-bold w-6 h-6 rounded-full border border-obsidian-950 flex items-center justify-center shadow" id="avatar-level-bubble">1</span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-champagne-400 font-bold uppercase tracking-widest" id="char-title">The Distracted Squire</p>
+                        <p class="text-[10px] text-champagne-500 mt-1">Upgrade your level by checking off daily operational tasks</p>
+                    </div>
+                    <div class="flex justify-center gap-2">
+                        <button onclick="updateAvatarEmoji('🎩')" class="w-8 h-8 rounded-full bg-obsidian-950 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-sm transition">🎩</button>
+                        <button onclick="updateAvatarEmoji('👨‍💻')" class="w-8 h-8 rounded-full bg-obsidian-950 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-sm transition">👨‍💻</button>
+                        <button onclick="updateAvatarEmoji('🏋️')" class="w-8 h-8 rounded-full bg-obsidian-950 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-sm transition">🏋️</button>
+                        <button onclick="updateAvatarEmoji('🎬')" class="w-8 h-8 rounded-full bg-obsidian-950 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-sm transition">🎬</button>
+                        <button onclick="updateAvatarEmoji('👑')" class="w-8 h-8 rounded-full bg-obsidian-950 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-sm transition">👑</button>
+                    </div>
+                </div>
+
+                <!-- Attributes allocation -->
+                <div class="flex flex-col gap-4">
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-serif text-champagne-200 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-sliders text-champagne-500"></i> Performance Attributes
+                        </h4>
+                        <div id="stat-points-container" class="hidden text-[10px] bg-champagne-500/10 text-champagne-300 px-3 py-1 rounded-full border border-champagne-400/20 font-bold">
+                            Unallocated: <span id="stat-points-val">0</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-obsidian-900/40 p-3 rounded-2xl border border-champagne-300/10 flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <span class="text-base">🎯</span>
+                                <div class="min-w-0">
+                                    <p class="text-[9px] text-champagne-400 font-semibold truncate">Focus</p>
+                                    <p class="text-sm font-semibold text-champagne-200" id="stat-focus">10</p>
+                                </div>
+                            </div>
+                            <button class="add-stat-btn hidden px-2 py-0.5 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-[10px] font-bold rounded-full transition" onclick="allocateStat('focus')">Add</button>
+                        </div>
+                        <div class="bg-obsidian-900/40 p-3 rounded-2xl border border-champagne-300/10 flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <span class="text-base">🎙️</span>
+                                <div class="min-w-0">
+                                    <p class="text-[9px] text-champagne-400 font-semibold truncate">Charisma</p>
+                                    <p class="text-sm font-semibold text-champagne-200" id="stat-charisma">10</p>
+                                </div>
+                            </div>
+                            <button class="add-stat-btn hidden px-2 py-0.5 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-[10px] font-bold rounded-full transition" onclick="allocateStat('charisma')">Add</button>
+                        </div>
+                        <div class="bg-obsidian-900/40 p-3 rounded-2xl border border-champagne-300/10 flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <span class="text-base">💪</span>
+                                <div class="min-w-0">
+                                    <p class="text-[9px] text-champagne-400 font-semibold truncate">Power</p>
+                                    <p class="text-sm font-semibold text-champagne-200" id="stat-power">10</p>
+                                </div>
+                            </div>
+                            <button class="add-stat-btn hidden px-2 py-0.5 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-[10px] font-bold rounded-full transition" onclick="allocateStat('power')">Add</button>
+                        </div>
+                        <div class="bg-obsidian-900/40 p-3 rounded-2xl border border-champagne-300/10 flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <span class="text-base">💍</span>
+                                <div class="min-w-0">
+                                    <p class="text-[9px] text-champagne-400 font-semibold truncate">Wealth</p>
+                                    <p class="text-sm font-semibold text-champagne-200" id="stat-wealth">10</p>
+                                </div>
+                            </div>
+                            <button class="add-stat-btn hidden px-2 py-0.5 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-[10px] font-bold rounded-full transition" onclick="allocateStat('wealth')">Add</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-obsidian-950/80 border-t border-champagne-300/10 flex justify-between items-center">
+                <button onclick="openKeyModal()" class="text-[10px] text-champagne-400 hover:text-champagne-200 transition flex items-center gap-1 font-semibold uppercase tracking-wider">
+                    <i class="fa-solid fa-gears"></i> Setup Gemini Key
+                </button>
+                <button onclick="triggerResetConfirmation()" class="text-[10px] text-red-400 hover:text-red-300 transition flex items-center gap-1 font-semibold uppercase tracking-wider">
+                    <i class="fa-solid fa-arrow-rotate-left"></i> Reset Sandbox
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP 2: Quest Board Modal -->
+    <div id="popup-quests" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-2xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80">
+                <div>
+                    <h3 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
+                        <i class="fa-solid fa-scroll text-champagne-500 text-sm"></i> Expedition Quest Board
+                    </h3>
+                    <p class="text-[10px] text-champagne-400 mt-0.5">Toggle daily focuses, operational contracts, and bounty achievements.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="resetDailies()" class="px-3 py-1.5 bg-champagne-500/10 hover:bg-champagne-500/20 text-champagne-300 font-semibold rounded-full text-xs border border-champagne-400/20 transition whitespace-nowrap">
+                        🔄 Reset Board
+                    </button>
+                    <button onclick="closePopup('popup-quests')" class="w-8 h-8 rounded-full bg-obsidian-900 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-champagne-400 hover:text-champagne-100 transition">
+                        <i class="fa-solid fa-xmark text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Campaign Focus Selection row inside modal -->
+            <!-- Wrapped inside scroll-hidden overflow containers to cleanly hide horizontal scroll tracks -->
+            <div class="bg-obsidian-950/40 p-4 pb-4 border-b border-champagne-300/10 overflow-x-auto no-scrollbar">
+                <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-2.5">
+                    Select Daily Campaign Focus
+                </p>
+                <div class="flex gap-2 min-w-[500px]" id="campaign-focus-grid">
+                    <!-- Javascript populates -->
+                </div>
+            </div>
+
+            <!-- Quests List Scrolling container -->
+            <div class="p-6 flex flex-col gap-3 flex-1 overflow-y-auto no-scrollbar" id="quests-container">
+                <!-- Javascript populates -->
+            </div>
+
+            <!-- Custom Bounty Adder bottom dock -->
+            <div class="p-4 bg-obsidian-950/80 border-t border-champagne-300/10 flex flex-col sm:flex-row gap-3">
+                <input type="text" id="custom-bounty-title" placeholder="Add customized target..." 
+                       class="flex-1 bg-obsidian-950 premium-input text-xs rounded-full px-4 py-2 text-champagne-100 placeholder-champagne-500">
+                <div class="flex gap-2">
+                    <select id="custom-bounty-stat" class="bg-obsidian-950 premium-input text-xs rounded-full px-3 py-2 text-champagne-300">
+                        <option value="focus">🎯 Focus</option>
+                        <option value="charisma">🎙️ Charisma</option>
+                        <option value="power">💪 Power</option>
+                        <option value="wealth">💍 Wealth</option>
+                    </select>
+                    <button onclick="addCustomBounty()" class="bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 font-bold px-5 py-2 rounded-full text-xs transition whitespace-nowrap shadow-md">
+                        + Add Bounty
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP 3: Procrastination Arena Modal -->
+    <div id="popup-arena" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-2xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80">
+                <div>
+                    <h3 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
+                        <i class="fa-solid fa-skull text-champagne-500 text-sm"></i> Weekly Procrastination Arena
+                    </h3>
+                    <p class="text-[10px] text-champagne-400 mt-0.5">Vaporize mental friction loops by landing constructive work strikes.</p>
+                </div>
+                <button onclick="closePopup('popup-arena')" class="w-8 h-8 rounded-full bg-obsidian-900 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-champagne-400 hover:text-champagne-100 transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <div class="p-6 overflow-y-auto flex-1 no-scrollbar">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                    <!-- Boss Sprite Column -->
+                    <div class="md:col-span-5 flex flex-col items-center justify-center p-4 bg-obsidian-900/50 rounded-2xl border border-champagne-300/10">
+                        <div class="flex justify-between w-full mb-3 text-[9px] text-champagne-400 uppercase font-semibold">
+                            <span>Friction Target</span>
+                            <span class="text-champagne-300">Switch Boss</span>
+                        </div>
+                        <div class="flex gap-1.5 mb-4 bg-obsidian-950 p-1 rounded-full border border-champagne-300/10">
+                            <button onclick="selectBoss('siren')" id="tab-boss-siren" class="w-8 h-8 rounded-full flex items-center justify-center text-sm transition">🧜‍♀️</button>
+                            <button onclick="selectBoss('editor')" id="tab-boss-editor" class="w-8 h-8 rounded-full flex items-center justify-center text-sm transition">🦁</button>
+                            <button onclick="selectBoss('specter')" id="tab-boss-specter" class="w-8 h-8 rounded-full flex items-center justify-center text-sm transition">👻</button>
+                        </div>
+                        
+                        <div class="relative w-20 h-20 bg-obsidian-950 rounded-full border border-champagne-300/20 flex items-center justify-center text-4xl shadow-inner luxury-pulse" id="boss-sprite">
+                            🧜‍♀️
+                        </div>
+                        
+                        <h4 id="boss-display-title" class="font-serif font-bold text-champagne-200 mt-3 text-xs">The Scripting Siren</h4>
+                        <p id="boss-display-desc" class="text-[9px] text-champagne-400 text-center mt-1 leading-normal px-2"></p>
+                    </div>
+
+                    <!-- Battle Progress Details and Attack Selection -->
+                    <div class="md:col-span-7 flex flex-col gap-4">
+                        <div>
+                            <div class="flex justify-between items-center text-[10px] mb-1.5 uppercase font-semibold text-champagne-400">
+                                <span>Defeat Blockers:</span>
+                                <span class="text-champagne-300 font-bold" id="boss-health-text">100 / 100 HP</span>
+                            </div>
+                            <div class="flex gap-1.5 bg-obsidian-950 p-3 rounded-2xl border border-champagne-300/10" id="boss-heart-container">
+                                <!-- Javascript renders dynamically -->
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-[9px] text-champagne-400 font-bold mb-2 uppercase tracking-widest">Select Operational Attack Strike:</p>
+                            <div class="flex flex-col gap-2" id="boss-attack-actions">
+                                <!-- Javascript renders dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP 4: Merchant Shop Modal -->
+    <div id="popup-shop" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-4xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-champagne-300/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-obsidian-950/80">
+                <div>
+                    <h3 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
+                        <i class="fa-solid fa-shop text-champagne-500 text-sm"></i> Sovereign Merchant Shop
+                    </h3>
+                    <p class="text-[10px] text-champagne-400 mt-0.5">Redeem accumulated gold tokens to activate premium relaxation periods.</p>
+                </div>
+                
+                <div class="flex flex-wrap gap-2 w-full md:w-auto items-center">
+                    <input type="text" id="custom-reward-name" placeholder="Reward Title..." class="premium-input text-xs rounded-full px-3 py-1.5 text-champagne-100 w-32">
+                    <input type="number" id="custom-reward-cost" placeholder="Gold cost" class="premium-input text-xs rounded-full px-3 py-1.5 text-champagne-100 w-20">
+                    <button onclick="createCustomReward()" class="bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 font-bold px-4 py-1.5 rounded-full text-xs transition">
+                        + Add To Store
+                    </button>
+                    <button onclick="closePopup('popup-shop')" class="w-8 h-8 rounded-full bg-obsidian-900 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-champagne-400 hover:text-champagne-100 transition ml-2">
+                        <i class="fa-solid fa-xmark text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Shop Inventory Grid -->
+            <div class="p-6 bg-obsidian-950/20 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 overflow-y-auto flex-1 no-scrollbar" id="shop-container">
+                <!-- Javascript renders dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <header class="sticky top-0 z-30 bg-obsidian-950/70 backdrop-blur-md border-b border-champagne-300/10 py-4 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <div class="flex items-center gap-4">
+                <div class="w-11 h-11 bg-champagne-500/5 border border-champagne-300/25 rounded-full flex items-center justify-center text-xl shadow-inner text-champagne-300">
+                    👑
+                </div>
+                <div>
+                    <h1 class="font-serif text-xl font-semibold tracking-wide text-champagne-200">
+                        COZY EXECUTIVE
+                    </h1>
+                    <p class="text-[9px] uppercase tracking-widest text-champagne-400 flex items-center gap-1.5 font-medium">
+                        <span class="w-1.5 h-1.5 rounded-full bg-champagne-400 luxury-pulse"></span> Premium Sandbox Engine
+                    </p>
+                </div>
+            </div>
+
+            <!-- Global Stats Ribbon -->
+            <div class="flex items-center gap-6 bg-obsidian-900/60 px-6 py-2 rounded-full border border-champagne-300/10 shadow-sm">
+                <div class="text-center">
+                    <p class="text-[8px] uppercase text-champagne-400 font-semibold tracking-wider">Level</p>
+                    <p id="nav-level-val" class="font-serif text-2xl text-champagne-200 leading-none">1</p>
+                </div>
+                
+                <div class="h-8 w-[1px] bg-champagne-300/10"></div>
+                
+                <!-- Circular Radial Progress -->
+                <div class="relative w-10 h-10 flex items-center justify-center">
+                    <svg class="absolute w-full h-full -rotate-90">
+                        <circle cx="20" cy="20" r="16" stroke="rgba(217, 197, 160, 0.05)" stroke-width="2.5" fill="transparent" />
+                        <circle id="radial-xp-bar" cx="20" cy="20" r="16" stroke="#B08E4F" stroke-width="2.5" fill="transparent" 
+                                stroke-dasharray="100.5" stroke-dashoffset="100.5" stroke-linecap="round" class="transition-all duration-300" />
+                    </svg>
+                    <span id="nav-xp-percent" class="text-[9px] font-medium text-champagne-300">0%</span>
+                </div>
+                
+                <div class="h-8 w-[1px] bg-champagne-300/10"></div>
+
+                <div class="flex items-center gap-2">
+                    <div class="w-6 h-6 rounded-full bg-champagne-500/10 border border-champagne-400/20 flex items-center justify-center text-xs text-champagne-300">
+                        <i class="fa-solid fa-coins"></i>
+                    </div>
+                    <div>
+                        <p class="text-[8px] text-champagne-400 uppercase font-semibold">Treasury</p>
+                        <p id="nav-gold-val" class="font-serif text-lg text-champagne-200 leading-none">0g</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="toast-container" class="fixed top-24 right-6 z-50 flex flex-col gap-3 max-w-sm"></div>
+
+    <script>
+        let audioCtxInstance = null;
+
+        const initAudioContext = () => {
+            if (!audioCtxInstance) {
+                try {
+                    audioCtxInstance = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (e) {
+                    console.warn("Audio Context is not supported or was blocked by host settings.", e);
+                }
+            }
+            if (audioCtxInstance && audioCtxInstance.state === 'suspended') {
+                audioCtxInstance.resume().catch(err => {
+                    console.warn("Interactivity play state update suspended by browser engine policy.", err);
+                });
+            }
+        };
+
+        // Add auto-resume listener on common interactions
+        ['click', 'touchstart', 'keydown'].forEach(evt => {
+            document.addEventListener(evt, initAudioContext, { once: true });
+        });
+
+        const playSound = (type) => {
+            try {
+                initAudioContext();
+                if (!audioCtxInstance) return;
+                const ctx = audioCtxInstance;
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'coin') {
+                    // Two consecutive premium high dings
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(987.77, ctx.currentTime); // B5 note
+                    osc.frequency.setValueAtTime(1318.51, ctx.currentTime + 0.08); // E6 note
+                    gain.gain.setValueAtTime(0.03, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+                    osc.start(); osc.stop(ctx.currentTime + 0.28);
+                } else if (type === 'levelup') {
+                    // Elegant arpeggio chords
+                    const now = ctx.currentTime;
+                    const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
+                    notes.forEach((f, i) => {
+                        const o = ctx.createOscillator();
+                        const g = ctx.createGain();
+                        o.type = 'sine';
+                        o.frequency.setValueAtTime(f, now + (i * 0.06));
+                        o.connect(g); g.connect(ctx.destination);
+                        g.gain.setValueAtTime(0.02, now + (i * 0.06));
+                        g.gain.exponentialRampToValueAtTime(0.001, now + (i * 0.06) + 0.4);
+                        o.start(now + (i * 0.06)); o.stop(now + (i * 0.06) + 0.5);
+                    });
+                } else if (type === 'hit') {
+                    // Crispy crunch swish
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(180, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.1);
+                    gain.gain.setValueAtTime(0.05, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.14);
+                    osc.start(); osc.stop(ctx.currentTime + 0.16);
+                } else if (type === 'heal') {
+                    // Gentle rising chime
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(440, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.2);
+                    gain.gain.setValueAtTime(0.02, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+                    osc.start(); osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'tick') {
+                    // Soft woodblock tick for buttons
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(600, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.04);
+                    gain.gain.setValueAtTime(0.015, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+                    osc.start(); osc.stop(ctx.currentTime + 0.06);
+                } else if (type === 'open') {
+                    // Delicate fast upward scale
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(1046.50, ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.015, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+                    osc.start(); osc.stop(ctx.currentTime + 0.2);
+                } else if (type === 'close') {
+                    // Delicate fast downward scale
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(1046.50, ctx.currentTime);
+                    osc.frequency.exponentialRampToValueAtTime(523.25, ctx.currentTime + 0.15);
+                    gain.gain.setValueAtTime(0.01, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
+                    osc.start(); osc.stop(ctx.currentTime + 0.2);
+                }
+            } catch (e) { console.warn("Audio Context disabled or context was blocked by runtime configuration.", e); }
+        };
+    </script>
+
+    <!-- Main Workspace Container -->
+    <main class="max-w-7xl mx-auto px-6 mt-8 flex flex-col gap-8">
+        
+        <section class="glass-panel rounded-3xl p-6 md:p-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b border-champagne-300/10 pb-4">
+                <div>
+                    <h2 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
+                        <i class="fa-solid fa-compass text-champagne-500 text-sm"></i> Expedition Roadmap
+                    </h2>
+                    <p class="text-[11px] text-champagne-400">The journey path towards subscriber milestones, sovereign net capital, and absolute physical health.</p>
+                </div>
+                <div class="text-right font-serif text-sm text-champagne-300 font-semibold">
+                    Global Expedition: <span id="map-total-progress" class="text-champagne-400">0%</span>
+                </div>
+            </div>
+
+            <!-- SVG Visual Trail Map -->
+            <div class="relative bg-obsidian-950/40 rounded-2xl p-4 overflow-hidden border border-champagne-300/10 shadow-inner">
+                <svg viewBox="0 0 1000 200" class="w-full h-auto min-w-[650px]" fill="none">
+                    <!-- Elegant Dotted Path Line -->
+                    <path id="map-trail" d="M 50 100 C 200 40, 300 160, 500 100 C 700 40, 800 160, 950 100" stroke="rgba(217, 197, 160, 0.08)" stroke-width="3" stroke-dasharray="8 8" />
+                    <!-- Filled colored progress line -->
+                    <path id="map-trail-filled" d="M 50 100 C 200 40, 300 160, 500 100 C 700 40, 800 160, 950 100" stroke="#B08E4F" stroke-width="3" stroke-linecap="round" stroke-dasharray="1000" stroke-dashoffset="1000" class="transition-all duration-1000 opacity-80" />
+
+                    <!-- Island / Goal Marker 1: Youtube -->
+                    <g id="marker-youtube" class="cursor-pointer transition-transform duration-1000">
+                        <circle r="14" fill="#0C120F" stroke="#B08E4F" stroke-width="1.5" />
+                        <text y="4" font-family="sans-serif" font-size="10" fill="#EADFC9" text-anchor="middle">🎥</text>
+                        <rect x="-45" y="24" width="90" height="18" rx="9" fill="#0C120F" stroke="rgba(217, 197, 160, 0.15)" stroke-width="1"/>
+                        <text id="marker-subs-val" x="0" y="36" font-family="Inter" font-size="8" fill="#D9C5A0" font-weight="600" text-anchor="middle">120 / 2K</text>
+                    </g>
+
+                    <!-- Island / Goal Marker 2: Capital Gold -->
+                    <g id="marker-wealth" class="cursor-pointer transition-transform duration-1000">
+                        <circle r="14" fill="#0C120F" stroke="#B08E4F" stroke-width="1.5" />
+                        <text y="4" font-family="sans-serif" font-size="10" fill="#EADFC9" text-anchor="middle">💰</text>
+                        <rect x="-45" y="24" width="90" height="18" rx="9" fill="#0C120F" stroke="rgba(217, 197, 160, 0.15)" stroke-width="1"/>
+                        <text id="marker-wealth-val" x="0" y="36" font-family="Inter" font-size="8" fill="#D9C5A0" font-weight="600" text-anchor="middle">$1.5K / 10K</text>
+                    </g>
+
+                    <!-- Island / Goal Marker 3: Physical Perfection -->
+                    <g id="marker-vigor" class="cursor-pointer transition-transform duration-1000">
+                        <circle r="14" fill="#0C120F" stroke="#B08E4F" stroke-width="1.5" />
+                        <text y="4" font-family="sans-serif" font-size="10" fill="#EADFC9" text-anchor="middle">🏋️</text>
+                        <rect x="-45" y="24" width="90" height="18" rx="9" fill="#0C120F" stroke="rgba(217, 197, 160, 0.15)" stroke-width="1"/>
+                        <text id="marker-weight-val" x="0" y="36" font-family="Inter" font-size="8" fill="#D9C5A0" font-weight="600" text-anchor="middle">82kg / 75kg</text>
+                    </g>
+
+                    <!-- The Traveler: Ship/Avatar Moving along the path -->
+                    <g id="map-traveler" class="transition-transform duration-1000">
+                        <circle r="10" fill="#B08E4F" class="animate-ping absolute opacity-30" />
+                        <circle r="10" fill="#B08E4F" stroke="#EADFC9" stroke-width="1.5"/>
+                        <text y="3" font-family="sans-serif" font-size="9" fill="#060A08" text-anchor="middle">⛵</text>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+                
+                <div class="bg-obsidian-900/40 p-4 rounded-2xl border border-champagne-300/10 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-champagne-500/5 flex items-center justify-center text-champagne-300 border border-champagne-300/10">
+                            <i class="fa-brands fa-youtube"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-champagne-400 uppercase font-semibold">Broadcaster</p>
+                            <p class="text-[9px] text-champagne-500">Target: 2,000 Subs</p>
+                        </div>
+                    </div>
+                    <input type="number" id="input-subs" value="120" onchange="saveExpeditionGoals()" 
+                           class="w-20 premium-input text-center px-2 py-1 rounded-lg text-sm font-semibold">
+                </div>
+
+                <div class="bg-obsidian-900/40 p-4 rounded-2xl border border-champagne-300/10 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-champagne-500/5 flex items-center justify-center text-champagne-300 border border-champagne-300/10">
+                            <i class="fa-solid fa-vault"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-champagne-400 uppercase font-semibold">Capital Vault</p>
+                            <p class="text-[9px] text-champagne-500">Target: $10,000</p>
+                        </div>
+                    </div>
+                    <input type="number" id="input-wealth" value="1500" onchange="saveExpeditionGoals()" 
+                           class="w-20 premium-input text-center px-2 py-1 rounded-lg text-sm font-semibold">
+                </div>
+
+                <div class="bg-obsidian-900/40 p-4 rounded-2xl border border-champagne-300/10 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-champagne-500/5 flex items-center justify-center text-champagne-300 border border-champagne-300/10">
+                            <i class="fa-solid fa-dumbbell"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-champagne-400 uppercase font-semibold">Vigor Weight</p>
+                            <p class="text-[9px] text-champagne-500">Target: 75 kg</p>
+                        </div>
+                    </div>
+                    <input type="number" id="input-weight" value="82" step="0.1" onchange="saveExpeditionGoals()" 
+                           class="w-20 premium-input text-center px-2 py-1 rounded-lg text-sm font-semibold">
+                </div>
+            </div>
+        </section>
+
+        <!-- Premium Command Deck (The main launcher cards) -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Card 1: Open Profile Popup -->
+            <button onclick="openPopup('popup-profile')" class="glass-panel-interactive rounded-3xl p-6 text-left flex flex-col justify-between group h-48 relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-4 text-champagne-500/5 text-8xl font-serif select-none group-hover:scale-110 transition duration-300">👤</div>
+                <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/20 flex items-center justify-center text-champagne-300 text-lg transition duration-300 group-hover:bg-champagne-500 group-hover:text-obsidian-950">
+                    <i class="fa-solid fa-user-tie"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif text-lg font-bold text-champagne-200 mt-4">Executive Profile</h3>
+                    <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Configure titles, allocate performance stats, and secure sandbox configs.</p>
+                </div>
+            </button>
+
+            <!-- Card 2: Open Quest Board Popup -->
+            <button onclick="openPopup('popup-quests')" class="glass-panel-interactive rounded-3xl p-6 text-left flex flex-col justify-between group h-48 relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-4 text-champagne-500/5 text-8xl font-serif select-none group-hover:scale-110 transition duration-300">📜</div>
+                <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/20 flex items-center justify-center text-champagne-300 text-lg transition duration-300 group-hover:bg-champagne-500 group-hover:text-obsidian-950">
+                    <i class="fa-solid fa-scroll"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif text-lg font-bold text-champagne-200 mt-4">Quest Board</h3>
+                    <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Manage daily campaigns, active checklists, and custom workflow targets.</p>
+                </div>
+            </button>
+
+            <!-- Card 3: Open Procrastination Arena Popup -->
+            <button onclick="openPopup('popup-arena')" class="glass-panel-interactive rounded-3xl p-6 text-left flex flex-col justify-between group h-48 relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-4 text-champagne-500/5 text-8xl font-serif select-none group-hover:scale-110 transition duration-300">⚔️</div>
+                <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/20 flex items-center justify-center text-champagne-300 text-lg transition duration-300 group-hover:bg-champagne-500 group-hover:text-obsidian-950">
+                    <i class="fa-solid fa-skull"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif text-lg font-bold text-champagne-200 mt-4">Combat Arena</h3>
+                    <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Vaporize mental friction loops and tackle weekly creative blockers.</p>
+                </div>
+            </button>
+
+            <!-- Card 4: Open Merchant Shop Popup -->
+            <button onclick="openPopup('popup-shop')" class="glass-panel-interactive rounded-3xl p-6 text-left flex flex-col justify-between group h-48 relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-4 text-champagne-500/5 text-8xl font-serif select-none group-hover:scale-110 transition duration-300">🪙</div>
+                <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/20 flex items-center justify-center text-champagne-300 text-lg transition duration-300 group-hover:bg-champagne-500 group-hover:text-obsidian-950">
+                    <i class="fa-solid fa-shop"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif text-lg font-bold text-champagne-200 mt-4">Merchant Shop</h3>
+                    <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Redeem treasury gold for guilt-free luxury breaks and rewards.</p>
+                </div>
+            </button>
+
+        </section>
+
+    </main>
+
+    <script>
+        const defaultState = {
+            level: 1,
+            xp: 0,
+            gold: 0,
+            stats: {
+                focus: 10,
+                charisma: 10,
+                power: 10,
+                wealth: 10
+            },
+            unallocatedPoints: 0,
+            goals: {
+                subs: 120,
+                wealth: 1500,
+                weight: 82.0
+            },
+            activeCampaignFocus: "client_video", 
+            quests: {
+                cold_outreach: false,
+                lead_harvester: false,
+                reel_monarch: false,
+                iron_vigor: false,
+                vox_ritual: false,
+                campaign_focused_work: false
+            },
+            customBounties: [],
+            currentBoss: "siren",
+            bosses: {
+                siren: { hp: 100, moves: [false, false, false] },
+                editor: { hp: 100, moves: [false, false, false] },
+                specter: { hp: 100, moves: [false, false, false] }
+            },
+            customRewards: [],
+            avatarEmoji: "🎩",
+            apiKey: ""
+        };
+
+        let gameState = JSON.parse(JSON.stringify(defaultState));
+
+        const staticQuests = [
+            { id: "cold_outreach", title: "📨 Cold Outreach Campaign", desc: "Dispatch tailored high-value direct messaging and client pitches", xp: 30, gold: 15, stat: "charisma" },
+            { id: "lead_harvester", title: "🔎 Lead Assembly Protocol", desc: "Sift and construct fresh strategic lead contact databases", xp: 30, gold: 15, stat: "wealth" },
+            { id: "reel_monarch", title: "📱 Reels Production Flow", desc: "Construct and post 2 high-energy Instagram Reels modules", xp: 40, gold: 20, stat: "charisma" },
+            { id: "iron_vigor", title: "🏋️ Weightlifting Sanctuary", desc: "Dedicated heavy physical load execution without scroll leakage", xp: 50, gold: 25, stat: "power" },
+            { id: "vox_ritual", title: "🗣️ Vox Projection Warmup", desc: "Vocal tuning and public dialogue articulation practice", xp: 20, gold: 10, stat: "charisma" }
+        ];
+
+        const campaignFocusConfig = {
+            client_video: {
+                title: "📽️ Client Video Execution",
+                desc: "Focus on editing and assembling high-quality client videos",
+                xp: 100, gold: 50, stat: "focus"
+            },
+            client_thumb: {
+                title: "🎨 Client Thumbnail Artwork",
+                desc: "Conceptualize, draft and deliver premium thumbnail graphics",
+                xp: 80, gold: 40, stat: "focus"
+            },
+            sovereign_mix: {
+                title: "🔄 Sovereign Composite Workflow",
+                desc: "Hybrid flow split evenly between client video and design",
+                xp: 90, gold: 45, stat: "focus"
+            },
+            my_videos: {
+                title: "🎬 Sovereign Video Production",
+                desc: "Drafting, scripting or editing content for your own channel",
+                xp: 120, gold: 60, stat: "focus"
+            },
+            grand_alliance: {
+                title: "👑 Strategic Executive Alliance",
+                desc: "Unified alignment blending client work and personal channel strategy",
+                xp: 110, gold: 55, stat: "focus"
+            }
+        };
+
+        const bossTemplates = {
+            siren: {
+                title: "The Scripting Siren",
+                emoji: "🧜‍♀️",
+                desc: "Distracts you into scrolling loops when you attempt to draft raw scripts.",
+                moves: [
+                    { label: "📝 Outline Content Hook", dmg: 35, loot: "Define key audience-capturing frames" },
+                    { label: "📚 Script Main Pillar Concepts", dmg: 35, loot: "Formulate subpoints clearly" },
+                    { label: "📢 Perform Voice Reading Trial", dmg: 30, loot: "Perfect narrative alignment" }
+                ],
+                gold: 100,
+                xp: 150
+            },
+            editor: {
+                title: "The Fragmented Editor Chimera",
+                emoji: "🦁",
+                desc: "Commands you to speed through editing processes and settle for mediocrity.",
+                moves: [
+                    { label: "🎬 Cut Unnecessary Silence Lines", dmg: 40, loot: "Achieve crisp dialogue transitions" },
+                    { label: "🎶 Align Rich Foley Audio Elements", dmg: 30, loot: "Provide contextual dynamic sound" },
+                    { label: "🎨 Format Clean Graphic Lower-Thirds", dmg: 30, loot: "Structure clean talking frames" }
+                ],
+                gold: 80,
+                xp: 120
+            },
+            specter: {
+                title: "The Static Specter",
+                emoji: "👻",
+                desc: "Tears down graphic focus to settle for single thumbnail styles with zero testing.",
+                moves: [
+                    { label: "💡 Draw 3 Diverse Graphical Designs", dmg: 35, loot: "Broaden visual conceptual ideas" },
+                    { label: "🎨 Formulate Color & Lighting Varieties", dmg: 35, loot: "Contrast testing with dark gradients" },
+                    { label: "⚖️ Complete Composition Evaluation", dmg: 30, loot: "Analyze mobile aspect ratio viewports" }
+                ],
+                gold: 80,
+                xp: 120
+            }
+        };
+
+        const standardRewards = [
+            { id: 'guild', name: "Sovereign Hour", icon: "📺", desc: "1 hour of completely distraction-free study or entertainment", cost: 100 },
+            { id: 'espresso', name: "Double-Espresso", icon: "☕", desc: "Premium roast espresso infusion", cost: 50 },
+            { id: 'weekend', name: "Sovereign Sunday Decree", icon: "🏖️", desc: "A clean work-free weekend afternoon blocks", cost: 150 },
+            { id: 'gaming', name: "Sandbox Sanctuary Session", icon: "⛏️", desc: "2 hours of Minecraft or Stardew Valley relax", cost: 80 }
+        ];
+
+        let activeConfirmCallback = null;
+
+        // Failsafe Storage helper preventing crashes on downloaded file:// contexts
+        const storageHelper = {
+            load: function() {
+                try {
+                    const saved = localStorage.getItem("cozy_executive_save_v4_premium");
+                    if (saved) {
+                        return JSON.parse(saved);
+                    }
+                } catch (e) {
+                    console.warn("Storage access rejected. Defaulting to standard in-memory session.", e);
+                }
+                return null;
+            },
+            save: function(state) {
+                try {
+                    localStorage.setItem("cozy_executive_save_v4_premium", JSON.stringify(state));
+                } catch (e) {
+                    console.warn("Persistent storage update rejected. Changes will hold only until refresh.", e);
+                }
+            }
+        };
+
+        function openPopup(popupId) {
+            const popup = document.getElementById(popupId);
+            if (popup) {
+                playSound('open');
+                popup.classList.remove('hidden');
+                renderUI();
+            }
+        }
+
+        function closePopup(popupId) {
+            const popup = document.getElementById(popupId);
+            if (popup) {
+                playSound('close');
+                popup.classList.add('hidden');
+            }
+        }
+
+        // Close on clicking backdrop
+        window.addEventListener('click', (e) => {
+            const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-shop'];
+            popups.forEach(id => {
+                const modal = document.getElementById(id);
+                if (modal && e.target === modal) {
+                    closePopup(id);
+                }
+            });
+        });
+
+        // Close on ESC key
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-shop', 'game-modal', 'key-modal'];
+                popups.forEach(id => {
+                    const modal = document.getElementById(id);
+                    if (modal && !modal.classList.contains('hidden')) {
+                        if (id === 'game-modal' || id === 'key-modal') {
+                            modal.classList.add('hidden');
+                        } else {
+                            closePopup(id);
+                        }
+                    }
+                });
+            }
+        });
+
+        function triggerModal(title, text, confirmCallback) {
+            playSound('tick');
+            const mTitle = document.getElementById("modal-title");
+            const mDesc = document.getElementById("modal-desc");
+            const modal = document.getElementById("game-modal");
+            if (mTitle) mTitle.innerHTML = title;
+            if (mDesc) mDesc.innerText = text;
+            if (modal) modal.classList.remove("hidden");
+            activeConfirmCallback = confirmCallback;
+        }
+
+        function closeModal() {
+            playSound('close');
+            const modal = document.getElementById("game-modal");
+            if (modal) modal.classList.add("hidden");
+            activeConfirmCallback = null;
+        }
+
+        function openKeyModal() {
+            playSound('tick');
+            const inputKey = document.getElementById("input-api-key");
+            const keyModal = document.getElementById("key-modal");
+            if (inputKey) inputKey.value = gameState.apiKey || "";
+            if (keyModal) keyModal.classList.remove("hidden");
+        }
+
+        function closeKeyModal() {
+            playSound('close');
+            const keyModal = document.getElementById("key-modal");
+            if (keyModal) keyModal.classList.add("hidden");
+        }
+
+        function saveApiKey() {
+            const keyValField = document.getElementById("input-api-key");
+            if (keyValField) {
+                const keyVal = keyValField.value.trim();
+                gameState.apiKey = keyVal;
+                saveGameState();
+                closeKeyModal();
+                showToast("Gemini key saved successfully!", "success");
+            }
+        }
+
+        const modalConfirmBtn = document.getElementById("modal-confirm-btn");
+        if (modalConfirmBtn) {
+            modalConfirmBtn.addEventListener("click", () => {
+                if (activeConfirmCallback) {
+                    activeConfirmCallback();
+                }
+                closeModal();
+            });
+        }
+
+        const modalCancelBtn = document.getElementById("modal-cancel-btn");
+        if (modalCancelBtn) {
+            modalCancelBtn.addEventListener("click", () => {
+                closeModal();
+            });
+        }
+
+        function loadGameState() {
+            const parsed = storageHelper.load();
+            if (parsed) {
+                try {
+                    gameState = JSON.parse(JSON.stringify(defaultState));
+                    for (const key in defaultState) {
+                        if (parsed[key] !== undefined) {
+                            if (typeof defaultState[key] === 'object' && defaultState[key] !== null) {
+                                if (Array.isArray(defaultState[key])) {
+                                    gameState[key] = Array.isArray(parsed[key]) ? parsed[key] : [...defaultState[key]];
+                                } else {
+                                    gameState[key] = { ...defaultState[key], ...parsed[key] };
+                                }
+                            } else {
+                                gameState[key] = parsed[key];
+                            }
+                        }
+                    }
+                } catch (e) {
+                    console.error("Critical fallback triggered. Core defaults applied.", e);
+                    gameState = JSON.parse(JSON.stringify(defaultState));
+                }
+            } else {
+                gameState = JSON.parse(JSON.stringify(defaultState));
+            }
+            renderUI();
+        }
+
+        function saveGameState() {
+            storageHelper.save(gameState);
+        }
+
+        function showToast(message, type = "info") {
+            const container = document.getElementById("toast-container");
+            if (!container) return;
+            const toast = document.createElement("div");
+            
+            let borderClass = "border-champagne-300/20 text-champagne-100 bg-[#0C120F]";
+            if (type === "success") borderClass = "border-champagne-400 text-champagne-100 bg-obsidian-950";
+            if (type === "warning") borderClass = "border-red-500/50 text-red-100 bg-[#1D0F0F]";
+            if (type === "levelup") borderClass = "border-champagne-300 text-champagne-100 bg-obsidian-950 shadow-2xl";
+
+            toast.className = `p-4 rounded-2xl border flex items-center gap-3 shadow-2xl transition-all duration-300 translate-x-5 opacity-0 ${borderClass}`;
+            
+            let icon = "🔔";
+            if (type === "success") icon = "🏆";
+            if (type === "warning") icon = "⚠️";
+            if (type === "levelup") icon = "👑";
+
+            toast.innerHTML = `
+                <span class="text-lg shrink-0">${icon}</span>
+                <div class="text-xs font-sans">
+                    <p class="font-semibold">${message}</p>
+                </div>
+            `;
+            
+            container.appendChild(toast);
+            setTimeout(() => { toast.classList.remove("translate-x-5", "opacity-0"); }, 10);
+            setTimeout(() => {
+                toast.classList.add("opacity-0", "-translate-y-2");
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function renderUI() {
+            const lvlVal = document.getElementById("nav-level-val");
+            const bubbleVal = document.getElementById("avatar-level-bubble");
+            const goldVal = document.getElementById("nav-gold-val");
+            const rawFocus = document.getElementById("stat-focus");
+            const rawCharisma = document.getElementById("stat-charisma");
+            const rawPower = document.getElementById("stat-power");
+            const rawWealth = document.getElementById("stat-wealth");
+
+            if (lvlVal) lvlVal.innerText = gameState.level;
+            if (bubbleVal) bubbleVal.innerText = gameState.level;
+            if (goldVal) goldVal.innerText = `${gameState.gold}g`;
+
+            const xpNeeded = gameState.level * 1000;
+            const xpPercent = Math.min(100, Math.round((gameState.xp / xpNeeded) * 100));
+            const xpPercentLabel = document.getElementById("nav-xp-percent");
+            if (xpPercentLabel) xpPercentLabel.innerText = `${xpPercent}%`;
+            
+            const radialBar = document.getElementById("radial-xp-bar");
+            if (radialBar) {
+                const dashOffset = 100.5 - (100.5 * (xpPercent / 100));
+                radialBar.style.strokeDashoffset = dashOffset;
+            }
+
+            let calculatedTitle = "The Distracted Squire";
+            if (gameState.level >= 3) calculatedTitle = "Executive Apprentice";
+            if (gameState.level >= 5) calculatedTitle = "Creative Director";
+            if (gameState.level >= 8) calculatedTitle = "Sovereign Operator";
+            if (gameState.level >= 12) calculatedTitle = "High Sovereign Tycoon";
+            const titleLabel = document.getElementById("char-title");
+            if (titleLabel) titleLabel.innerText = calculatedTitle;
+
+            if (rawFocus) rawFocus.innerText = gameState.stats.focus;
+            if (rawCharisma) rawCharisma.innerText = gameState.stats.charisma;
+            if (rawPower) rawPower.innerText = gameState.stats.power;
+            if (rawWealth) rawWealth.innerText = gameState.stats.wealth;
+
+            const allocBtns = document.querySelectorAll(".add-stat-btn");
+            const pointsLabel = document.getElementById("stat-points-container");
+            const pointsVal = document.getElementById("stat-points-val");
+
+            if (gameState.unallocatedPoints > 0) {
+                if (pointsLabel) pointsLabel.classList.remove("hidden");
+                if (pointsVal) pointsVal.innerText = gameState.unallocatedPoints;
+                allocBtns.forEach(btn => btn.classList.remove("hidden"));
+            } else {
+                if (pointsLabel) pointsLabel.classList.add("hidden");
+                allocBtns.forEach(btn => btn.classList.add("hidden"));
+            }
+
+            const inputSubs = document.getElementById("input-subs");
+            const inputWealth = document.getElementById("input-wealth");
+            const inputWeight = document.getElementById("input-weight");
+
+            if (inputSubs) inputSubs.value = gameState.goals.subs;
+            if (inputWealth) inputWealth.value = gameState.goals.wealth;
+            if (inputWeight) inputWeight.value = gameState.goals.weight;
+
+            const markSubs = document.getElementById("marker-subs-val");
+            const markWealth = document.getElementById("marker-wealth-val");
+            const markWeight = document.getElementById("marker-weight-val");
+
+            if (markSubs) markSubs.textContent = `${gameState.goals.subs} / 2K`;
+            if (markWealth) markWealth.textContent = `$${(gameState.goals.wealth / 1000).toFixed(1)}K / 10K`;
+            if (markWeight) markWeight.textContent = `${gameState.goals.weight}kg / 75`;
+
+            // Calculate progress percentage
+            const totalWeightedProgress = calculateProgressPercent();
+            const totalProgressLabel = document.getElementById("map-total-progress");
+            if (totalProgressLabel) totalProgressLabel.textContent = `${totalWeightedProgress}%`;
+
+            // Draw progress bar outline
+            const trailFilled = document.getElementById("map-trail-filled");
+            if (trailFilled) trailFilled.style.strokeDashoffset = 1000 - (totalWeightedProgress * 10);
+
+            // Dynamically lock traveler & goal milestones directly to SVG curve coordinates
+            updateTravelerAndMarkers();
+
+            renderCampaignFocusGrid();
+            renderQuestsBoard();
+            updateBossArena();
+            const avatarRender = document.getElementById("char-avatar-render");
+            if (avatarRender) avatarRender.innerText = gameState.avatarEmoji;
+            renderMerchantStore();
+        }
+
+        function calculateProgressPercent() {
+            const subPart = Math.min(1, gameState.goals.subs / 2000);
+            const wealthPart = Math.min(1, gameState.goals.wealth / 10000);
+            const startWeight = 85;
+            const currentWeightDiff = Math.abs(gameState.goals.weight - 75);
+            const weightPart = Math.max(0, Math.min(1, 1 - (currentWeightDiff / (startWeight - 75))));
+            return Math.round(((subPart + wealthPart + weightPart) / 3) * 100);
+        }
+
+        function updateTravelerAndMarkers() {
+            const path = document.getElementById("map-trail");
+            const traveler = document.getElementById("map-traveler");
+            if (!path) return;
+
+            const totalWeightedProgress = calculateProgressPercent();
+
+            try {
+                const totalLength = path.getTotalLength();
+                
+                // Mathematically position sailboat directly on the Bezier path
+                const travelDistance = (totalWeightedProgress / 100) * totalLength;
+                const travelPoint = path.getPointAtLength(travelDistance);
+                if (traveler) {
+                    traveler.setAttribute("transform", `translate(${travelPoint.x}, ${travelPoint.y})`);
+                }
+
+                // Mathematically snap milestones to actual Bezier coordinates (at 22%, 50%, and 78% of path length)
+                const m1Point = path.getPointAtLength(totalLength * 0.22);
+                const m1 = document.getElementById("marker-youtube");
+                if (m1) m1.setAttribute("transform", `translate(${m1Point.x}, ${m1Point.y})`);
+
+                const m2Point = path.getPointAtLength(totalLength * 0.50);
+                const m2 = document.getElementById("marker-wealth");
+                if (m2) m2.setAttribute("transform", `translate(${m2Point.x}, ${m2Point.y})`);
+
+                const m3Point = path.getPointAtLength(totalLength * 0.78);
+                const m3 = document.getElementById("marker-vigor");
+                if (m3) m3.setAttribute("transform", `translate(${m3Point.x}, ${m3Point.y})`);
+            } catch (e) {
+                console.warn("SVG path is parsing... snaps on ready lifecycle.", e);
+            }
+        }
+
+        function renderCampaignFocusGrid() {
+            const container = document.getElementById("campaign-focus-grid");
+            if (!container) return;
+            container.innerHTML = "";
+
+            const activeFocus = gameState.activeCampaignFocus || "client_video";
+            Object.keys(campaignFocusConfig).forEach(key => {
+                const focus = campaignFocusConfig[key];
+                const isActive = key === activeFocus;
+                const activeStyle = isActive 
+                    ? "border-champagne-300 bg-champagne-500/10 shadow-md" 
+                    : "border-champagne-300/10 bg-obsidian-900/30 hover:border-champagne-300/30";
+
+                container.innerHTML += `
+                    <button onclick="selectCampaignFocus('${key}')" 
+                            class="p-3 rounded-xl border text-left transition flex flex-col justify-between h-24 w-36 shrink-0 ${activeStyle}">
+                        <span class="text-lg leading-none">${focus.title.substring(0,2)}</span>
+                        <span class="text-[10px] font-semibold text-champagne-300 leading-tight w-full whitespace-normal mt-1.5">${focus.title.substring(3)}</span>
+                    </button>
+                `;
+            });
+        }
+
+        function selectCampaignFocus(focusKey) {
+            playSound('tick');
+            gameState.activeCampaignFocus = focusKey;
+            gameState.quests.campaign_focused_work = false;
+            saveGameState();
+            renderUI();
+            showToast(`Campaign aligned: ${campaignFocusConfig[focusKey].title}!`, "success");
+        }
+
+        function renderQuestsBoard() {
+            const container = document.getElementById("quests-container");
+            if (!container) return;
+            container.innerHTML = "";
+
+            const activeFocusKey = gameState.activeCampaignFocus || "client_video";
+            const campaignData = campaignFocusConfig[activeFocusKey];
+            const campaignDone = !!gameState.quests.campaign_focused_work;
+
+            const campaignStyle = campaignDone 
+                ? "bg-obsidian-900/30 border-champagne-300/10 opacity-50" 
+                : "bg-champagne-500/[0.04] border-champagne-300/20 hover:border-champagne-300/40";
+
+            container.innerHTML += `
+                <div class="flex items-center justify-between p-4 rounded-2xl border transition duration-300 ${campaignStyle}">
+                    <div class="flex items-center gap-4">
+                        <div class="relative flex items-center justify-center">
+                            <input type="checkbox" id="chk-quest-campaign" ${campaignDone ? 'checked' : ''} onchange="toggleCampaignQuest()" class="w-5 h-5 rounded-full border-champagne-300 text-champagne-500 focus:ring-transparent bg-obsidian-950 cursor-pointer opacity-0 absolute z-20">
+                            <div class="w-5 h-5 rounded-full border ${campaignDone ? 'bg-champagne-500 border-champagne-400 text-obsidian-950' : 'border-champagne-300/30 bg-obsidian-950 text-transparent'} flex items-center justify-center text-[10px] z-10 select-none cursor-pointer">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-[8px] bg-champagne-500/10 text-champagne-300 px-2 py-0.5 rounded-full border border-champagne-400/20 font-bold uppercase tracking-wider mb-1.5 inline-block">Active Campaign Focus</span>
+                            <h4 class="font-semibold text-champagne-100 text-xs md:text-sm">
+                                ${campaignData.title}
+                            </h4>
+                            <p class="text-[10px] md:text-xs text-champagne-400 mt-0.5">${campaignData.desc}</p>
+                            <div class="flex gap-1.5 mt-2">
+                                <span class="text-[8px] border border-champagne-300/20 text-champagne-300 px-2 py-0.5 rounded-full font-semibold uppercase">${campaignData.stat} +2</span>
+                                <span class="text-[8px] border border-champagne-300/20 text-champagne-300 px-2 py-0.5 rounded-full font-semibold">💰 ${campaignData.gold}g</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right whitespace-nowrap pl-4">
+                        <span class="text-champagne-200 text-sm md:text-base font-semibold">+${campaignData.xp} XP</span>
+                        <p class="text-[8px] uppercase tracking-wider text-champagne-500 mt-1">${campaignDone ? 'Claimed' : 'In Progress'}</p>
+                    </div>
+                </div>
+            `;
+
+            staticQuests.forEach(q => {
+                const isCompleted = !!gameState.quests[q.id];
+                const bgStyle = isCompleted 
+                    ? "bg-obsidian-900/20 border-champagne-300/10 opacity-50" 
+                    : "bg-obsidian-900/40 border-champagne-300/10 hover:border-champagne-300/30";
+                
+                const boxStyle = isCompleted
+                    ? "bg-champagne-500 border-champagne-400 text-obsidian-950"
+                    : "text-transparent bg-obsidian-950 border-champagne-300/20";
+
+                container.innerHTML += `
+                    <div class="flex items-center justify-between p-4 rounded-2xl border transition duration-300 ${bgStyle}">
+                        <div class="flex items-center gap-4">
+                            <div class="relative flex items-center justify-center">
+                                <input type="checkbox" ${isCompleted ? 'checked' : ''} onchange="toggleStaticQuest('${q.id}')" class="w-5 h-5 rounded-full border-champagne-300 text-champagne-500 focus:ring-transparent bg-obsidian-950 cursor-pointer opacity-0 absolute z-20">
+                                <div class="w-5 h-5 rounded-full border ${boxStyle} flex items-center justify-center text-[10px] z-10 select-none cursor-pointer">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-champagne-200 text-xs md:text-sm">
+                                    ${q.title}
+                                </h4>
+                                <p class="text-[10px] md:text-xs text-champagne-400 mt-0.5">${q.desc}</p>
+                                <div class="flex gap-1.5 mt-2">
+                                    <span class="text-[8px] border border-champagne-300/20 text-champagne-300 px-2 py-0.5 rounded-full font-semibold uppercase">${q.stat} +1</span>
+                                    <span class="text-[8px] border border-champagne-300/20 text-champagne-300 px-2 py-0.5 rounded-full font-semibold">💰 ${q.gold}g</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-right whitespace-nowrap pl-4">
+                            <span class="text-champagne-200 text-sm md:text-base font-semibold">+${q.xp} XP</span>
+                            <p class="text-[8px] uppercase tracking-wider text-champagne-500 mt-1">${isCompleted ? 'Completed' : 'Pending'}</p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            if (gameState.customBounties && gameState.customBounties.length > 0) {
+                gameState.customBounties.forEach((cb, idx) => {
+                    if (!cb) return;
+                    const isCompleted = !!cb.done;
+                    const bgStyle = isCompleted 
+                        ? "bg-obsidian-900/20 border-champagne-300/10 opacity-50" 
+                        : "bg-obsidian-900/60 border-champagne-400/20 hover:border-champagne-400/30";
+
+                    const boxStyle = isCompleted
+                        ? "bg-champagne-500 border-champagne-400 text-obsidian-950"
+                        : "text-transparent bg-obsidian-950 border-champagne-300/20";
+
+                    container.innerHTML += `
+                        <div class="flex items-center justify-between p-4 rounded-2xl border transition duration-300 ${bgStyle}">
+                            <div class="flex items-center gap-4">
+                                <div class="relative flex items-center justify-center">
+                                    <input type="checkbox" ${isCompleted ? 'checked' : ''} onchange="toggleCustomBounty(${idx})" class="w-5 h-5 rounded-full border-champagne-300 text-champagne-500 focus:ring-transparent bg-obsidian-950 cursor-pointer opacity-0 absolute z-20">
+                                    <div class="w-5 h-5 rounded-full border ${boxStyle} flex items-center justify-center text-[10px] z-10 select-none cursor-pointer">
+                                        <i class="fa-solid fa-check"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="text-[7px] bg-champagne-500/10 text-champagne-300 px-2 py-0.5 rounded-full border border-champagne-400/20 font-bold uppercase tracking-wider mb-1 inline-block">Contract Bounty</span>
+                                    <h4 class="font-semibold text-champagne-200 text-xs md:text-sm">
+                                        ${cb.title}
+                                    </h4>
+                                    <div class="flex gap-1.5 mt-2">
+                                        <span class="text-[8px] border border-champagne-300/20 text-champagne-300 px-2 py-0.5 rounded-full font-semibold uppercase">${cb.stat} +1</span>
+                                        <span class="text-[8px] border border-champagne-300/20 text-champagne-300 px-2 py-0.5 rounded-full font-semibold">💰 ${cb.gold}g</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-right pl-4 flex flex-col items-end">
+                                <button onclick="deleteCustomBounty(${idx})" class="text-[10px] text-red-400 hover:text-red-300 mb-1">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                                <span class="text-champagne-200 text-sm md:text-base font-semibold">+${cb.xp} XP</span>
+                                <p class="text-[8px] uppercase tracking-wider text-champagne-500 mt-0.5">${isCompleted ? 'Completed' : 'Active'}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+        }
+
+        function toggleCampaignQuest() {
+            const currentFocus = gameState.activeCampaignFocus || "client_video";
+            const config = campaignFocusConfig[currentFocus];
+            const wasDone = !!gameState.quests.campaign_focused_work;
+
+            if (!wasDone) {
+                gameState.quests.campaign_focused_work = true;
+                playSound('coin');
+                gameState.gold += config.gold;
+                gameState.stats[config.stat] = (gameState.stats[config.stat] || 10) + 2;
+                addXP(config.xp);
+                showToast(`Campaign Cleared: +${config.xp} XP and +${config.gold}g!`, "success");
+            } else {
+                gameState.quests.campaign_focused_work = false;
+                showToast("Quest status reset.", "info");
+            }
+            saveGameState();
+            renderUI();
+        }
+
+        function toggleStaticQuest(questId) {
+            const wasCompleted = !!gameState.quests[questId];
+            const meta = staticQuests.find(q => q.id === questId);
+            if (!meta) return;
+
+            if (!wasCompleted) {
+                gameState.quests[questId] = true;
+                playSound('coin');
+                gameState.gold += meta.gold;
+                gameState.stats[meta.stat] = (gameState.stats[meta.stat] || 10) + 1;
+                addXP(meta.xp);
+                showToast(`Objective complete: +${meta.xp} XP & +${meta.gold}g!`, "success");
+            } else {
+                gameState.quests[questId] = false;
+                showToast("Objective status reset.", "info");
+            }
+            saveGameState();
+            renderUI();
+        }
+
+        function addCustomBounty() {
+            playSound('tick');
+            const titleField = document.getElementById("custom-bounty-title");
+            const statSelect = document.getElementById("custom-bounty-stat");
+            if (!titleField || !statSelect) return;
+            const val = titleField.value.trim();
+
+            if (!val) {
+                showToast("Please write a bounty description.", "warning");
+                return;
+            }
+
+            const newBounty = {
+                title: val,
+                stat: statSelect.value,
+                xp: 40,
+                gold: 20,
+                done: false
+            };
+
+            if (!gameState.customBounties) gameState.customBounties = [];
+            gameState.customBounties.push(newBounty);
+            titleField.value = "";
+            saveGameState();
+            renderUI();
+            showToast(`Custom bounty enrolled: "${val}"`, "success");
+        }
+
+        function toggleCustomBounty(index) {
+            if (!gameState.customBounties || !gameState.customBounties[index]) return;
+            const cb = gameState.customBounties[index];
+            if (!cb.done) {
+                cb.done = true;
+                playSound('coin');
+                gameState.gold += cb.gold;
+                gameState.stats[cb.stat] = (gameState.stats[cb.stat] || 10) + 1;
+                addXP(cb.xp);
+                showToast(`Bounty complete: +${cb.xp} XP & +${cb.gold}g!`, "success");
+            } else {
+                cb.done = false;
+                showToast("Bounty status reset.", "info");
+            }
+            saveGameState();
+            renderUI();
+        }
+
+        function deleteCustomBounty(index) {
+            if (!gameState.customBounties || !gameState.customBounties[index]) return;
+            gameState.customBounties.splice(index, 1);
+            saveGameState();
+            renderUI();
+            showToast("Bounty dismissed.", "info");
+        }
+
+        function selectBoss(bossId) {
+            playSound('tick');
+            gameState.currentBoss = bossId;
+            saveGameState();
+            renderUI();
+        }
+
+        function updateBossArena() {
+            const activeBossId = gameState.currentBoss || "siren";
+            const bossState = gameState.bosses[activeBossId] || { hp: 100, moves: [false, false, false] };
+            const template = bossTemplates[activeBossId];
+            if (!template) return;
+
+            ['siren', 'editor', 'specter'].forEach(id => {
+                const btn = document.getElementById(`tab-boss-${id}`);
+                if (!btn) return;
+                if (id === activeBossId) {
+                    btn.className = "w-8 h-8 rounded-full flex items-center justify-center text-sm bg-champagne-500/20 border border-champagne-300 text-champagne-200 shadow-md";
+                } else {
+                    btn.className = "w-8 h-8 rounded-full flex items-center justify-center text-sm bg-obsidian-950 hover:bg-obsidian-900 border border-champagne-300/10 text-champagne-400";
+                }
+            });
+
+            const sprite = document.getElementById("boss-sprite");
+            const bTitle = document.getElementById("boss-display-title");
+            const bDesc = document.getElementById("boss-display-desc");
+
+            if (sprite) sprite.textContent = template.emoji;
+            if (bTitle) bTitle.textContent = template.title;
+            if (bDesc) bDesc.textContent = template.desc;
+
+            const heartContainer = document.getElementById("boss-heart-container");
+            if (heartContainer) {
+                heartContainer.innerHTML = "";
+                const totalHearts = 5; 
+                const hpPerHeart = 20; 
+                
+                for (let i = 1; i <= totalHearts; i++) {
+                    const heartLimit = i * hpPerHeart;
+                    let opacity = "opacity-15";
+                    
+                    if (bossState.hp >= heartLimit) {
+                        opacity = "opacity-100 text-champagne-400 luxury-pulse";
+                    } else if (bossState.hp > heartLimit - hpPerHeart) {
+                        opacity = "opacity-60 text-champagne-500 animate-pulse";
+                    }
+
+                    heartContainer.innerHTML += `
+                        <svg class="w-6 h-6 ${opacity} transition-all duration-300" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                        </svg>
+                    `;
+                }
+            }
+
+            const bossHpText = document.getElementById("boss-health-text");
+            if (bossHpText) bossHpText.textContent = `${bossState.hp} / 100 HP`;
+
+            const actionContainer = document.getElementById("boss-attack-actions");
+            if (actionContainer) {
+                actionContainer.innerHTML = "";
+                template.moves.forEach((move, index) => {
+                    const isUsed = bossState.moves[index];
+                    const activeStateStyle = isUsed 
+                        ? "opacity-30 cursor-not-allowed bg-obsidian-950 border-champagne-300/5" 
+                        : "bg-obsidian-900/40 border-champagne-300/10 hover:border-champagne-300/40 hover:bg-obsidian-900/60";
+
+                    actionContainer.innerHTML += `
+                        <button ${isUsed ? 'disabled' : ''} onclick="attackBoss('${activeBossId}', ${index}, ${move.dmg})" 
+                                class="p-2.5 rounded-xl border text-left flex justify-between items-center transition duration-300 w-full ${activeStateStyle}">
+                            <div class="flex items-center gap-3">
+                                <span class="w-5 h-5 rounded bg-champagne-500/10 flex items-center justify-center text-[10px] text-champagne-300 font-semibold">
+                                    ${index + 1}
+                                </span>
+                                <div>
+                                    <p class="text-xs font-semibold text-champagne-200">${move.label}</p>
+                                    <p class="text-[9px] text-champagne-400">${move.loot}</p>
+                                </div>
+                            </div>
+                            <span class="text-champagne-300 font-serif text-xs">⚔️ -${move.dmg} HP</span>
+                        </button>
+                    `;
+                });
+            }
+        }
+
+        function attackBoss(bossId, moveIndex, damage) {
+            const boss = gameState.bosses[bossId];
+            if (!boss) return;
+            if (boss.hp <= 0) {
+                showToast("Procrastination loop already resolved!", "success");
+                return;
+            }
+
+            if (boss.moves[moveIndex]) return;
+
+            boss.hp = Math.max(0, boss.hp - damage);
+            boss.moves[moveIndex] = true;
+            playSound('hit');
+
+            if (boss.hp <= 0) {
+                const template = bossTemplates[bossId];
+                gameState.gold += template.gold;
+                addXP(template.xp);
+                
+                if (bossId === 'siren') gameState.stats.focus = (gameState.stats.focus || 10) + 3;
+                if (bossId === 'editor') gameState.stats.charisma = (gameState.stats.charisma || 10) + 3;
+                if (bossId === 'specter') gameState.stats.wealth = (gameState.stats.wealth || 10) + 3;
+
+                playSound('levelup');
+                showToast(`Defeated ${template.title}! Gained +${template.xp} XP & +${template.gold}g!`, 'success');
+            } else {
+                showToast(`Success Strike! Dealt -${damage} damage. Stay dedicated!`, 'success');
+            }
+
+            saveGameState();
+            updateBossArena();
+        }
+
+        function renderMerchantStore() {
+            const container = document.getElementById("shop-container");
+            if (!container) return;
+            container.innerHTML = "";
+
+            const totalItems = [...standardRewards, ...(gameState.customRewards || []).map((v, i) => ({
+                id: `custom-${i}`,
+                name: v.name,
+                icon: "🔮",
+                desc: "Custom milestone unlocked reward",
+                cost: v.cost,
+                isCustom: true,
+                index: i
+            }))];
+
+            totalItems.forEach(item => {
+                // Safeguard name string escaping
+                const escapedName = item.name.replace(/'/g, "\\'");
+                container.innerHTML += `
+                    <div class="bg-obsidian-900/60 border border-champagne-300/10 rounded-2xl p-4 flex flex-col justify-between hover:border-champagne-300/40 transition duration-300 cursor-pointer group relative"
+                         onclick="buyReward('${escapedName}', ${item.cost})">
+                        
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-2xl filter drop-shadow group-hover:scale-110 transition duration-300">
+                                ${item.icon}
+                            </span>
+                            ${item.isCustom ? `
+                                <button onclick="event.stopPropagation(); deleteCustomReward(${item.index})" 
+                                        class="text-[8px] text-red-400 hover:text-red-300 font-semibold uppercase bg-obsidian-950 px-2 py-0.5 rounded-full border border-champagne-300/10">
+                                    Remove
+                                </button>
+                            ` : ''}
+                        </div>
+
+                        <div class="mt-1">
+                            <h5 class="text-xs font-bold text-champagne-200 truncate">${item.name}</h5>
+                            <p class="text-[9px] text-champagne-400 mt-1 leading-normal line-clamp-2">${item.desc}</p>
+                            
+                            <div class="flex items-center gap-1.5 mt-3 bg-obsidian-950 px-3 py-1 rounded-full border border-champagne-300/5 justify-center">
+                                <i class="fa-solid fa-coins text-champagne-400 text-[10px]"></i>
+                                <span class="text-champagne-300 text-xs font-bold">${item.cost}g</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function buyReward(name, cost) {
+            if (gameState.gold >= cost) {
+                gameState.gold -= cost;
+                playSound('coin');
+                showToast(`Redeemed luxury reward: "${name}"!`, 'success');
+                saveGameState();
+                renderUI();
+            } else {
+                playSound('hit');
+                showToast("Insufficient Treasury Gold reserves.", "warning");
+            }
+        }
+
+        function createCustomReward() {
+            playSound('tick');
+            const nameField = document.getElementById("custom-reward-name");
+            const costField = document.getElementById("custom-reward-cost");
+            if (!nameField || !costField) return;
+
+            const name = nameField.value.trim();
+            const costVal = parseInt(costField.value);
+            
+            if (!name || isNaN(costVal) || costVal <= 0) {
+                showToast("Please write a valid name and gold cost value.", "warning");
+                return;
+            }
+
+            if (!gameState.customRewards) gameState.customRewards = [];
+            gameState.customRewards.push({ name: name, cost: costVal });
+            nameField.value = "";
+            costField.value = "";
+            showToast(`Added Custom Reward: "${name}"`, 'success');
+            saveGameState();
+            renderUI();
+        }
+
+        function deleteCustomReward(index) {
+            if (!gameState.customRewards || !gameState.customRewards[index]) return;
+            gameState.customRewards.splice(index, 1);
+            saveGameState();
+            renderUI();
+        }
+
+        function addXP(amount) {
+            gameState.xp += amount;
+            let xpNeeded = gameState.level * 1000;
+            
+            while (gameState.xp >= xpNeeded) {
+                gameState.xp -= xpNeeded;
+                gameState.level++;
+                gameState.unallocatedPoints += 5; 
+                playSound('levelup');
+                showToast(`Level Advanced! Welcome to Level ${gameState.level}!`, 'levelup');
+                xpNeeded = gameState.level * 1000;
+            }
+            saveGameState();
+            renderUI();
+        }
+
+        function allocateStat(stat) {
+            if (gameState.unallocatedPoints > 0) {
+                gameState.stats[stat] = (gameState.stats[stat] || 10) + 1;
+                gameState.unallocatedPoints--;
+                playSound('heal');
+                showToast(`Increased ${stat.toUpperCase()}!`, 'success');
+                saveGameState();
+                renderUI();
+            }
+        }
+
+        function resetDailies() {
+            playSound('tick');
+            staticQuests.forEach(q => {
+                gameState.quests[q.id] = false;
+            });
+            gameState.quests.campaign_focused_work = false;
+            
+            if (gameState.customBounties) {
+                gameState.customBounties = gameState.customBounties.map(cb => {
+                    if (cb) cb.done = false;
+                    return cb;
+                });
+            }
+
+            ['siren', 'editor', 'specter'].forEach(bossId => {
+                if (gameState.bosses[bossId]) {
+                    gameState.bosses[bossId].moves = [false, false, false];
+                    gameState.bosses[bossId].hp = 100;
+                }
+            });
+
+            saveGameState();
+            renderUI();
+            showToast("Quest board refreshed. Procrastination targets renewed!", "success");
+        }
+
+        function saveExpeditionGoals() {
+            const inputSubs = document.getElementById("input-subs");
+            const inputWealth = document.getElementById("input-wealth");
+            const inputWeight = document.getElementById("input-weight");
+
+            gameState.goals.subs = inputSubs ? (parseInt(inputSubs.value) || 0) : 0;
+            gameState.goals.wealth = inputWealth ? (parseInt(inputWealth.value) || 0) : 0;
+            gameState.goals.weight = inputWeight ? (parseFloat(inputWeight.value) || 0.0) : 0.0;
+            
+            saveGameState();
+            renderUI();
+            showToast("Expedition status recalculated.", "success");
+        }
+
+        function updateAvatarEmoji(emoji) {
+            playSound('tick');
+            gameState.avatarEmoji = emoji;
+            saveGameState();
+            renderUI();
+        }
+
+        function triggerResetConfirmation() {
+            triggerModal(
+                "⚠️ Reset Sandbox Progress",
+                "Are you absolutely certain you want to reset your local database specs? This action will return you to Level 1.",
+                () => {
+                    gameState = JSON.parse(JSON.stringify(defaultState));
+                    saveGameState();
+                    renderUI();
+                    showToast("Database progress returned to baseline.", "warning");
+                }
+            );
+        }
+
+        window.onload = function() {
+            loadGameState();
+            // Snap traveler position immediately on load
+            setTimeout(updateTravelerAndMarkers, 100);
+        };
+
+        // Recalculate trail positions smoothly on screen size modifications
+        window.addEventListener('resize', updateTravelerAndMarkers);
+    </script>
+</body>
+</html>
