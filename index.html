@@ -11,7 +11,7 @@
     <!-- Google Fonts: Inter & Playfair Display -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -20,7 +20,6 @@
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
                         serif: ['Playfair Display', 'serif'],
-                        pixel: ['VT323', 'monospace'],
                     },
                     colors: {
                         obsidian: {
@@ -45,6 +44,50 @@
     </script>
     
     <style>
+        :root {
+            --gold-100: #F5EFE4;
+            --gold-200: #EADFC9;
+            --gold-300: #D9C5A0;
+            --gold-400: #C7AC77;
+            --gold-500: #B08E4F;
+            --gold-600: #8E7039;
+            --ob-950: #060A08;
+            --ob-900: #0C120F;
+            --ob-800: #141D19;
+            /* A warm gold gradient reused across primary actions and accents */
+            --gold-sheen: linear-gradient(145deg, #E6D3A8 0%, #C7AC77 42%, #B08E4F 100%);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        /* Atmospheric backdrop: a warm glow bleeding from above, a deep vignette below,
+           and a whisper of film grain so the near-black reads as depth, not flatness. */
+        body {
+            background-color: #04060A;
+            position: relative;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background:
+                radial-gradient(120% 80% at 50% -10%, rgba(176, 142, 79, 0.16) 0%, rgba(176, 142, 79, 0.05) 30%, transparent 60%),
+                radial-gradient(90% 70% at 85% 110%, rgba(30, 46, 38, 0.55) 0%, transparent 55%),
+                radial-gradient(80% 60% at 10% 100%, rgba(20, 32, 26, 0.5) 0%, transparent 50%),
+                #04060A;
+            pointer-events: none;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.035;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
         /* Hidden premium scrollbar classes to support horizontal swiping without scrollbar clutter */
         .no-scrollbar::-webkit-scrollbar {
             display: none !important;
@@ -58,57 +101,106 @@
         
         /* Modern standard scrollbars for general overlay dropdowns */
         ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+            width: 7px;
+            height: 7px;
         }
         ::-webkit-scrollbar-track {
-            background: #060A08;
+            background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: #B08E4F;
+            background: linear-gradient(180deg, rgba(199, 172, 119, 0.7), rgba(142, 112, 57, 0.7));
             border-radius: 10px;
+            border: 1px solid rgba(6, 10, 8, 0.6);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #D9C5A0, #B08E4F);
         }
         
-        /* Ultra-premium glass panels */
+        /* Ultra-premium glass panels — layered shadow with a warm cast and a hairline
+           highlight along the top edge, as if light catches the bevel. */
         .glass-panel {
-            background: rgba(12, 18, 15, 0.95);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(217, 197, 160, 0.15);
-            box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.6);
+            background:
+                linear-gradient(180deg, rgba(20, 29, 25, 0.72) 0%, rgba(10, 15, 12, 0.92) 100%);
+            backdrop-filter: blur(26px) saturate(1.1);
+            -webkit-backdrop-filter: blur(26px) saturate(1.1);
+            border: 1px solid rgba(217, 197, 160, 0.14);
+            box-shadow:
+                0 24px 60px -18px rgba(0, 0, 0, 0.8),
+                0 2px 10px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(217, 197, 160, 0.06);
         }
 
         .glass-panel-interactive {
-            background: rgba(12, 18, 15, 0.75);
+            position: relative;
+            background:
+                linear-gradient(180deg, rgba(20, 29, 25, 0.6) 0%, rgba(10, 15, 12, 0.82) 100%);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(217, 197, 160, 0.12);
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(217, 197, 160, 0.1);
+            box-shadow:
+                0 12px 30px -14px rgba(0, 0, 0, 0.7),
+                inset 0 1px 0 rgba(217, 197, 160, 0.05);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.4s ease,
+                        box-shadow 0.4s ease;
         }
 
         .glass-panel-interactive:hover {
-            border-color: rgba(217, 197, 160, 0.35);
-            transform: translateY(-2px);
-            box-shadow: 0 12px 40px 0 rgba(176, 142, 79, 0.08);
+            border-color: rgba(217, 197, 160, 0.4);
+            transform: translateY(-4px);
+            box-shadow:
+                0 26px 55px -20px rgba(0, 0, 0, 0.85),
+                0 8px 26px -10px rgba(176, 142, 79, 0.22),
+                inset 0 1px 0 rgba(217, 197, 160, 0.08);
         }
 
         /* Apple-style minimalist inputs */
         .premium-input {
-            background: rgba(6, 10, 8, 0.4);
+            background: rgba(6, 10, 8, 0.55);
             border: 1px solid rgba(217, 197, 160, 0.15);
             color: #EADFC9;
             transition: all 0.2s ease;
         }
 
-        .premium-input:focus {
+        .premium-input::placeholder { color: rgba(142, 112, 57, 0.7); }
+
+        .premium-input:focus,
+        .premium-input:focus-visible {
             border-color: #B08E4F;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(176, 142, 79, 0.15);
+            box-shadow: 0 0 0 3px rgba(176, 142, 79, 0.18);
+            background: rgba(6, 10, 8, 0.75);
         }
-        
+
+        /* Gold action buttons get a subtle gradient and top shine.
+           Applied opt-in via the .btn-gold hook so existing markup stays untouched. */
+        .btn-gold {
+            background: var(--gold-sheen) !important;
+            box-shadow: 0 6px 18px -6px rgba(176, 142, 79, 0.5),
+                        inset 0 1px 0 rgba(230, 211, 168, 0.3) !important;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+        }
+        .btn-gold:hover {
+            filter: brightness(1.06);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 24px -6px rgba(176, 142, 79, 0.6),
+                        inset 0 1px 0 rgba(230, 211, 168, 0.35) !important;
+        }
+        .btn-gold:active { transform: translateY(0); }
+
         /* Interactive animations */
         .gold-glow-hover:hover {
-            text-shadow: 0 0 12px rgba(217, 197, 160, 0.4);
+            text-shadow: 0 0 14px rgba(217, 197, 160, 0.45);
         }
-        
+
+        /* Wordmark: gentle gold gradient text */
+        .gold-text {
+            background: linear-gradient(180deg, #F5EFE4 0%, #D9C5A0 55%, #B08E4F 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
         @keyframes subtle-pulse {
             0%, 100% { opacity: 1; transform: scale(1); }
             50% { opacity: 0.8; transform: scale(1.02); }
@@ -119,11 +211,51 @@
 
         /* Popup animations */
         @keyframes scale-up {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
+            from { opacity: 0; transform: scale(0.95) translateY(8px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
         .animate-scale-up {
-            animation: scale-up 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: scale-up 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* Page entrance */
+        @keyframes fade-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fade-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        /* Accessible, on-brand keyboard focus for every interactive element */
+        a:focus-visible, button:focus-visible,
+        input:focus-visible, select:focus-visible,
+        [tabindex]:focus-visible {
+            outline: 2px solid rgba(217, 197, 160, 0.7);
+            outline-offset: 2px;
+            border-radius: 10px;
+        }
+
+        /* Roadmap canvas: faint gold sky glow over a deep well */
+        .map-canvas {
+            background:
+                radial-gradient(120% 140% at 50% -20%, rgba(176, 142, 79, 0.08), transparent 55%),
+                linear-gradient(180deg, rgba(6, 10, 8, 0.7), rgba(6, 10, 8, 0.3));
+            box-shadow: inset 0 1px 0 rgba(217, 197, 160, 0.04),
+                        inset 0 0 50px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Traveler on the roadmap gets a soft golden aura */
+        #map-traveler { filter: drop-shadow(0 0 6px rgba(176, 142, 79, 0.6)); }
+
+        /* Respect reduced-motion preferences */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
         }
     </style>
 </head>
@@ -143,32 +275,7 @@
             <p id="modal-desc" class="text-xs text-champagne-300 leading-relaxed mb-6"></p>
             <div class="flex justify-end gap-3">
                 <button id="modal-cancel-btn" class="px-4 py-2 bg-transparent text-champagne-400 hover:text-champagne-100 text-xs font-semibold rounded-full transition">Cancel</button>
-                <button id="modal-confirm-btn" class="px-5 py-2 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-xs font-semibold rounded-full transition shadow-lg shadow-champagne-500/10">Proceed</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- API Key Settings Modal Box -->
-    <div id="key-modal" class="fixed inset-0 bg-[#060A08]/95 z-50 flex items-center justify-center p-4 hidden backdrop-blur-md">
-        <div class="glass-panel max-w-md w-full overflow-hidden rounded-3xl p-6 border border-champagne-400/25 animate-scale-up">
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-champagne-500/10 flex items-center justify-center text-champagne-300 border border-champagne-300/20">
-                        <i class="fa-solid fa-key text-sm"></i>
-                    </div>
-                    <h3 class="font-serif text-lg font-bold text-champagne-200">Gemini Setup</h3>
-                </div>
-                <button onclick="closeKeyModal()" class="text-champagne-400 hover:text-champagne-100 transition"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <p class="text-xs text-champagne-300 leading-relaxed mb-4">
-                Input your standard **Google AI Studio API Key** to route Crucible queries. 
-                Leaving this empty activates the default offline simulated responses.
-            </p>
-            <input type="password" id="input-api-key" placeholder="Paste your AI Studio API Key here..."
-                   class="w-full premium-input text-xs rounded-full px-4 py-2.5 mb-6 text-champagne-100 placeholder-champagne-600">
-            <div class="flex justify-end gap-3">
-                <button onclick="closeKeyModal()" class="px-4 py-2 bg-transparent text-champagne-400 hover:text-champagne-100 text-xs font-semibold rounded-full transition">Close</button>
-                <button onclick="saveApiKey()" class="px-5 py-2 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-xs font-semibold rounded-full transition shadow-lg">Save Key</button>
+                <button id="modal-confirm-btn" class="px-5 py-2 btn-gold bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-xs font-semibold rounded-full transition shadow-lg shadow-champagne-500/10">Proceed</button>
             </div>
         </div>
     </div>
@@ -225,7 +332,7 @@
                                     <p class="text-sm font-semibold text-champagne-200" id="stat-focus">10</p>
                                 </div>
                             </div>
-                            <button class="add-stat-btn hidden px-2 py-0.5 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-[10px] font-bold rounded-full transition" onclick="allocateStat('focus')">Add</button>
+                            <button class="add-stat-btn hidden px-2 py-0.5 btn-gold bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-[10px] font-bold rounded-full transition" onclick="allocateStat('focus')">Add</button>
                         </div>
                         <div class="bg-obsidian-900/40 p-3 rounded-2xl border border-champagne-300/10 flex items-center justify-between gap-3">
                             <div class="flex items-center gap-2.5 min-w-0">
@@ -235,7 +342,7 @@
                                     <p class="text-sm font-semibold text-champagne-200" id="stat-charisma">10</p>
                                 </div>
                             </div>
-                            <button class="add-stat-btn hidden px-2 py-0.5 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-[10px] font-bold rounded-full transition" onclick="allocateStat('charisma')">Add</button>
+                            <button class="add-stat-btn hidden px-2 py-0.5 btn-gold bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-[10px] font-bold rounded-full transition" onclick="allocateStat('charisma')">Add</button>
                         </div>
                         <div class="bg-obsidian-900/40 p-3 rounded-2xl border border-champagne-300/10 flex items-center justify-between gap-3">
                             <div class="flex items-center gap-2.5 min-w-0">
@@ -245,7 +352,7 @@
                                     <p class="text-sm font-semibold text-champagne-200" id="stat-power">10</p>
                                 </div>
                             </div>
-                            <button class="add-stat-btn hidden px-2 py-0.5 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-[10px] font-bold rounded-full transition" onclick="allocateStat('power')">Add</button>
+                            <button class="add-stat-btn hidden px-2 py-0.5 btn-gold bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-[10px] font-bold rounded-full transition" onclick="allocateStat('power')">Add</button>
                         </div>
                         <div class="bg-obsidian-900/40 p-3 rounded-2xl border border-champagne-300/10 flex items-center justify-between gap-3">
                             <div class="flex items-center gap-2.5 min-w-0">
@@ -255,17 +362,17 @@
                                     <p class="text-sm font-semibold text-champagne-200" id="stat-wealth">10</p>
                                 </div>
                             </div>
-                            <button class="add-stat-btn hidden px-2 py-0.5 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-[10px] font-bold rounded-full transition" onclick="allocateStat('wealth')">Add</button>
+                            <button class="add-stat-btn hidden px-2 py-0.5 btn-gold bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-[10px] font-bold rounded-full transition" onclick="allocateStat('wealth')">Add</button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="p-4 bg-obsidian-950/80 border-t border-champagne-300/10 flex justify-between items-center">
-                <button onclick="openKeyModal()" class="text-[10px] text-champagne-400 hover:text-champagne-200 transition flex items-center gap-1 font-semibold uppercase tracking-wider">
-                    <i class="fa-solid fa-gears"></i> Setup Gemini Key
-                </button>
+                <span class="text-[10px] text-champagne-500 flex items-center gap-1.5 font-semibold uppercase tracking-wider">
+                    <i class="fa-solid fa-floppy-disk"></i> Saved on this device
+                </span>
                 <button onclick="triggerResetConfirmation()" class="text-[10px] text-red-400 hover:text-red-300 transition flex items-center gap-1 font-semibold uppercase tracking-wider">
-                    <i class="fa-solid fa-arrow-rotate-left"></i> Reset Sandbox
+                    <i class="fa-solid fa-arrow-rotate-left"></i> Reset Progress
                 </button>
             </div>
         </div>
@@ -349,7 +456,7 @@
 
             <div class="flex justify-end gap-3 mt-6">
                 <button onclick="closeAddTaskModal()" class="px-4 py-2 bg-transparent text-champagne-400 hover:text-champagne-100 text-xs font-semibold rounded-full transition">Cancel</button>
-                <button onclick="addCustomBounty()" class="px-5 py-2 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-xs font-semibold rounded-full transition shadow-lg">Enlist Bounty</button>
+                <button onclick="addCustomBounty()" class="px-5 py-2 btn-gold bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-xs font-semibold rounded-full transition shadow-lg">Enlist Bounty</button>
             </div>
         </div>
     </div>
@@ -488,33 +595,113 @@
 
             <div class="flex justify-end gap-3 mt-6">
                 <button onclick="closeAddRewardModal()" class="px-4 py-2 bg-transparent text-champagne-400 hover:text-champagne-100 text-xs font-semibold rounded-full transition">Cancel</button>
-                <button id="btn-submit-reward" onclick="createOrUpdateReward()" class="px-5 py-2 bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-xs font-semibold rounded-full transition shadow-lg">Pay 10g & Create</button>
+                <button id="btn-submit-reward" onclick="createOrUpdateReward()" class="px-5 py-2 btn-gold bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-xs font-semibold rounded-full transition shadow-lg">Pay 10g & Create</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP 5: Treasury Ledger Modal -->
+    <div id="popup-treasury" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-2xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[90vh] flex flex-col">
+            <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80 shrink-0">
+                <div>
+                    <p class="text-[9px] uppercase tracking-[0.3em] text-champagne-500 font-semibold mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-coins text-champagne-500"></i> The Treasury
+                    </p>
+                    <h3 class="font-serif text-2xl font-bold gold-text leading-tight">Gold Ledger</h3>
+                </div>
+                <button onclick="closePopup('popup-treasury')" class="w-8 h-8 rounded-full bg-obsidian-900 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-champagne-400 hover:text-champagne-100 transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <div class="p-6 overflow-y-auto flex-1 no-scrollbar flex flex-col gap-6">
+                <!-- Summary tiles -->
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl p-4 text-center">
+                        <p class="text-[8px] uppercase tracking-[0.2em] text-champagne-400 font-semibold mb-1">Balance</p>
+                        <p id="ledger-balance" class="font-serif text-2xl gold-text leading-none">0g</p>
+                    </div>
+                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl p-4 text-center">
+                        <p class="text-[8px] uppercase tracking-[0.2em] text-champagne-400 font-semibold mb-1">Earned</p>
+                        <p id="ledger-earned" class="font-serif text-2xl text-emerald-300/90 leading-none">0g</p>
+                    </div>
+                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl p-4 text-center">
+                        <p class="text-[8px] uppercase tracking-[0.2em] text-champagne-400 font-semibold mb-1">Spent</p>
+                        <p id="ledger-spent" class="font-serif text-2xl text-rose-300/80 leading-none">0g</p>
+                    </div>
+                </div>
+
+                <!-- Balance-over-time chart -->
+                <div>
+                    <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-2 flex items-center gap-2">
+                        Balance over time
+                        <span class="text-champagne-500 normal-case tracking-normal font-medium hidden sm:inline"><i class="fa-solid fa-arrow-pointer text-[8px]"></i> hover for details</span>
+                    </p>
+                    <div class="map-canvas rounded-2xl border border-champagne-300/10 p-3">
+                        <div id="ledger-balance-chart" class="w-full"></div>
+                    </div>
+                </div>
+
+                <!-- Earn vs spend per day -->
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest">Earned vs spent by day</p>
+                        <div class="flex items-center gap-3 text-[8px] uppercase tracking-wider font-semibold">
+                            <span class="flex items-center gap-1 text-emerald-300/90"><span class="w-2 h-2 rounded-full bg-emerald-400/80"></span> Earned</span>
+                            <span class="flex items-center gap-1 text-rose-300/80"><span class="w-2 h-2 rounded-full bg-rose-400/70"></span> Spent</span>
+                        </div>
+                    </div>
+                    <div class="bg-obsidian-900/40 rounded-2xl border border-champagne-300/10 p-3">
+                        <div id="ledger-daily-chart" class="w-full"></div>
+                    </div>
+                </div>
+
+                <!-- Recent transactions -->
+                <div>
+                    <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-2">Recent activity</p>
+                    <div id="ledger-transactions" class="flex flex-col gap-2">
+                        <!-- Javascript renders dynamically -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Persistent Header -->
-    <header class="sticky top-0 z-30 bg-obsidian-950/70 backdrop-blur-md border-b border-champagne-300/10 py-4 px-6 md:px-12">
+    <header class="sticky top-0 z-30 bg-obsidian-950/70 backdrop-blur-xl border-b border-champagne-300/10 py-4 px-6 md:px-12 shadow-[0_10px_30px_-20px_rgba(0,0,0,0.9)] relative before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-champagne-400/40 before:to-transparent">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             
             <div class="flex items-center gap-4">
-                <div class="w-11 h-11 bg-champagne-500/5 border border-champagne-300/25 rounded-full flex items-center justify-center text-xl shadow-inner text-champagne-300">
+                <div class="w-11 h-11 bg-champagne-500/10 border border-champagne-300/25 rounded-2xl flex items-center justify-center text-xl shadow-[inset_0_1px_0_rgba(217,197,160,0.15),0_6px_16px_-8px_rgba(176,142,79,0.5)] text-champagne-300">
                     👑
                 </div>
                 <div>
-                    <h1 class="font-serif text-xl font-semibold tracking-wide text-champagne-200">
-                        Kohan EXECUTIVE
+                    <p class="text-[8px] uppercase tracking-[0.35em] text-champagne-500 font-semibold mb-0.5">Command Canvas</p>
+                    <h1 class="font-serif text-xl font-semibold tracking-wide gold-text leading-none">
+                        Kohan <span class="italic font-normal">Executive</span>
                     </h1>
                 </div>
             </div>
 
             <!-- Global Stats Ribbon -->
-            <div class="flex items-center gap-6 bg-obsidian-900/60 px-6 py-2 rounded-full border border-champagne-300/10 shadow-sm">
+            <div class="flex items-center gap-6 bg-obsidian-900/70 px-6 py-2.5 rounded-full border border-champagne-300/12 shadow-[0_10px_28px_-16px_rgba(0,0,0,0.8),inset_0_1px_0_rgba(217,197,160,0.05)]">
                 <div class="text-center">
-                    <p class="text-[8px] uppercase text-champagne-400 font-semibold tracking-wider">Level</p>
-                    <p id="nav-level-val" class="font-serif text-2xl text-champagne-200 leading-none">1</p>
+                    <p class="text-[8px] uppercase text-champagne-400 font-semibold tracking-[0.2em]">Level</p>
+                    <p id="nav-level-val" class="font-serif text-2xl gold-text leading-none">1</p>
                 </div>
-                
+
+                <div class="h-8 w-[1px] bg-champagne-300/10"></div>
+
+                <!-- Daily Streak -->
+                <div class="text-center" title="Consecutive days you've completed at least one task">
+                    <p class="text-[8px] uppercase text-champagne-400 font-semibold tracking-[0.2em]">Streak</p>
+                    <p class="font-serif text-2xl leading-none flex items-center justify-center gap-1.5">
+                        <i id="nav-streak-flame" class="fa-solid fa-fire text-lg text-champagne-400 transition-all duration-300"></i>
+                        <span id="nav-streak-val" class="gold-text">0</span>
+                    </p>
+                </div>
+
                 <div class="h-8 w-[1px] bg-champagne-300/10"></div>
                 
                 <!-- Circular Radial Progress -->
@@ -529,15 +716,18 @@
                 
                 <div class="h-8 w-[1px] bg-champagne-300/10"></div>
 
-                <div class="flex items-center gap-2">
-                    <div class="w-6 h-6 rounded-full bg-champagne-500/10 border border-champagne-400/20 flex items-center justify-center text-xs text-champagne-300">
+                <button onclick="openTreasury()" title="View your treasury ledger"
+                        class="group flex items-center gap-2 -mr-2 pr-2 pl-1 py-1 rounded-full hover:bg-champagne-500/10 transition">
+                    <div class="w-6 h-6 rounded-full bg-champagne-500/10 border border-champagne-400/20 flex items-center justify-center text-xs text-champagne-300 group-hover:scale-110 transition">
                         <i class="fa-solid fa-coins"></i>
                     </div>
-                    <div>
-                        <p class="text-[8px] text-champagne-400 uppercase font-semibold">Treasury</p>
-                        <p id="nav-gold-val" class="font-serif text-lg text-champagne-200 leading-none">0g</p>
+                    <div class="text-left">
+                        <p class="text-[8px] text-champagne-400 uppercase font-semibold tracking-[0.15em] flex items-center gap-1">
+                            Treasury <i class="fa-solid fa-chevron-right text-[6px] opacity-0 group-hover:opacity-70 transition"></i>
+                        </p>
+                        <p id="nav-gold-val" class="font-serif text-lg gold-text leading-none">0g</p>
                     </div>
-                </div>
+                </button>
             </div>
         </div>
     </header>
@@ -548,20 +738,22 @@
     <main class="max-w-7xl mx-auto px-6 mt-8 flex flex-col gap-8">
         
         <section class="glass-panel rounded-3xl p-6 md:p-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b border-champagne-300/10 pb-4">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b border-champagne-300/10 pb-5">
                 <div>
-                    <h2 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
-                        <i class="fa-solid fa-compass text-champagne-500 text-sm"></i> Expedition Roadmap
-                    </h2>
-                    <p class="text-[11px] text-champagne-400">The journey path towards YouTube growth, $10,000 a month, and absolute physical health.</p>
+                    <p class="text-[9px] uppercase tracking-[0.3em] text-champagne-500 font-semibold mb-1.5 flex items-center gap-2">
+                        <i class="fa-solid fa-compass text-champagne-500"></i> The Long Campaign
+                    </p>
+                    <h2 class="font-serif text-2xl font-bold gold-text leading-tight">Expedition Roadmap</h2>
+                    <p class="text-[11px] text-champagne-400 mt-1.5 max-w-md leading-relaxed">Your journey toward YouTube growth, $10,000 a month, and peak physical health.</p>
                 </div>
-                <div class="text-right font-serif text-sm text-champagne-300 font-semibold">
-                    Global Expedition: <span id="map-total-progress" class="text-champagne-400">0%</span>
+                <div class="text-right shrink-0 bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl px-5 py-3">
+                    <p class="text-[8px] uppercase tracking-[0.2em] text-champagne-400 font-semibold">Global Expedition</p>
+                    <span id="map-total-progress" class="font-serif text-3xl gold-text leading-none">0%</span>
                 </div>
             </div>
 
             <!-- SVG Visual Trail Map -->
-            <div class="relative bg-obsidian-950/40 rounded-2xl p-4 overflow-hidden border border-champagne-300/10 shadow-inner">
+            <div class="map-canvas relative rounded-2xl p-4 overflow-hidden border border-champagne-300/10">
                 <svg viewBox="0 0 1000 200" class="w-full h-auto min-w-[650px]" fill="none">
                     <!-- Elegant Dotted Path Line -->
                     <path id="map-trail" d="M 50 100 C 200 40, 300 160, 500 100 C 700 40, 800 160, 950 100" stroke="rgba(217, 197, 160, 0.08)" stroke-width="3" stroke-dasharray="8 8" />
@@ -648,52 +840,57 @@
         </section>
 
         <!-- Premium Command Deck (The main launcher cards) -->
+        <div class="flex items-center gap-4 -mb-2">
+            <div class="h-px flex-1 bg-gradient-to-r from-transparent to-champagne-400/25"></div>
+            <p class="text-[9px] uppercase tracking-[0.35em] text-champagne-500 font-semibold whitespace-nowrap">Command Deck</p>
+            <div class="h-px flex-1 bg-gradient-to-l from-transparent to-champagne-400/25"></div>
+        </div>
         <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             
             <!-- Card 1: Open Profile Popup -->
             <button onclick="openPopup('popup-profile')" class="glass-panel-interactive rounded-3xl p-6 text-left flex flex-col justify-between group h-48 relative overflow-hidden">
-                <div class="absolute -right-4 -bottom-4 text-champagne-500/5 text-8xl font-serif select-none group-hover:scale-110 transition duration-300">👤</div>
-                <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/20 flex items-center justify-center text-champagne-300 text-lg transition duration-300 group-hover:bg-champagne-500 group-hover:text-obsidian-950">
+                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-8xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">👤</div>
+                <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/25 flex items-center justify-center text-champagne-300 text-lg shadow-[inset_0_1px_0_rgba(217,197,160,0.12)] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-champagne-300 group-hover:to-champagne-500 group-hover:text-obsidian-950 group-hover:scale-105 group-hover:shadow-[0_8px_20px_-6px_rgba(176,142,79,0.55)]">
                     <i class="fa-solid fa-user-tie"></i>
                 </div>
                 <div>
-                    <h3 class="font-serif text-lg font-bold text-champagne-200 mt-4">Executive Profile</h3>
+                    <h3 class="font-serif text-lg font-bold text-champagne-100 mt-4 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Executive Profile</h3>
                     <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Configure titles, allocate performance stats, and secure sandbox configs.</p>
                 </div>
             </button>
 
             <!-- Card 2: Open Quest Board Popup -->
             <button onclick="openPopup('popup-quests')" class="glass-panel-interactive rounded-3xl p-6 text-left flex flex-col justify-between group h-48 relative overflow-hidden">
-                <div class="absolute -right-4 -bottom-4 text-champagne-500/5 text-8xl font-serif select-none group-hover:scale-110 transition duration-300">📜</div>
-                <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/20 flex items-center justify-center text-champagne-300 text-lg transition duration-300 group-hover:bg-champagne-500 group-hover:text-obsidian-950">
+                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-8xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">📜</div>
+                <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/25 flex items-center justify-center text-champagne-300 text-lg shadow-[inset_0_1px_0_rgba(217,197,160,0.12)] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-champagne-300 group-hover:to-champagne-500 group-hover:text-obsidian-950 group-hover:scale-105 group-hover:shadow-[0_8px_20px_-6px_rgba(176,142,79,0.55)]">
                     <i class="fa-solid fa-scroll"></i>
                 </div>
                 <div>
-                    <h3 class="font-serif text-lg font-bold text-champagne-200 mt-4">Quest Board</h3>
+                    <h3 class="font-serif text-lg font-bold text-champagne-100 mt-4 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Quest Board</h3>
                     <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Manage daily campaigns, active checklists, and custom workflow targets.</p>
                 </div>
             </button>
 
             <!-- Card 3: Open Procrastination Arena Popup -->
             <button onclick="openPopup('popup-arena')" class="glass-panel-interactive rounded-3xl p-6 text-left flex flex-col justify-between group h-48 relative overflow-hidden">
-                <div class="absolute -right-4 -bottom-4 text-champagne-500/5 text-8xl font-serif select-none group-hover:scale-110 transition duration-300">⚔️</div>
-                <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/20 flex items-center justify-center text-champagne-300 text-lg transition duration-300 group-hover:bg-champagne-500 group-hover:text-obsidian-950">
+                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-8xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">⚔️</div>
+                <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/25 flex items-center justify-center text-champagne-300 text-lg shadow-[inset_0_1px_0_rgba(217,197,160,0.12)] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-champagne-300 group-hover:to-champagne-500 group-hover:text-obsidian-950 group-hover:scale-105 group-hover:shadow-[0_8px_20px_-6px_rgba(176,142,79,0.55)]">
                     <i class="fa-solid fa-skull"></i>
                 </div>
                 <div>
-                    <h3 class="font-serif text-lg font-bold text-champagne-200 mt-4">Combat Arena</h3>
+                    <h3 class="font-serif text-lg font-bold text-champagne-100 mt-4 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Combat Arena</h3>
                     <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Vaporize mental friction loops and tackle weekly creative blockers.</p>
                 </div>
             </button>
 
             <!-- Card 4: Open Merchant Shop Popup -->
             <button onclick="openPopup('popup-shop')" class="glass-panel-interactive rounded-3xl p-6 text-left flex flex-col justify-between group h-48 relative overflow-hidden">
-                <div class="absolute -right-4 -bottom-4 text-champagne-500/5 text-8xl font-serif select-none group-hover:scale-110 transition duration-300">🪙</div>
-                <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/20 flex items-center justify-center text-champagne-300 text-lg transition duration-300 group-hover:bg-champagne-500 group-hover:text-obsidian-950">
+                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-8xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">🪙</div>
+                <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/25 flex items-center justify-center text-champagne-300 text-lg shadow-[inset_0_1px_0_rgba(217,197,160,0.12)] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-champagne-300 group-hover:to-champagne-500 group-hover:text-obsidian-950 group-hover:scale-105 group-hover:shadow-[0_8px_20px_-6px_rgba(176,142,79,0.55)]">
                     <i class="fa-solid fa-shop"></i>
                 </div>
                 <div>
-                    <h3 class="font-serif text-lg font-bold text-champagne-200 mt-4">Merchant Shop</h3>
+                    <h3 class="font-serif text-lg font-bold text-champagne-100 mt-4 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Merchant Shop</h3>
                     <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Redeem treasury gold for guilt-free luxury breaks and rewards.</p>
                 </div>
             </button>
@@ -837,7 +1034,11 @@
             },
             shopItems: [], 
             avatarEmoji: "🎩",
-            apiKey: ""
+            streak: 0,
+            bestStreak: 0,
+            lastCompletionDate: null,
+            lastResetDate: null,
+            goldLog: []
         };
 
         let gameState = JSON.parse(JSON.stringify(defaultState));
@@ -1005,7 +1206,7 @@
 
         // Close on clicking backdrop
         window.addEventListener('click', (e) => {
-            const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-shop', 'popup-add-reward', 'popup-add-task'];
+            const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-shop', 'popup-treasury', 'popup-add-reward', 'popup-add-task'];
             popups.forEach(id => {
                 const modal = document.getElementById(id);
                 if (modal && e.target === modal) {
@@ -1023,11 +1224,11 @@
         // Close on ESC key
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-add-reward', 'popup-add-task', 'popup-shop', 'game-modal', 'key-modal'];
+                const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-add-reward', 'popup-add-task', 'popup-shop', 'popup-treasury', 'game-modal'];
                 popups.forEach(id => {
                     const modal = document.getElementById(id);
                     if (modal && !modal.classList.contains('hidden')) {
-                        if (id === 'game-modal' || id === 'key-modal') {
+                        if (id === 'game-modal') {
                             modal.classList.add('hidden');
                         } else if (id === 'popup-add-reward') {
                             closeAddRewardModal();
@@ -1059,29 +1260,315 @@
             activeConfirmCallback = null;
         }
 
-        function openKeyModal() {
-            playSound('tick');
-            const inputKey = document.getElementById("input-api-key");
-            const keyModal = document.getElementById("key-modal");
-            if (inputKey) inputKey.value = gameState.apiKey || "";
-            if (keyModal) keyModal.classList.remove("hidden");
+        /* ===== Date helpers (local calendar days) ===== */
+        function dateKey(d) {
+            const dt = (d instanceof Date) ? d : new Date(d);
+            const y = dt.getFullYear();
+            const m = String(dt.getMonth() + 1).padStart(2, '0');
+            const day = String(dt.getDate()).padStart(2, '0');
+            return `${y}-${m}-${day}`;
+        }
+        function dayDiff(fromKey, toKey) {
+            // whole days between two YYYY-MM-DD keys
+            const a = new Date(fromKey + 'T00:00:00');
+            const b = new Date(toKey + 'T00:00:00');
+            return Math.round((b - a) / 86400000);
         }
 
-        function closeKeyModal() {
-            playSound('close');
-            const keyModal = document.getElementById("key-modal");
-            if (keyModal) keyModal.classList.add("hidden");
+        /* ===== Streak: count consecutive days with at least one completion ===== */
+        function registerActivity() {
+            const today = dateKey(new Date());
+            if (gameState.lastCompletionDate === today) return; // already counted today
+            const gap = gameState.lastCompletionDate ? dayDiff(gameState.lastCompletionDate, today) : 999;
+            gameState.streak = (gap === 1) ? (gameState.streak || 0) + 1 : 1;
+            gameState.lastCompletionDate = today;
+            gameState.bestStreak = Math.max(gameState.bestStreak || 0, gameState.streak);
         }
 
-        function saveApiKey() {
-            const keyValField = document.getElementById("input-api-key");
-            if (keyValField) {
-                const keyVal = keyValField.value.trim();
-                gameState.apiKey = keyVal;
-                saveGameState();
-                closeKeyModal();
-                showToast("Gemini key saved successfully!", "success");
+        /* ===== Gold ledger: record every change with running balance ===== */
+        function logGold(delta, reason, kind) {
+            if (!Array.isArray(gameState.goldLog)) gameState.goldLog = [];
+            gameState.goldLog.push({
+                t: Date.now(),
+                delta: delta,
+                balance: gameState.gold,
+                reason: reason || (delta >= 0 ? "Earned" : "Spent"),
+                kind: kind || (delta >= 0 ? "earn" : "spend")
+            });
+            // Keep the ledger from growing without bound
+            if (gameState.goldLog.length > 400) {
+                gameState.goldLog = gameState.goldLog.slice(-400);
             }
+        }
+
+        /* ===== Treasury Ledger popup ===== */
+        function openTreasury() {
+            const popup = document.getElementById("popup-treasury");
+            if (!popup) return;
+            playSound('open');
+            popup.classList.remove('hidden');
+            renderTreasury();
+        }
+
+        function fmtGold(n) {
+            const v = Math.round(n);
+            return (v >= 1000) ? (v / 1000).toFixed(v % 1000 === 0 ? 0 : 1) + "k" : String(v);
+        }
+
+        function relativeTime(t) {
+            const s = Math.floor((Date.now() - t) / 1000);
+            if (s < 60) return "just now";
+            const m = Math.floor(s / 60);
+            if (m < 60) return m + "m ago";
+            const h = Math.floor(m / 60);
+            if (h < 24) return h + "h ago";
+            const d = Math.floor(h / 24);
+            if (d < 7) return d + "d ago";
+            return dateKey(t).slice(5); // MM-DD
+        }
+
+        function renderTreasury() {
+            const log = Array.isArray(gameState.goldLog) ? gameState.goldLog : [];
+            let earned = 0, spent = 0;
+            log.forEach(e => {
+                if (e.kind === 'spend') spent += -e.delta;
+                else if (e.kind === 'revert') earned += e.delta; // negative delta lowers lifetime earned
+                else if (e.delta > 0) earned += e.delta;         // legacy / 'earn'
+                else if (e.delta < 0) spent += -e.delta;          // legacy negative = spend
+            });
+            if (earned < 0) earned = 0;
+
+            const balEl = document.getElementById("ledger-balance");
+            const earnEl = document.getElementById("ledger-earned");
+            const spendEl = document.getElementById("ledger-spent");
+            if (balEl) balEl.textContent = `${gameState.gold}g`;
+            if (earnEl) earnEl.textContent = `+${fmtGold(earned)}g`;
+            if (spendEl) spendEl.textContent = `-${fmtGold(spent)}g`;
+
+            renderBalanceChart(log);
+            renderDailyChart(log);
+            renderTransactions(log);
+        }
+
+        // Smooth-ish area line of the running balance
+        function renderBalanceChart(log) {
+            const host = document.getElementById("ledger-balance-chart");
+            if (!host) return;
+
+            // Build points aligned to ledger entries so each carries its time & reason
+            let pts = (log || []).map(e => ({ b: e.balance, t: e.t, reason: e.reason, delta: e.delta, kind: e.kind }));
+            if (pts.length === 0 || pts[pts.length - 1].b !== gameState.gold) {
+                pts.push({ b: gameState.gold, t: Date.now(), reason: "Current balance", delta: 0 });
+            }
+
+            if (pts.length < 2) {
+                host.innerHTML = `<div class="text-center text-champagne-500 text-[11px] py-10">
+                    Complete tasks and buy rewards to start charting your treasury.
+                </div>`;
+                return;
+            }
+
+            const W = 640, H = 150, padL = 8, padR = 8, padT = 16, padB = 12;
+            const vals = pts.map(p => p.b);
+            const maxV = Math.max(...vals, 1);
+            const minV = Math.min(...vals, 0);
+            const range = (maxV - minV) || 1;
+            const innerW = W - padL - padR;
+            const innerH = H - padT - padB;
+            const n = pts.length;
+
+            const xs = i => padL + (innerW * (i / (n - 1)));
+            const ys = v => padT + innerH - (innerH * ((v - minV) / range));
+
+            let line = "";
+            pts.forEach((p, i) => { line += `${i === 0 ? "M" : "L"} ${xs(i).toFixed(1)} ${ys(p.b).toFixed(1)} `; });
+            const area = line + `L ${xs(n - 1).toFixed(1)} ${(padT + innerH).toFixed(1)} L ${xs(0).toFixed(1)} ${(padT + innerH).toFixed(1)} Z`;
+            const gridY = [0, 0.5, 1].map(f => padT + innerH - innerH * f);
+            const lastX = xs(n - 1), lastY = ys(pts[n - 1].b);
+
+            // Show a small marker at each point when the series is short enough to stay clean
+            const dots = n <= 24
+                ? pts.map((p, i) => `<circle cx="${xs(i).toFixed(1)}" cy="${ys(p.b).toFixed(1)}" r="2" fill="#B08E4F" opacity="0.5"/>`).join("")
+                : "";
+
+            host.innerHTML = `
+                <div id="bchart-wrap" style="position:relative;width:100%;">
+                    <svg id="bchart-svg" viewBox="0 0 ${W} ${H}" class="w-full h-auto block" preserveAspectRatio="none" role="img" aria-label="Treasury balance over time. Hover to see the balance at each point.">
+                        <defs>
+                            <linearGradient id="goldFill" x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stop-color="#C7AC77" stop-opacity="0.35"/>
+                                <stop offset="100%" stop-color="#C7AC77" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        ${gridY.map(y => `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" stroke="rgba(217,197,160,0.08)" stroke-width="1"/>`).join("")}
+                        <path d="${area}" fill="url(#goldFill)"/>
+                        <path d="${line}" fill="none" stroke="#D9C5A0" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+                        ${dots}
+                        <line id="bchart-cursor-line" x1="0" y1="${padT}" x2="0" y2="${(padT + innerH).toFixed(1)}" stroke="rgba(245,239,228,0.4)" stroke-width="1" stroke-dasharray="3 3" style="opacity:0"/>
+                        <circle id="bchart-cursor-dot" r="4.5" fill="#F5EFE4" stroke="#B08E4F" stroke-width="1.5" style="opacity:0"/>
+                        <circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="3.5" fill="#F5EFE4" stroke="#B08E4F" stroke-width="1.5"/>
+                        <text x="${(W - padR).toFixed(1)}" y="${(gridY[2] + 9).toFixed(1)}" text-anchor="end" font-family="Inter" font-size="8" fill="#8E7039">${maxV}g</text>
+                    </svg>
+                    <div id="bchart-tooltip" style="position:absolute;left:0;top:0;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:5;"></div>
+                </div>`;
+
+            // ---- Interactivity: crosshair + floating tooltip ----
+            const svg = document.getElementById("bchart-svg");
+            const line1 = document.getElementById("bchart-cursor-line");
+            const dot = document.getElementById("bchart-cursor-dot");
+            const tip = document.getElementById("bchart-tooltip");
+            if (!svg || !tip) return;
+
+            function labelTime(t) {
+                const d = new Date(t);
+                const now = new Date();
+                const time = d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+                if (d.toDateString() === now.toDateString()) return `Today · ${time}`;
+                const yest = new Date(now); yest.setDate(now.getDate() - 1);
+                if (d.toDateString() === yest.toDateString()) return `Yesterday · ${time}`;
+                return `${d.toLocaleDateString([], { month: 'short', day: 'numeric' })} · ${time}`;
+            }
+
+            function moveTo(clientX) {
+                const rect = svg.getBoundingClientRect();
+                let frac = (clientX - rect.left) / rect.width;
+                frac = Math.max(0, Math.min(1, frac));
+                const idx = Math.round(frac * (n - 1));
+                const p = pts[idx];
+                const sx = xs(idx), sy = ys(p.b);
+
+                line1.setAttribute("x1", sx.toFixed(1));
+                line1.setAttribute("x2", sx.toFixed(1));
+                line1.style.opacity = "1";
+                dot.setAttribute("cx", sx.toFixed(1));
+                dot.setAttribute("cy", sy.toFixed(1));
+                dot.style.opacity = "1";
+
+                const pxX = (sx / W) * rect.width;
+                const pxY = (sy / H) * rect.height;
+
+                let changeLine;
+                if (p.delta) {
+                    const pos = p.delta > 0;
+                    const c = p.kind === 'revert' ? '#C7AC77' : (pos ? '#6ee7b7' : '#fb7185');
+                    changeLine = `<div style="color:${c};font-size:9px;margin-top:3px;max-width:150px;white-space:normal;">${pos ? '+' : '-'}${Math.abs(p.delta)}g · ${p.reason}</div>`;
+                } else {
+                    changeLine = `<div style="color:#8E7039;font-size:9px;margin-top:3px;">${p.reason}</div>`;
+                }
+                tip.innerHTML = `
+                    <div style="background:rgba(6,10,8,0.97);border:1px solid rgba(217,197,160,0.25);border-radius:10px;padding:6px 10px;box-shadow:0 10px 24px rgba(0,0,0,0.6);">
+                        <div style="font-family:'Playfair Display',serif;color:#EADFC9;font-size:15px;font-weight:600;line-height:1;">${p.b}g</div>
+                        <div style="color:#B08E4F;font-size:8px;text-transform:uppercase;letter-spacing:0.06em;margin-top:3px;white-space:nowrap;">${labelTime(p.t)}</div>
+                        ${changeLine}
+                    </div>`;
+
+                const clampX = Math.max(64, Math.min(rect.width - 64, pxX));
+                const below = pxY < rect.height * 0.42; // flip under the point when near the top
+                tip.style.left = clampX + "px";
+                tip.style.top = pxY + "px";
+                tip.style.transform = below ? "translate(-50%, 12px)" : "translate(-50%, calc(-100% - 12px))";
+                tip.style.opacity = "1";
+            }
+
+            function hide() {
+                line1.style.opacity = "0";
+                dot.style.opacity = "0";
+                tip.style.opacity = "0";
+            }
+
+            svg.addEventListener("pointermove", e => moveTo(e.clientX));
+            svg.addEventListener("pointerdown", e => moveTo(e.clientX));
+            svg.addEventListener("pointerleave", hide);
+        }
+
+        // Grouped bars: earned vs spent per day (most recent 7 active days)
+        function renderDailyChart(log) {
+            const host = document.getElementById("ledger-daily-chart");
+            if (!host) return;
+
+            const byDay = {};
+            log.forEach(e => {
+                const k = dateKey(e.t);
+                if (!byDay[k]) byDay[k] = { earn: 0, spend: 0 };
+                if (e.kind === 'revert') byDay[k].earn = Math.max(0, byDay[k].earn - (-e.delta));
+                else if (e.delta > 0) byDay[k].earn += e.delta;
+                else if (e.delta < 0) byDay[k].spend += -e.delta;
+            });
+            let days = Object.keys(byDay).sort();
+            days = days.slice(-7);
+
+            if (days.length === 0 || days.every(d => byDay[d].earn === 0 && byDay[d].spend === 0)) {
+                host.innerHTML = `<div class="text-center text-champagne-500 text-[11px] py-8">No earnings or spending recorded yet.</div>`;
+                return;
+            }
+
+            const maxV = Math.max(1, ...days.map(d => Math.max(byDay[d].earn, byDay[d].spend)));
+            const W = 640, H = 130, padT = 10, padB = 22;
+            const innerH = H - padT - padB;
+            const slot = W / days.length;
+            const barW = Math.min(16, slot / 3.2);
+            const gap = 3;
+
+            let bars = "";
+            days.forEach((d, i) => {
+                const cx = slot * i + slot / 2;
+                const eh = innerH * (byDay[d].earn / maxV);
+                const sh = innerH * (byDay[d].spend / maxV);
+                const baseY = padT + innerH;
+                const label = d.slice(5).replace('-', '/');
+                bars += `
+                    <rect x="${(cx - barW - gap / 2).toFixed(1)}" y="${(baseY - eh).toFixed(1)}" width="${barW.toFixed(1)}" height="${eh.toFixed(1)}" rx="3" fill="rgba(52,211,153,0.75)"/>
+                    <rect x="${(cx + gap / 2).toFixed(1)}" y="${(baseY - sh).toFixed(1)}" width="${barW.toFixed(1)}" height="${sh.toFixed(1)}" rx="3" fill="rgba(251,113,133,0.65)"/>
+                    <text x="${cx.toFixed(1)}" y="${(H - 6).toFixed(1)}" text-anchor="middle" font-family="Inter" font-size="9" fill="#8E7039">${label}</text>`;
+            });
+
+            host.innerHTML = `
+                <svg viewBox="0 0 ${W} ${H}" class="w-full h-auto" preserveAspectRatio="none" role="img" aria-label="Earned versus spent by day">
+                    <line x1="0" y1="${(padT + innerH).toFixed(1)}" x2="${W}" y2="${(padT + innerH).toFixed(1)}" stroke="rgba(217,197,160,0.1)" stroke-width="1"/>
+                    ${bars}
+                </svg>`;
+        }
+
+        function renderTransactions(log) {
+            const host = document.getElementById("ledger-transactions");
+            if (!host) return;
+            if (!log.length) {
+                host.innerHTML = `<div class="text-center text-champagne-500 text-[11px] py-4">Your gold activity will appear here.</div>`;
+                return;
+            }
+            const recent = log.slice(-9).reverse();
+            host.innerHTML = recent.map(e => {
+                const isRevert = e.kind === 'revert';
+                const positive = e.delta >= 0;
+                const sign = positive ? "+" : "-";
+                let color, icon, iconBg;
+                if (isRevert) {
+                    color = "text-champagne-400";
+                    icon = "fa-rotate-left";
+                    iconBg = "bg-champagne-500/10 border-champagne-400/20 text-champagne-400";
+                } else if (positive) {
+                    color = "text-emerald-300/90";
+                    icon = "fa-arrow-trend-up";
+                    iconBg = "bg-emerald-500/10 border-emerald-400/20 text-emerald-300";
+                } else {
+                    color = "text-rose-300/80";
+                    icon = "fa-arrow-trend-down";
+                    iconBg = "bg-rose-500/10 border-rose-400/20 text-rose-300";
+                }
+                return `
+                    <div class="flex items-center justify-between bg-obsidian-900/40 border border-champagne-300/10 rounded-xl px-3 py-2">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <span class="w-7 h-7 rounded-full border ${iconBg} flex items-center justify-center text-[10px] shrink-0">
+                                <i class="fa-solid ${icon}"></i>
+                            </span>
+                            <div class="min-w-0">
+                                <p class="text-xs font-semibold text-champagne-200 truncate">${e.reason}</p>
+                                <p class="text-[9px] text-champagne-500">${relativeTime(e.t)}</p>
+                            </div>
+                        </div>
+                        <span class="font-serif text-sm font-semibold ${color} whitespace-nowrap pl-3">${sign}${Math.abs(e.delta)}g</span>
+                    </div>`;
+            }).join("");
         }
 
         const modalConfirmBtn = document.getElementById("modal-confirm-btn");
@@ -1139,7 +1626,37 @@
                     });
                 });
             }
+
+            // Seed the gold ledger with an opening balance on first run
+            if (!Array.isArray(gameState.goldLog) || gameState.goldLog.length === 0) {
+                gameState.goldLog = [{ t: Date.now(), delta: 0, balance: gameState.gold, reason: "Opening balance" }];
+            }
+
+            applyDailyRollover();
+
+            saveGameState();
             renderUI();
+        }
+
+        // Runs once on load: reset the day's board at midnight and expire cold streaks.
+        function applyDailyRollover() {
+            const today = dateKey(new Date());
+
+            // A new calendar day → clear the daily board automatically (quietly).
+            if (gameState.lastResetDate !== today) {
+                if (gameState.lastResetDate !== null) {
+                    doDailyReset(true); // silent: no toast/sound on auto-reset
+                }
+                gameState.lastResetDate = today;
+            }
+
+            // If the last completion is older than yesterday, the streak has lapsed.
+            if (gameState.lastCompletionDate) {
+                const gap = dayDiff(gameState.lastCompletionDate, today);
+                if (gap >= 2) gameState.streak = 0;
+            } else {
+                gameState.streak = 0;
+            }
         }
 
         function saveGameState() {
@@ -1259,6 +1776,28 @@
             const avatarRender = document.getElementById("char-avatar-render");
             if (avatarRender) avatarRender.innerText = gameState.avatarEmoji;
             renderMerchantStore();
+            renderStreak();
+
+            // Keep the ledger live if it's open
+            const treasury = document.getElementById("popup-treasury");
+            if (treasury && !treasury.classList.contains("hidden")) renderTreasury();
+        }
+
+        function renderStreak() {
+            const val = document.getElementById("nav-streak-val");
+            const flame = document.getElementById("nav-streak-flame");
+            const streak = gameState.streak || 0;
+            if (val) val.innerText = streak;
+            if (flame) {
+                // Cold when the streak is zero, warm gold and glowing as it grows
+                if (streak === 0) {
+                    flame.style.color = "#4b5249";
+                    flame.style.filter = "none";
+                } else {
+                    flame.style.color = "#C7AC77";
+                    flame.style.filter = `drop-shadow(0 0 ${Math.min(10, 3 + streak)}px rgba(176,142,79,0.7))`;
+                }
+            }
         }
 
         function calculateProgressPercent() {
@@ -1469,13 +2008,16 @@
                 gameState.quests.campaign_focused_work = true;
                 playSound('coin');
                 gameState.gold += config.gold;
+                logGold(config.gold, `${config.emoji} ${config.title}`);
+                registerActivity();
                 gameState.stats[config.stat] = (gameState.stats[config.stat] || 10) + 2;
                 addXP(config.xp);
                 showToast(`Campaign Cleared: +${config.xp} XP and +${config.gold}g!`, "success");
             } else {
                 gameState.quests.campaign_focused_work = false;
                 playSound('tick');
-                showToast("Quest status reset.", "info");
+                undoReward(config.gold, config.xp, config.stat, 2, config.title);
+                showToast(`Reverted ${config.gold}g and ${config.xp} XP.`, "info");
             }
             saveGameState();
             renderUI();
@@ -1490,13 +2032,16 @@
                 gameState.quests[questId] = true;
                 playSound('coin');
                 gameState.gold += meta.gold;
+                logGold(meta.gold, meta.title);
+                registerActivity();
                 gameState.stats[meta.stat] = (gameState.stats[meta.stat] || 10) + 1;
                 addXP(meta.xp);
                 showToast(`Objective complete: +${meta.xp} XP & +${meta.gold}g!`, "success");
             } else {
                 gameState.quests[questId] = false;
                 playSound('tick');
-                showToast("Objective status reset.", "info");
+                undoReward(meta.gold, meta.xp, meta.stat, 1, meta.title);
+                showToast(`Reverted ${meta.gold}g and ${meta.xp} XP.`, "info");
             }
             saveGameState();
             renderUI();
@@ -1538,13 +2083,16 @@
                 cb.done = true;
                 playSound('coin');
                 gameState.gold += cb.gold;
+                logGold(cb.gold, cb.title || "Contract bounty");
+                registerActivity();
                 gameState.stats[cb.stat] = (gameState.stats[cb.stat] || 10) + 1;
                 addXP(cb.xp);
                 showToast(`Bounty complete: +${cb.xp} XP & +${cb.gold}g!`, "success");
             } else {
                 cb.done = false;
                 playSound('tick');
-                showToast("Bounty status reset.", "info");
+                undoReward(cb.gold, cb.xp, cb.stat, 1, cb.title || "Contract bounty");
+                showToast(`Reverted ${cb.gold}g and ${cb.xp} XP.`, "info");
             }
             saveGameState();
             renderUI();
@@ -1658,10 +2206,13 @@
             boss.hp = Math.max(0, boss.hp - damage);
             boss.moves[moveIndex] = true;
             playSound('hit');
+            registerActivity();
+            renderStreak();
 
             if (boss.hp <= 0) {
                 const template = bossTemplates[bossId];
                 gameState.gold += template.gold;
+                logGold(template.gold, `Defeated ${template.title}`);
                 addXP(template.xp);
                 
                 if (bossId === 'siren') gameState.stats.focus = (gameState.stats.focus || 10) + 3;
@@ -1740,6 +2291,7 @@
         function buyReward(name, cost) {
             if (gameState.gold >= cost) {
                 gameState.gold -= cost;
+                logGold(-cost, `Redeemed: ${name}`);
                 playSound('coin');
                 showToast(`Redeemed luxury reward: "${name}"!`, 'success');
                 saveGameState();
@@ -1802,6 +2354,7 @@
                     return;
                 }
                 gameState.gold -= 10;
+                logGold(-10, "Reward creation fee");
                 gameState.shopItems.push({ name, icon, desc, cost: costVal });
                 playSound('coin');
                 showToast(`Added Reward: "${name}" (Deducted 10g fee)`, 'success');
@@ -1853,6 +2406,29 @@
             renderUI();
         }
 
+        // Mirror of addXP: subtract XP and de-level cleanly if it drops below zero.
+        function removeXP(amount) {
+            gameState.xp -= amount;
+            while (gameState.xp < 0 && gameState.level > 1) {
+                gameState.level--;
+                gameState.unallocatedPoints = Math.max(0, gameState.unallocatedPoints - 5);
+                gameState.xp += gameState.level * 1000; // add back the threshold for the now-current level
+            }
+            if (gameState.xp < 0) gameState.xp = 0; // floor at the start of level 1
+        }
+
+        // Reverses everything a completed task granted, so un-checking can't be farmed.
+        function undoReward(gold, xp, stat, statPoints, label) {
+            if (gold) {
+                gameState.gold = Math.max(0, gameState.gold - gold);
+                logGold(-gold, `Undid: ${label}`, 'revert');
+            }
+            if (stat && statPoints) {
+                gameState.stats[stat] = Math.max(0, (gameState.stats[stat] || 10) - statPoints);
+            }
+            if (xp) removeXP(xp);
+        }
+
         function allocateStat(stat) {
             if (gameState.unallocatedPoints > 0) {
                 gameState.stats[stat] = (gameState.stats[stat] || 10) + 1;
@@ -1864,13 +2440,13 @@
             }
         }
 
-        function resetDailies() {
-            playSound('tick');
+        // Clears the daily board. `silent` skips sound/toast/render for the auto-rollover.
+        function doDailyReset(silent) {
             staticQuests.forEach(q => {
                 gameState.quests[q.id] = false;
             });
             gameState.quests.campaign_focused_work = false;
-            
+
             if (gameState.customBounties) {
                 gameState.customBounties = gameState.customBounties.map(cb => {
                     if (cb) cb.done = false;
@@ -1885,8 +2461,15 @@
                 }
             });
 
-            saveGameState();
-            renderUI();
+            if (!silent) {
+                saveGameState();
+                renderUI();
+            }
+        }
+
+        function resetDailies() {
+            playSound('tick');
+            doDailyReset(false);
             showToast("Quest board refreshed. Procrastination targets renewed!", "success");
         }
 
@@ -1913,13 +2496,15 @@
 
         function triggerResetConfirmation() {
             triggerModal(
-                "⚠️ Reset Sandbox Progress",
-                "Are you absolutely certain you want to reset your local database specs? This action will return you to Level 1.",
+                "⚠️ Reset All Progress",
+                "Are you absolutely certain? This wipes your saved progress on this device and returns you to Level 1.",
                 () => {
                     gameState = JSON.parse(JSON.stringify(defaultState));
+                    gameState.lastResetDate = dateKey(new Date());
+                    gameState.goldLog = [{ t: Date.now(), delta: 0, balance: gameState.gold, reason: "Opening balance" }];
                     saveGameState();
                     renderUI();
-                    showToast("Database progress returned to baseline.", "warning");
+                    showToast("Progress returned to baseline.", "warning");
                 }
             );
         }
