@@ -135,7 +135,7 @@
                     <i class="fa-solid fa-crown text-sm"></i>
                 </div>
                 <h3 id="modal-title" class="font-serif text-lg font-bold text-champagne-200">
-                    Sovereign Command
+                    Command
                 </h3>
             </div>
             <p id="modal-desc" class="text-xs text-champagne-300 leading-relaxed mb-6"></p>
@@ -247,7 +247,7 @@
                         </div>
                         <div class="bg-obsidian-900/40 p-3 rounded-2xl border border-champagne-300/10 flex items-center justify-between gap-3">
                             <div class="flex items-center gap-2.5 min-w-0">
-                                <span class="text-base">💍</span>
+                                <span class="text-base">💵</span>
                                 <div class="min-w-0">
                                     <p class="text-[9px] text-champagne-400 font-semibold truncate">Wealth</p>
                                     <p class="text-sm font-semibold text-champagne-200" id="stat-wealth">10</p>
@@ -275,7 +275,7 @@
             <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80">
                 <div>
                     <h3 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
-                        <i class="fa-solid fa-scroll text-champagne-500 text-sm"></i> Expedition Quest Board
+                        <i class="fa-solid fa-scroll text-champagne-500 text-sm"></i> Quest Board
                     </h3>
                     <p class="text-[10px] text-champagne-400 mt-0.5">Toggle daily focuses, operational contracts, and bounty achievements.</p>
                 </div>
@@ -292,9 +292,7 @@
             <!-- Campaign Focus Selection row inside modal -->
             <!-- Wrapped inside scroll-hidden overflow containers to cleanly hide horizontal scroll tracks -->
             <div class="bg-obsidian-950/40 p-4 pb-4 border-b border-champagne-300/10 overflow-x-auto no-scrollbar">
-                <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-2.5">
-                    Select Daily Campaign Focus
-                </p>
+
                 <div class="flex gap-2 min-w-[500px]" id="campaign-focus-grid">
                     <!-- Javascript populates -->
                 </div>
@@ -391,7 +389,7 @@
             <div class="p-6 border-b border-champagne-300/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-obsidian-950/80">
                 <div>
                     <h3 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
-                        <i class="fa-solid fa-shop text-champagne-500 text-sm"></i> Sovereign Merchant Shop
+                        <i class="fa-solid fa-shop text-champagne-500 text-sm"></i>Shop
                     </h3>
                     <p class="text-[10px] text-champagne-400 mt-0.5">Redeem accumulated gold tokens to activate premium relaxation periods.</p>
                 </div>
@@ -424,11 +422,9 @@
                 </div>
                 <div>
                     <h1 class="font-serif text-xl font-semibold tracking-wide text-champagne-200">
-                        COZY EXECUTIVE
+                        Kohan EXECUTIVE
                     </h1>
-                    <p class="text-[9px] uppercase tracking-widest text-champagne-400 flex items-center gap-1.5 font-medium">
-                        <span class="w-1.5 h-1.5 rounded-full bg-champagne-400 luxury-pulse"></span> Premium Sandbox Engine
-                    </p>
+
                 </div>
             </div>
 
@@ -577,7 +573,7 @@
                     <h2 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
                         <i class="fa-solid fa-compass text-champagne-500 text-sm"></i> Expedition Roadmap
                     </h2>
-                    <p class="text-[11px] text-champagne-400">The journey path towards subscriber milestones, sovereign net capital, and absolute physical health.</p>
+                    <p class="text-[11px] text-champagne-400">The journey path towards YouTube growth, $10,000 a month, and absolute physical health.</p>
                 </div>
                 <div class="text-right font-serif text-sm text-champagne-300 font-semibold">
                     Global Expedition: <span id="map-total-progress" class="text-champagne-400">0%</span>
@@ -767,36 +763,36 @@
         let gameState = JSON.parse(JSON.stringify(defaultState));
 
         const staticQuests = [
-            { id: "cold_outreach", title: "📨 Cold Outreach Campaign", desc: "Dispatch tailored high-value direct messaging and client pitches", xp: 30, gold: 15, stat: "charisma" },
-            { id: "lead_harvester", title: "🔎 Lead Assembly Protocol", desc: "Sift and construct fresh strategic lead contact databases", xp: 30, gold: 15, stat: "wealth" },
-            { id: "reel_monarch", title: "📱 Reels Production Flow", desc: "Construct and post 2 high-energy Instagram Reels modules", xp: 40, gold: 20, stat: "charisma" },
-            { id: "iron_vigor", title: "🏋️ Weightlifting Sanctuary", desc: "Dedicated heavy physical load execution without scroll leakage", xp: 50, gold: 25, stat: "power" },
-            { id: "vox_ritual", title: "🗣️ Vox Projection Warmup", desc: "Vocal tuning and public dialogue articulation practice", xp: 20, gold: 10, stat: "charisma" }
+            { id: "cold_outreach", title: "📨 Cold Outreach Campaign", desc: "Send cold outreach to leads", xp: 30, gold: 15, stat: "charisma" },
+            { id: "lead_harvester", title: "🔎 Gathering Leads", desc: "Gather a fresh list of leads contact databases", xp: 30, gold: 15, stat: "wealth" },
+            { id: "reel_monarch", title: "📱 Reels Production", desc: "Posting 2 high-quality Instagram Reels", xp: 40, gold: 20, stat: "charisma" },
+            { id: "iron_vigor", title: "🏋️ Weightlifting", desc: "Dedicated heavy physical load execution without scrolling", xp: 50, gold: 25, stat: "power" },
+            { id: "vox_ritual", title: "🗣️ Speech Training", desc: "Vocal tuning and public dialogue articulation practice", xp: 20, gold: 10, stat: "charisma" }
         ];
 
         const campaignFocusConfig = {
             client_video: {
-                title: "📽️ Client Video Execution",
+                title: "📽️ Video Editing",
                 desc: "Focus on editing and assembling high-quality client videos",
                 xp: 100, gold: 50, stat: "focus"
             },
             client_thumb: {
-                title: "🎨 Client Thumbnail Artwork",
+                title: "🎨 Thumbnail Design",
                 desc: "Conceptualize, draft and deliver premium thumbnail graphics",
                 xp: 80, gold: 40, stat: "focus"
             },
             sovereign_mix: {
-                title: "🔄 Sovereign Composite Workflow",
+                title: "🔄 Client Mix Workflow",
                 desc: "Hybrid flow split evenly between client video and design",
                 xp: 90, gold: 45, stat: "focus"
             },
             my_videos: {
-                title: "🎬 Sovereign Video Production",
+                title: "🎬 Video Production",
                 desc: "Drafting, scripting or editing content for your own channel",
                 xp: 120, gold: 60, stat: "focus"
             },
             grand_alliance: {
-                title: "👑 Strategic Executive Alliance",
+                title: "👑 Executive Alliance",
                 desc: "Unified alignment blending client work and personal channel strategy",
                 xp: 110, gold: 55, stat: "focus"
             }
@@ -842,10 +838,8 @@
         };
 
         const standardRewards = [
-            { id: 'guild', name: "Sovereign Hour", icon: "📺", desc: "1 hour of completely distraction-free study or entertainment", cost: 100 },
-            { id: 'espresso', name: "Double-Espresso", icon: "☕", desc: "Premium roast espresso infusion", cost: 50 },
-            { id: 'weekend', name: "Sovereign Sunday Decree", icon: "🏖️", desc: "A clean work-free weekend afternoon blocks", cost: 150 },
-            { id: 'gaming', name: "Sandbox Sanctuary Session", icon: "⛏️", desc: "2 hours of Minecraft or Stardew Valley relax", cost: 80 }
+            { id: 'espresso', name: "Espresso", icon: "☕", desc: "Focus boost", cost: 10 },
+            { id: 'guild', name: "Sovereign Hour", icon: "📺", desc: "1 hour of entertainment", cost: 100 },
         ];
 
         let activeConfirmCallback = null;
@@ -1068,8 +1062,8 @@
             let calculatedTitle = "The Distracted Squire";
             if (gameState.level >= 3) calculatedTitle = "Executive Apprentice";
             if (gameState.level >= 5) calculatedTitle = "Creative Director";
-            if (gameState.level >= 8) calculatedTitle = "Sovereign Operator";
-            if (gameState.level >= 12) calculatedTitle = "High Sovereign Tycoon";
+            if (gameState.level >= 8) calculatedTitle = "Operator";
+            if (gameState.level >= 12) calculatedTitle = "Tycoon";
             const titleLabel = document.getElementById("char-title");
             if (titleLabel) titleLabel.innerText = calculatedTitle;
 
