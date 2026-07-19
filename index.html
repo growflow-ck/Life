@@ -248,6 +248,10 @@
         /* Traveler on the roadmap gets a soft golden aura */
         #map-traveler { filter: drop-shadow(0 0 6px rgba(176, 142, 79, 0.6)); }
 
+        /* Lit windows in the venture cityscapes gently shimmer */
+        @keyframes vwin { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+        .vwin { animation: vwin 3s ease-in-out infinite; }
+
         /* Respect reduced-motion preferences */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
@@ -668,6 +672,135 @@
         </div>
     </div>
 
+    <!-- POPUP 6: Business Empire Modal -->
+    <div id="popup-empire" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-3xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[92vh] flex flex-col">
+            <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80 shrink-0">
+                <div>
+                    <p class="text-[9px] uppercase tracking-[0.3em] text-champagne-500 font-semibold mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-city text-champagne-500"></i> Business Empire
+                    </p>
+                    <h3 class="font-serif text-2xl font-bold gold-text leading-tight">Your Ventures</h3>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold">Net worth</p>
+                        <p id="empire-networth-modal" class="font-serif text-lg gold-text leading-none">0g</p>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold">Treasury</p>
+                        <p id="empire-gold" class="font-serif text-lg gold-text leading-none">0g</p>
+                    </div>
+                    <button onclick="closePopup('popup-empire')" class="w-8 h-8 rounded-full bg-obsidian-900 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-champagne-400 hover:text-champagne-100 transition">
+                        <i class="fa-solid fa-xmark text-sm"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="p-6 overflow-y-auto flex-1 no-scrollbar flex flex-col gap-6">
+                <!-- Projected monthly summary -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl p-3 text-center">
+                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold mb-1">Ventures</p>
+                        <p id="empire-t-count" class="font-serif text-2xl gold-text leading-none">0</p>
+                    </div>
+                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl p-3 text-center">
+                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold mb-1">Revenue/mo</p>
+                        <p id="empire-t-rev" class="font-serif text-2xl text-emerald-300/90 leading-none">+0g</p>
+                    </div>
+                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl p-3 text-center">
+                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold mb-1">Expenses/mo</p>
+                        <p id="empire-t-exp" class="font-serif text-2xl text-rose-300/80 leading-none">-0g</p>
+                    </div>
+                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl p-3 text-center">
+                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold mb-1">Net/mo</p>
+                        <p id="empire-t-net" class="font-serif text-2xl leading-none text-champagne-300">0g</p>
+                    </div>
+                </div>
+
+                <!-- Milestones -->
+                <div>
+                    <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-2">Milestones</p>
+                    <div id="empire-milestones" class="flex flex-wrap gap-2"></div>
+                </div>
+
+                <!-- Profit & Loss -->
+                <div>
+                    <div class="flex items-center justify-between mb-2">
+                        <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest">Profit &amp; loss by month</p>
+                        <div class="flex items-center gap-3 text-[8px] uppercase tracking-wider font-semibold">
+                            <span class="flex items-center gap-1 text-emerald-300/90"><span class="w-2 h-2 rounded-full bg-emerald-400/80"></span> Revenue</span>
+                            <span class="flex items-center gap-1 text-rose-300/80"><span class="w-2 h-2 rounded-full bg-rose-400/70"></span> Expenses</span>
+                            <span class="flex items-center gap-1 text-champagne-300"><span class="w-3 h-0.5 rounded-full bg-champagne-300"></span> Net</span>
+                        </div>
+                    </div>
+                    <div class="bg-obsidian-900/40 rounded-2xl border border-champagne-300/10 p-3">
+                        <div id="empire-pnl-chart" class="w-full"></div>
+                    </div>
+                    <p class="text-[9px] text-champagne-500 mt-2 flex items-center gap-1.5"><i class="fa-solid fa-circle-info"></i> Each real day is one business month. Revenue and operating costs settle at the start of a new day.</p>
+                </div>
+
+                <!-- Portfolio -->
+                <div>
+                    <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-2">Your ventures</p>
+                    <div id="empire-portfolio" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+                </div>
+
+                <!-- Acquire a new venture -->
+                <button id="empire-acquire-btn" onclick="openAcquire()" class="w-full btn-gold bg-champagne-500 text-obsidian-950 rounded-2xl px-5 py-3.5 text-sm font-bold transition inline-flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Found a New Business
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP 6-A: Acquire a Business (nested over the Empire) -->
+    <div id="popup-acquire" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-2xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[92vh] flex flex-col">
+            <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80 shrink-0">
+                <div>
+                    <p class="text-[9px] uppercase tracking-[0.3em] text-champagne-500 font-semibold mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-store text-champagne-500"></i> The Market
+                    </p>
+                    <h3 class="font-serif text-2xl font-bold gold-text leading-tight">Choose Your Venture</h3>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="text-right">
+                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold">Treasury</p>
+                        <p id="acquire-gold" class="font-serif text-lg gold-text leading-none">0g</p>
+                    </div>
+                    <button onclick="closePopup('popup-acquire')" class="w-8 h-8 rounded-full bg-obsidian-900 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-champagne-400 hover:text-champagne-100 transition">
+                        <i class="fa-solid fa-xmark text-sm"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1 no-scrollbar">
+                <p class="text-[11px] text-champagne-400 mb-4 leading-relaxed">Every venture scales without limit and costs the same to found — pick the one whose journey you like best. They differ only in character and how wildly their months swing.</p>
+                <div id="acquire-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP 6-B: Monthly Report -->
+    <div id="popup-report" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-md w-full rounded-3xl overflow-hidden border border-champagne-400/25 shadow-2xl relative animate-scale-up max-h-[92vh] flex flex-col">
+            <div class="p-6 text-center border-b border-champagne-300/10 bg-obsidian-950/80 shrink-0">
+                <p class="text-[9px] uppercase tracking-[0.3em] text-champagne-500 font-semibold mb-1 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-file-invoice-dollar text-champagne-500"></i> <span id="report-sub">Month 1</span>
+                </p>
+                <h3 id="report-title" class="font-serif text-2xl font-bold gold-text leading-tight mb-3">Monthly Report</h3>
+                <p id="report-net" class="font-serif text-4xl leading-none text-emerald-300">+0g</p>
+                <p id="report-net-label" class="text-[9px] uppercase tracking-[0.15em] text-champagne-400 font-semibold mt-2">net profit this month</p>
+            </div>
+            <div id="report-lines" class="p-5 overflow-y-auto flex-1 no-scrollbar flex flex-col gap-2"></div>
+            <div class="p-4 border-t border-champagne-300/10 bg-obsidian-950/60 shrink-0">
+                <button onclick="collectReport()" class="w-full btn-gold bg-champagne-500 text-obsidian-950 rounded-full px-5 py-2.5 text-sm font-bold transition inline-flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-hand-holding-dollar"></i> Collect
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Persistent Header -->
     <header class="sticky top-0 z-30 bg-obsidian-950/70 backdrop-blur-xl border-b border-champagne-300/10 py-4 px-6 md:px-12 shadow-[0_10px_30px_-20px_rgba(0,0,0,0.9)] relative before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-champagne-400/40 before:to-transparent">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
@@ -897,6 +1030,46 @@
 
         </section>
 
+        <!-- The Empire (second side of the dashboard) -->
+        <div class="flex items-center gap-4 -mb-2">
+            <div class="h-px flex-1 bg-gradient-to-r from-transparent to-champagne-400/25"></div>
+            <p class="text-[9px] uppercase tracking-[0.35em] text-champagne-500 font-semibold whitespace-nowrap">The Empire</p>
+            <div class="h-px flex-1 bg-gradient-to-l from-transparent to-champagne-400/25"></div>
+        </div>
+        <section class="glass-panel rounded-3xl p-6 md:p-8 relative overflow-hidden">
+            <div class="absolute -right-6 -bottom-10 text-champagne-500/[0.05] text-[10rem] leading-none select-none pointer-events-none">🏛️</div>
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative">
+                <div class="max-w-md">
+                    <p class="text-[9px] uppercase tracking-[0.3em] text-champagne-500 font-semibold mb-1.5 flex items-center gap-2">
+                        <i class="fa-solid fa-city"></i> Business Empire
+                    </p>
+                    <h2 class="font-serif text-2xl font-bold gold-text leading-tight">Put your gold to work</h2>
+                    <p class="text-[11px] text-champagne-400 mt-1.5 leading-relaxed">Found a business and grow it as far as you like — every venture scales without limit. Expand it, sharpen its signature edge, and ride the good months.</p>
+                    <div class="mt-4 flex items-baseline gap-2">
+                        <span class="text-[9px] uppercase tracking-[0.2em] text-champagne-500 font-semibold">Net worth</span>
+                        <span id="empire-networth" class="font-serif text-xl gold-text leading-none">0g</span>
+                    </div>
+                    <button onclick="openPopup('popup-empire')" class="mt-3 px-5 py-2.5 btn-gold bg-champagne-500 text-obsidian-950 text-xs font-semibold rounded-full transition inline-flex items-center gap-2">
+                        <i class="fa-solid fa-briefcase"></i> Manage Empire
+                    </button>
+                </div>
+                <div class="grid grid-cols-3 gap-3 shrink-0">
+                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl px-4 py-3 text-center min-w-[96px]">
+                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold mb-1">Ventures</p>
+                        <p id="empire-owned-count" class="font-serif text-2xl gold-text leading-none">0</p>
+                    </div>
+                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl px-4 py-3 text-center min-w-[96px]">
+                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold mb-1">Proj / mo</p>
+                        <p id="empire-proj-net" class="font-serif text-2xl gold-text leading-none">0g</p>
+                    </div>
+                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl px-4 py-3 text-center min-w-[96px]">
+                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold mb-1">Last mo</p>
+                        <p id="empire-last-net" class="font-serif text-2xl leading-none text-champagne-500">—</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <script>
@@ -1038,7 +1211,12 @@
             bestStreak: 0,
             lastCompletionDate: null,
             lastResetDate: null,
-            goldLog: []
+            goldLog: [],
+            businesses: {},          // id -> { level, boost }
+            businessHistory: [],     // closed-month records for the P&L
+            businessMonth: 0,        // how many months have elapsed
+            lastBusinessTick: null,  // dateKey of the last month close
+            milestones: []           // unlocked empire milestone ids
         };
 
         let gameState = JSON.parse(JSON.stringify(defaultState));
@@ -1206,7 +1384,7 @@
 
         // Close on clicking backdrop
         window.addEventListener('click', (e) => {
-            const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-shop', 'popup-treasury', 'popup-add-reward', 'popup-add-task'];
+            const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-shop', 'popup-treasury', 'popup-empire', 'popup-acquire', 'popup-report', 'popup-add-reward', 'popup-add-task'];
             popups.forEach(id => {
                 const modal = document.getElementById(id);
                 if (modal && e.target === modal) {
@@ -1224,7 +1402,7 @@
         // Close on ESC key
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-add-reward', 'popup-add-task', 'popup-shop', 'popup-treasury', 'game-modal'];
+                const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-add-reward', 'popup-add-task', 'popup-shop', 'popup-treasury', 'popup-empire', 'popup-acquire', 'popup-report', 'game-modal'];
                 popups.forEach(id => {
                     const modal = document.getElementById(id);
                     if (modal && !modal.classList.contains('hidden')) {
@@ -1633,9 +1811,20 @@
             }
 
             applyDailyRollover();
+            checkMilestones(true); // catch any already-earned milestones silently on first load
 
             saveGameState();
             renderUI();
+
+            // Surface the empire's monthly report if months closed while away
+            if (lastEmpireReport && lastEmpireReport.months > 0 && (lastEmpireReport.lines || []).length > 0) {
+                const navGold = document.getElementById('nav-gold-val');
+                if (navGold) {
+                    navGold.textContent = Math.max(0, gameState.gold - lastEmpireReport.net) + 'g';
+                    setTimeout(() => animateCount(navGold, gameState.gold, 'g'), 400);
+                }
+                setTimeout(openReport, 500);
+            }
         }
 
         // Runs once on load: reset the day's board at midnight and expire cold streaks.
@@ -1657,10 +1846,685 @@
             } else {
                 gameState.streak = 0;
             }
+
+            // Close out any business months that have passed (1 real day = 1 month).
+            processBusinessMonths(today);
         }
 
         function saveGameState() {
             storageHelper.save(gameState);
+        }
+
+        /* Every business shares the SAME scaling math — pick any one and it can grow
+           forever. They differ only in theme, colour, milestone names, and how wildly
+           their monthly results swing. Two upgrade tracks drive everything:
+             • EXPAND (level) — grows the operation and evolves its look & name
+             • ENHANCE (boost) — the business's signature edge, pure profit margin      */
+        const businessTemplates = {
+            cafe: {
+                name: "Coffee Company", fa: "fa-mug-hot", accent: "#C6873F", volatility: 0.16,
+                tagline: "Steady footfall, dependable cash.",
+                boostName: "Signature Blend", boostIcon: "fa-mug-saucer",
+                stages: ["Coffee Cart", "Corner Café", "Two Locations", "City Roastery", "Café Chain", "Global Coffeehouse"]
+            },
+            media: {
+                name: "Media Studio", fa: "fa-clapperboard", accent: "#E0608A", volatility: 0.5,
+                tagline: "Channels, content, and viral hits.",
+                boostName: "Production Value", boostIcon: "fa-film",
+                stages: ["Phone Channel", "Home Studio", "Production House", "Media Network", "Studio Empire", "Global Media Titan"]
+            },
+            crypto: {
+                name: "Crypto Fund", fa: "fa-bitcoin-sign", accent: "#57C9BC", volatility: 0.92,
+                tagline: "Wild swings. Booms and busts.",
+                boostName: "Trading Algorithm", boostIcon: "fa-robot",
+                stages: ["Hobby Wallet", "Trading Desk", "Hedge Fund", "Market Maker", "Crypto Whale", "DeFi Sovereign"]
+            },
+            tech: {
+                name: "Tech Startup", fa: "fa-microchip", accent: "#6E8BEA", volatility: 0.62,
+                tagline: "High burn, sky-high upside.",
+                boostName: "Core Product", boostIcon: "fa-rocket",
+                stages: ["Garage Startup", "Seed Round", "Scale-Up", "Unicorn", "Tech Giant", "Trillion-Dollar Titan"]
+            },
+            realty: {
+                name: "Real Estate Group", fa: "fa-building", accent: "#8FB98A", volatility: 0.12,
+                tagline: "Slow, stable, dependable yield.",
+                boostName: "Prime Locations", boostIcon: "fa-map-location-dot",
+                stages: ["First Rental", "Duplex Owner", "Apartment Block", "Property Group", "City Developer", "Skyline Mogul"]
+            },
+            vineyard: {
+                name: "Luxury Vineyard", fa: "fa-wine-bottle", accent: "#B06BD0", volatility: 0.26,
+                tagline: "Prestige that compounds over time.",
+                boostName: "Vintage Reserve", boostIcon: "fa-wine-glass",
+                stages: ["Backyard Vines", "Boutique Vineyard", "Estate Winery", "Regional Label", "Prestige Château", "World-Class Marque"]
+            }
+        };
+        const BUY_COST = 150;               // identical for every business
+        const INVEST_STEP = 50;             // legacy constant, unused by new model
+        let lastEmpireReport = null;        // transient summary of the most recent month close
+
+        /* Narrative flavour for each monthly outcome tier, themed per business. */
+        const businessEvents = {
+            cafe: {
+                boom:  [{ e: "☕", t: "A viral latte art post packed the shop" }, { e: "⭐", t: "A famous critic gave a rave review" }],
+                good:  [{ e: "📈", t: "Loyal regulars kept lines out the door" }, { e: "🥐", t: "The new pastry menu was a hit" }],
+                steady:[{ e: "☕", t: "A calm, dependable month of brewing" }],
+                lean:  [{ e: "🌧️", t: "Rainy weeks thinned the foot traffic" }, { e: "💸", t: "Bean prices crept up this month" }],
+                slump: [{ e: "🔧", t: "The espresso machine broke down" }, { e: "🚧", t: "Roadworks blocked the storefront" }]
+            },
+            media: {
+                boom:  [{ e: "🚀", t: "A video exploded on the front page" }, { e: "🤝", t: "Landed a major brand sponsorship" }],
+                good:  [{ e: "📈", t: "Subscribers climbed steadily" }, { e: "🎬", t: "A series binge boosted watch time" }],
+                steady:[{ e: "🎬", t: "Uploads performed as expected" }],
+                lean:  [{ e: "📉", t: "An algorithm change cut reach" }, { e: "😴", t: "A slow content week" }],
+                slump: [{ e: "⚠️", t: "A copyright strike demonetised videos" }, { e: "💤", t: "A big upload flopped hard" }]
+            },
+            crypto: {
+                boom:  [{ e: "🌕", t: "The market mooned — huge gains" }, { e: "💎", t: "An early bet 10x'd overnight" }],
+                good:  [{ e: "📈", t: "A green month across the board" }, { e: "🤖", t: "The algo caught a clean trend" }],
+                steady:[{ e: "⛓️", t: "Choppy but flat trading" }],
+                lean:  [{ e: "📉", t: "A dip ate into the portfolio" }, { e: "🦀", t: "Crab market — sideways and dull" }],
+                slump: [{ e: "💥", t: "A flash crash wiped out gains" }, { e: "🐻", t: "The bears took over this month" }]
+            },
+            tech: {
+                boom:  [{ e: "🦄", t: "A viral launch brought a signup surge" }, { e: "💰", t: "Closed a big enterprise deal" }],
+                good:  [{ e: "📈", t: "Healthy user growth this month" }, { e: "⭐", t: "Shipped a beloved new feature" }],
+                steady:[{ e: "💻", t: "Heads-down building, steady numbers" }],
+                lean:  [{ e: "🐛", t: "A nasty bug slowed the roadmap" }, { e: "🔥", t: "Server costs ran hot" }],
+                slump: [{ e: "🚨", t: "An outage churned some customers" }, { e: "📉", t: "A rival stole the spotlight" }]
+            },
+            realty: {
+                boom:  [{ e: "🏙️", t: "A neighbourhood boom lifted rents" }, { e: "🔑", t: "Sold a unit well above asking" }],
+                good:  [{ e: "📈", t: "Full occupancy all month" }, { e: "🏡", t: "Renewals came in strong" }],
+                steady:[{ e: "🏢", t: "Rent rolled in, quiet and steady" }],
+                lean:  [{ e: "🔧", t: "A costly repair ate into yield" }, { e: "🕳️", t: "A vacancy sat unfilled" }],
+                slump: [{ e: "📉", t: "A market dip softened rents" }, { e: "💧", t: "A burst pipe flooded a unit" }]
+            },
+            vineyard: {
+                boom:  [{ e: "🏆", t: "A vintage won a prestigious award" }, { e: "🍷", t: "Collectors bid up the reserve" }],
+                good:  [{ e: "📈", t: "A warm season yielded a fine crop" }, { e: "🍇", t: "Export orders picked up" }],
+                steady:[{ e: "🍇", t: "The vines did their quiet work" }],
+                lean:  [{ e: "🐛", t: "Pests nibbled at the harvest" }, { e: "🌫️", t: "A dull season, modest yield" }],
+                slump: [{ e: "❄️", t: "A frost ruined much of the crop" }, { e: "🌧️", t: "Rot spread through the vines" }]
+            }
+        };
+        function pickEvent(id, tier) {
+            const pool = (businessEvents[id] && businessEvents[id][tier]) || businessEvents[id].steady;
+            return pool[Math.floor(Math.random() * pool.length)];
+        }
+
+        function ownedBusinesses() { return Object.keys(gameState.businesses || {}); }
+
+        // Net worth = liquid gold + the market value of every venture (≈10 months of net).
+        function businessValue(id) { return Math.max(0, projectBusiness(id).net * 10); }
+        function empireNetWorth() {
+            return Math.round(gameState.gold + ownedBusinesses().reduce((s, id) => s + businessValue(id), 0));
+        }
+
+        // --- Unified scaling curves (shared by ALL businesses) ---
+        function bizIncome(level, boost) { return Math.round(24 * Math.pow(level, 1.55) * (1 + 0.22 * boost)); }
+        function bizOpCost(level)        { return Math.round(24 * Math.pow(level, 1.55) * 0.32); }
+        function expandCost(level)       { return Math.round(110 * Math.pow(1.6, level - 1)); }
+        function enhanceCost(boost)      { return Math.round(95 * Math.pow(1.7, boost)); }
+
+        function stageIndex(id, level) {
+            const s = businessTemplates[id].stages;
+            return Math.min(s.length - 1, Math.floor((level - 1) / 4));
+        }
+        function stageName(id, level) {
+            const t = businessTemplates[id];
+            const idx = stageIndex(id, level);
+            const prestige = Math.floor((level - 1) / (t.stages.length * 4));
+            return t.stages[idx] + (prestige > 0 ? ` ★${prestige}` : "");
+        }
+
+        // Deterministic monthly figures for one business (before random events).
+        function projectBusiness(id) {
+            const b = gameState.businesses[id];
+            if (!b) return { revenue: 0, expenses: 0, net: 0 };
+            const boost = b.boost || 0;
+            const revenue = bizIncome(b.level, boost);
+            const expenses = bizOpCost(b.level);
+            return { revenue, expenses, net: revenue - expenses };
+        }
+        function projectEmpire() {
+            let revenue = 0, expenses = 0;
+            ownedBusinesses().forEach(id => { const p = projectBusiness(id); revenue += p.revenue; expenses += p.expenses; });
+            return { revenue, expenses, net: revenue - expenses };
+        }
+
+        // Roll one month's random performance for a business, with a flavour event.
+        function rollMonth(id) {
+            const t = businessTemplates[id];
+            const p = projectBusiness(id);
+            let mult = 1 + (Math.random() * 2 - 1) * t.volatility;
+            const roll = Math.random();
+            let tier = "steady";
+            if (roll > 0.90) { mult *= 1.7; tier = "boom"; }
+            else if (roll < 0.07) { mult *= 0.35; tier = "slump"; }
+            mult = Math.max(0.1, mult);
+            if (tier === "steady") {
+                if (mult > 1.15) tier = "good";
+                else if (mult < 0.85) tier = "lean";
+            }
+            const revenue = Math.round(p.revenue * mult);
+            const ev = pickEvent(id, tier);
+            const labels = { boom: "Boom", good: "Good", steady: "Steady", lean: "Lean", slump: "Slump" };
+            return { id, revenue, expenses: p.expenses, net: revenue - p.expenses, tier, event: labels[tier], emoji: ev.e, text: ev.t };
+        }
+
+        // Advance the empire by however many days (=months) have passed.
+        function processBusinessMonths(today) {
+            if (!gameState.lastBusinessTick) { gameState.lastBusinessTick = today; return; }
+            let months = dayDiff(gameState.lastBusinessTick, today);
+            if (months <= 0) return;
+            months = Math.min(months, 31); // cap a long absence
+
+            let totalNet = 0, processed = 0, lastPer = null, lastMonthNo = 0;
+            for (let m = 0; m < months; m++) {
+                if (ownedBusinesses().length === 0) break;
+                gameState.businessMonth++;
+                processed++;
+                const per = ownedBusinesses().map(rollMonth);
+                const revenue = per.reduce((s, x) => s + x.revenue, 0);
+                const expenses = per.reduce((s, x) => s + x.expenses, 0);
+                const net = revenue - expenses;
+                totalNet += net;
+                lastPer = per;
+                lastMonthNo = gameState.businessMonth;
+
+                if (net >= 0) {
+                    gameState.gold += net;
+                    logGold(net, `Empire · Month ${gameState.businessMonth} profit`, 'earn');
+                } else {
+                    const before = gameState.gold;
+                    gameState.gold = Math.max(0, gameState.gold + net);
+                    logGold(-(before - gameState.gold), `Empire · Month ${gameState.businessMonth} loss`, 'spend');
+                }
+
+                gameState.businessHistory.push({ month: gameState.businessMonth, t: Date.now(), revenue, expenses, net, per });
+            }
+            if (gameState.businessHistory.length > 24) gameState.businessHistory = gameState.businessHistory.slice(-24);
+            gameState.lastBusinessTick = today;
+
+            if (processed > 0) {
+                lastEmpireReport = { months: processed, net: totalNet, monthNo: lastMonthNo, lines: lastPer || [] };
+            }
+            checkMilestones(true);
+        }
+
+        /* ===== Empire actions ===== */
+        function buyBusiness(id) {
+            const t = businessTemplates[id];
+            if (gameState.businesses[id]) return;
+            if (gameState.gold < BUY_COST) { showToast("Not enough gold to found that venture.", "warning"); return; }
+            gameState.gold -= BUY_COST;
+            logGold(-BUY_COST, `Founded ${t.name}`, 'spend');
+            gameState.businesses[id] = { level: 1, boost: 0 };
+            if (!gameState.lastBusinessTick) gameState.lastBusinessTick = dateKey(new Date());
+            playSound('coin');
+            showToast(`Founded your ${t.name}! First report lands next day.`, "success");
+            checkMilestones(); saveGameState(); renderUI();
+        }
+        function expandBusiness(id) {
+            const t = businessTemplates[id], b = gameState.businesses[id];
+            if (!b) return;
+            const cost = expandCost(b.level);
+            if (gameState.gold < cost) { showToast("Not enough gold to expand.", "warning"); return; }
+            const prevStage = stageName(id, b.level);
+            gameState.gold -= cost;
+            b.level++;
+            logGold(-cost, `Expanded ${t.name} → Lv ${b.level}`, 'spend');
+            const newStage = stageName(id, b.level);
+            playSound('levelup');
+            if (newStage !== prevStage) showToast(`${t.name} is now a ${newStage}!`, "levelup");
+            else showToast(`${t.name} expanded to Level ${b.level}.`, "success");
+            checkMilestones(); saveGameState(); renderUI();
+        }
+        function enhanceBusiness(id) {
+            const t = businessTemplates[id], b = gameState.businesses[id];
+            if (!b) return;
+            const boost = b.boost || 0;
+            const cost = enhanceCost(boost);
+            if (gameState.gold < cost) { showToast(`Not enough gold to upgrade ${t.boostName}.`, "warning"); return; }
+            gameState.gold -= cost;
+            b.boost = boost + 1;
+            logGold(-cost, `${t.name}: ${t.boostName} Lv ${b.boost}`, 'spend');
+            playSound('coin');
+            showToast(`${t.boostName} upgraded to Level ${b.boost}! (+22% revenue)`, "success");
+            checkMilestones(); saveGameState(); renderUI();
+        }
+
+        /* ===== Empire rendering ===== */
+        function setTxt(id, v) { const e = document.getElementById(id); if (e) e.textContent = v; }
+        function volLabel(v) { return v < 0.2 ? "Low" : (v < 0.5 ? "Medium" : "High"); }
+
+        function empireBtn(enabled, onclick, label) {
+            const base = "px-3 py-1.5 rounded-full text-[10px] font-semibold transition whitespace-nowrap ";
+            return enabled
+                ? `<button onclick="${onclick}" class="${base}btn-gold bg-champagne-500 text-obsidian-950">${label}</button>`
+                : `<button disabled class="${base}bg-obsidian-800/60 text-champagne-600 border border-champagne-300/10 cursor-not-allowed opacity-60">${label}</button>`;
+        }
+
+        /* ===== Milestones ===== */
+        const milestones = [
+            { id: 'first',      icon: 'fa-seedling',        name: 'First Venture',  desc: 'Found your first business',        test: () => ownedBusinesses().length >= 1 },
+            { id: 'diversified',icon: 'fa-layer-group',     name: 'Diversified',    desc: 'Own three businesses at once',     test: () => ownedBusinesses().length >= 3 },
+            { id: 'conglom',    icon: 'fa-crown',           name: 'Conglomerate',   desc: 'Own all six businesses',           test: () => ownedBusinesses().length >= 6 },
+            { id: 'bigleague',  icon: 'fa-arrow-up-right-dots', name: 'Big League', desc: 'Take a business to Level 10',      test: () => ownedBusinesses().some(id => gameState.businesses[id].level >= 10) },
+            { id: 'titan',      icon: 'fa-building-columns', name: 'Titan',          desc: 'Reach a final-stage business',     test: () => ownedBusinesses().some(id => stageIndex(id, gameState.businesses[id].level) >= businessTemplates[id].stages.length - 1) },
+            { id: 'banner',     icon: 'fa-fire',            name: 'Banner Month',   desc: 'Earn 500g net in a single month',  test: () => (gameState.businessHistory || []).some(h => h.net >= 500) },
+            { id: 'mogul',      icon: 'fa-gem',             name: 'Mogul',          desc: 'Reach 5,000 net worth',            test: () => empireNetWorth() >= 5000 },
+            { id: 'tycoon',     icon: 'fa-chess-king',      name: 'Tycoon',         desc: 'Reach 25,000 net worth',           test: () => empireNetWorth() >= 25000 }
+        ];
+        function checkMilestones(silent) {
+            if (!Array.isArray(gameState.milestones)) gameState.milestones = [];
+            milestones.forEach(m => {
+                if (!gameState.milestones.includes(m.id) && m.test()) {
+                    gameState.milestones.push(m.id);
+                    if (!silent) { playSound('levelup'); showToast(`🏆 Milestone unlocked — ${m.name}!`, 'levelup'); }
+                }
+            });
+        }
+
+        /* ===== Monthly report popup ===== */
+        function openReport() {
+            if (!lastEmpireReport) return;
+            const r = lastEmpireReport;
+            const popup = document.getElementById('popup-report');
+            if (!popup) return;
+
+            const multi = r.months > 1;
+            setTxt('report-title', multi ? 'While You Were Away' : 'Monthly Report');
+            setTxt('report-sub', multi ? `${r.months} months · closing Month ${r.monthNo}` : `Month ${r.monthNo}`);
+            const netEl = document.getElementById('report-net');
+            if (netEl) {
+                netEl.textContent = (r.net >= 0 ? '+' : '') + r.net + 'g';
+                netEl.className = 'font-serif text-4xl leading-none ' + (r.net >= 0 ? 'text-emerald-300' : 'text-rose-300');
+            }
+            setTxt('report-net-label', multi ? 'total net across all months' : 'net profit this month');
+
+            const list = document.getElementById('report-lines');
+            if (list) {
+                list.innerHTML = (r.lines || []).map(line => {
+                    const t = businessTemplates[line.id], A = t.accent;
+                    const pos = line.net >= 0;
+                    return `
+                        <div class="flex items-center gap-3 bg-obsidian-900/50 border border-champagne-300/10 rounded-xl px-3 py-2.5">
+                            <span class="text-lg shrink-0">${line.emoji}</span>
+                            <div class="min-w-0 flex-1">
+                                <p class="text-xs font-bold text-champagne-100 truncate">${t.name} <span class="text-[9px] font-semibold uppercase tracking-wider ml-1" style="color:${A}">${line.event}</span></p>
+                                <p class="text-[10px] text-champagne-400 truncate">${line.text}</p>
+                            </div>
+                            <span class="font-serif text-sm font-semibold shrink-0 ${pos ? 'text-emerald-300/90' : 'text-rose-300/80'}">${pos ? '+' : ''}${line.net}g</span>
+                        </div>`;
+                }).join("");
+            }
+            playSound('open');
+            popup.classList.remove('hidden');
+        }
+        function collectReport() {
+            closePopup('popup-report');
+            lastEmpireReport = null;
+        }
+
+        // Tiny sparkline of a single business's recent monthly net (from history).
+        function bizSparkline(id, accent) {
+            const series = (gameState.businessHistory || [])
+                .map(h => (h.per || []).find(x => x.id === id))
+                .filter(Boolean).map(x => x.net).slice(-10);
+            if (series.length < 2) return '';
+            const W = 100, H = 20;
+            const min = Math.min(...series), max = Math.max(...series);
+            const range = (max - min) || 1;
+            const pts = series.map((v, i) => `${(i / (series.length - 1) * W).toFixed(1)},${(H - ((v - min) / range) * H).toFixed(1)}`);
+            const zeroY = (H - ((0 - min) / range) * H);
+            return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" class="w-full h-5 block">
+                <line x1="0" y1="${zeroY.toFixed(1)}" x2="${W}" y2="${zeroY.toFixed(1)}" stroke="${accent}" stroke-opacity="0.2" stroke-dasharray="2 2"/>
+                <polyline points="${pts.join(' ')}" fill="none" stroke="${accent}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+            </svg>`;
+        }
+
+        // Gently count a number element up to its new value.
+        function animateCount(el, to, suffix) {
+            if (!el) return;
+            const from = parseInt(String(el.textContent).replace(/[^0-9-]/g, '')) || 0;
+            if (from === to) { el.textContent = to + (suffix || ''); return; }
+            const start = performance.now(), dur = 700;
+            function step(now) {
+                const k = Math.min(1, (now - start) / dur);
+                const val = Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3)));
+                el.textContent = val + (suffix || '');
+                if (k < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+        }
+
+        function renderEmpireSummary() {
+            const proj = projectEmpire();
+            setTxt('empire-owned-count', ownedBusinesses().length);
+            const pn = document.getElementById('empire-proj-net');
+            if (pn) pn.textContent = (proj.net >= 0 ? '+' : '') + proj.net + 'g';
+            setTxt('empire-networth', empireNetWorth().toLocaleString() + 'g');
+            const last = gameState.businessHistory[gameState.businessHistory.length - 1];
+            const le = document.getElementById('empire-last-net');
+            if (le) {
+                if (!last) { le.textContent = '—'; le.className = 'font-serif text-2xl leading-none text-champagne-500'; }
+                else { le.textContent = (last.net >= 0 ? '+' : '') + last.net + 'g'; le.className = 'font-serif text-2xl leading-none ' + (last.net >= 0 ? 'text-emerald-300/90' : 'text-rose-300/80'); }
+            }
+        }
+
+        // Procedural cityscape that visibly grows with level (skyline) and boost (glow).
+        function ventureArt(id) {
+            const t = businessTemplates[id], b = gameState.businesses[id];
+            const level = b ? b.level : 1;
+            const boost = b ? (b.boost || 0) : 0;
+            const A = t.accent, uid = 'v' + id;
+            const W = 320, H = 150, groundY = 132;
+            const spread = Math.min(1, level / 16);
+            const litFrac = Math.max(0.14, Math.min(1, level / 14 + boost * 0.05));
+            const glow = Math.min(1, boost / 8);
+            const factors = [0.42, 0.66, 1.0, 0.78, 0.5];
+            const slotW = 40, gap = 12;
+            const totalW = factors.length * slotW + (factors.length - 1) * gap;
+            const startX = (W - totalW) / 2;
+
+            let buildings = '';
+            factors.forEach((f, i) => {
+                const bh = Math.round((22 + 96 * f) * (0.5 + 0.5 * spread)) + 8;
+                const bx = startX + i * (slotW + gap);
+                const by = groundY - bh;
+                buildings += `<rect x="${bx}" y="${by.toFixed(1)}" width="${slotW}" height="${bh}" rx="3" fill="#0c1512" stroke="${A}" stroke-opacity="0.35"/>`;
+                buildings += `<rect x="${bx}" y="${by.toFixed(1)}" width="${slotW}" height="4" rx="2" fill="${A}" fill-opacity="0.5"/>`;
+                const cols = 3, wSize = 7, padx = (slotW - cols * wSize) / (cols + 1);
+                const rows = Math.max(2, Math.floor((bh - 12) / 12));
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        const wy = by + 8 + r * 12;
+                        if (wy + wSize > groundY - 2) continue;
+                        const wx = bx + padx + c * (wSize + padx);
+                        const hsh = ((i * 13 + r * 7 + c * 5) % 10) / 10;
+                        const lit = hsh < litFrac;
+                        const cls = lit && ((i + r + c) % 4 === 0) ? ' class="vwin"' : '';
+                        buildings += `<rect${cls} x="${wx.toFixed(1)}" y="${wy.toFixed(1)}" width="${wSize}" height="${wSize}" rx="1.5" fill="${lit ? A : '#1a2620'}" fill-opacity="${lit ? (0.55 + 0.4 * (1 - hsh)).toFixed(2) : '0.5'}"/>`;
+                    }
+                }
+                if (i === 2) {
+                    const cx = bx + slotW / 2;
+                    buildings += `<line x1="${cx}" y1="${by.toFixed(1)}" x2="${cx}" y2="${(by - 8).toFixed(1)}" stroke="${A}" stroke-opacity="0.6"/>`;
+                    buildings += `<circle cx="${cx}" cy="${(by - 9).toFixed(1)}" r="${(8 + glow * 10).toFixed(1)}" fill="${A}" fill-opacity="${(0.05 + glow * 0.12).toFixed(2)}"/>`;
+                    buildings += `<circle cx="${cx}" cy="${(by - 9).toFixed(1)}" r="${(2.4 + glow * 2).toFixed(1)}" fill="${A}"><animate attributeName="opacity" values="0.6;1;0.6" dur="2.2s" repeatCount="indefinite"/></circle>`;
+                }
+            });
+
+            let sparkles = '';
+            for (let s = 0; s < Math.min(6, boost); s++) {
+                const sx = 28 + (s * 47) % (W - 56);
+                const sy = 18 + ((s * 29) % 28);
+                sparkles += `<circle cx="${sx}" cy="${sy}" r="1.6" fill="${A}"><animate attributeName="opacity" values="0.15;1;0.15" dur="${(2 + s * 0.3).toFixed(1)}s" repeatCount="indefinite"/></circle>`;
+            }
+
+            return `
+                <svg viewBox="0 0 ${W} ${H}" class="w-full h-full block" preserveAspectRatio="xMidYMax meet" role="img" aria-label="${t.name}, ${stageName(id, level)}">
+                    <defs>
+                        <linearGradient id="${uid}sky" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stop-color="${A}" stop-opacity="0.16"/>
+                            <stop offset="60%" stop-color="${A}" stop-opacity="0.03"/>
+                            <stop offset="100%" stop-color="#060A08" stop-opacity="0"/>
+                        </linearGradient>
+                        <radialGradient id="${uid}glow" cx="50%" cy="16%" r="60%">
+                            <stop offset="0%" stop-color="${A}" stop-opacity="${(0.10 + glow * 0.16).toFixed(2)}"/>
+                            <stop offset="100%" stop-color="${A}" stop-opacity="0"/>
+                        </radialGradient>
+                    </defs>
+                    <rect x="0" y="0" width="${W}" height="${H}" fill="url(#${uid}sky)"/>
+                    <rect x="0" y="0" width="${W}" height="${H}" fill="url(#${uid}glow)"/>
+                    ${sparkles}
+                    ${buildings}
+                    <rect x="0" y="${groundY}" width="${W}" height="2" fill="${A}" fill-opacity="0.4"/>
+                    <rect x="0" y="${groundY + 2}" width="${W}" height="${H - groundY - 2}" fill="#0a0f0c"/>
+                </svg>`;
+        }
+
+        function renderOwnedCard(id) {
+            const t = businessTemplates[id], b = gameState.businesses[id];
+            const boost = b.boost || 0;
+            const p = projectBusiness(id);
+            const exCost = expandCost(b.level), enCost = enhanceCost(boost);
+            const canExpand = gameState.gold >= exCost, canEnhance = gameState.gold >= enCost;
+            const stage = stageName(id, b.level), nextStage = stageName(id, b.level + 1);
+            const stageUp = nextStage !== stage;
+            const A = t.accent;
+            const expPct = p.revenue > 0 ? Math.min(100, Math.round(p.expenses / p.revenue * 100)) : 0;
+            const pips = (boost > 0 ? Array.from({ length: Math.min(boost, 8) }).map(() => `<span class="inline-block w-1.5 h-1.5 rounded-full" style="background:${A}"></span>`).join('') : '')
+                + (boost > 8 ? `<span class="text-[8px] font-bold ml-0.5" style="color:${A}">+${boost - 8}</span>` : '');
+
+            return `
+                <div class="rounded-2xl overflow-hidden border" style="border-color:${A}44;box-shadow:0 12px 34px -20px ${A}88;">
+                    <div class="relative h-32 bg-obsidian-950">
+                        ${ventureArt(id)}
+                        <div class="absolute inset-0 p-3 flex flex-col justify-between">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-8 h-8 rounded-xl flex items-center justify-center text-sm shrink-0" style="background:${A}22;border:1px solid ${A}66;color:${A}"><i class="fa-solid ${t.fa}"></i></span>
+                                    <div>
+                                        <p class="font-serif text-sm font-bold text-white leading-none drop-shadow">${t.name}</p>
+                                        <p class="text-[9px] font-semibold uppercase tracking-wider mt-1" style="color:${A}">${stage} · Lv ${b.level}</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-serif text-lg leading-none drop-shadow ${p.net >= 0 ? 'text-emerald-300' : 'text-rose-300'}">${p.net >= 0 ? '+' : ''}${p.net}g</p>
+                                    <p class="text-[8px] uppercase tracking-wider text-white/60">net / mo</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-1">${pips}</div>
+                        </div>
+                    </div>
+                    <div class="p-4 bg-obsidian-900/50 flex flex-col gap-3">
+                        <div>
+                            <div class="flex justify-between text-[9px] uppercase tracking-wider mb-1">
+                                <span class="text-emerald-300/90 font-semibold">Revenue +${p.revenue}g</span>
+                                <span class="text-rose-300/80 font-semibold">Costs -${p.expenses}g</span>
+                            </div>
+                            <div class="h-1.5 rounded-full bg-rose-400/30 overflow-hidden">
+                                <div class="h-full bg-emerald-400/70 rounded-full" style="width:${100 - expPct}%"></div>
+                            </div>
+                        </div>
+                        ${(() => { const sp = bizSparkline(id, A); return sp ? `<div class="flex items-center gap-2"><span class="text-[8px] uppercase tracking-wider text-champagne-500 shrink-0">Net trend</span>${sp}</div>` : ''; })()}
+                        <button onclick="expandBusiness('${id}')" ${canExpand ? '' : 'disabled'} class="w-full rounded-xl px-4 py-3 flex items-center justify-between transition hover:brightness-125 ${canExpand ? '' : 'opacity-50 cursor-not-allowed'}" style="background:${A}1a;border:1px solid ${A}44;">
+                            <div class="flex items-center gap-3 text-left">
+                                <span class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:${A}2e;color:${A}"><i class="fa-solid fa-arrow-up-right-dots"></i></span>
+                                <div>
+                                    <p class="text-xs font-bold text-champagne-100">Expand${stageUp ? ` <span style="color:${A}">→ ${nextStage}</span>` : ''}</p>
+                                    <p class="text-[9px] text-champagne-400">Grow the operation · more revenue</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold px-2.5 py-1 rounded-full shrink-0" style="background:${A}2e;color:${A}">${exCost}g</span>
+                        </button>
+                        <button onclick="enhanceBusiness('${id}')" ${canEnhance ? '' : 'disabled'} class="w-full rounded-xl px-4 py-3 flex items-center justify-between transition hover:brightness-125 ${canEnhance ? '' : 'opacity-50 cursor-not-allowed'}" style="background:${A}1a;border:1px solid ${A}44;">
+                            <div class="flex items-center gap-3 text-left">
+                                <span class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:${A}2e;color:${A}"><i class="fa-solid ${t.boostIcon}"></i></span>
+                                <div>
+                                    <p class="text-xs font-bold text-champagne-100">${t.boostName} <span style="color:${A}">Lv ${boost}</span></p>
+                                    <p class="text-[9px] text-champagne-400">Signature edge · +22% revenue</p>
+                                </div>
+                            </div>
+                            <span class="text-xs font-bold px-2.5 py-1 rounded-full shrink-0" style="background:${A}2e;color:${A}">${enCost}g</span>
+                        </button>
+                    </div>
+                </div>`;
+        }
+
+        function renderMarketCard(id) {
+            const t = businessTemplates[id];
+            const canBuy = gameState.gold >= BUY_COST;
+            const A = t.accent;
+            return `
+                <div class="rounded-2xl border p-4 flex items-center justify-between gap-3" style="border-color:${A}33;background:linear-gradient(90deg,${A}12,transparent);">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="w-11 h-11 rounded-2xl flex items-center justify-center text-lg shrink-0" style="background:${A}22;border:1px solid ${A}55;color:${A}"><i class="fa-solid ${t.fa}"></i></span>
+                        <div class="min-w-0">
+                            <p class="font-serif text-base font-bold text-champagne-100 truncate">${t.name}</p>
+                            <p class="text-[10px] text-champagne-500 truncate">${t.tagline}</p>
+                            <p class="text-[9px] mt-0.5" style="color:${A}">Begins as a ${t.stages[0]} · ${volLabel(t.volatility)} volatility</p>
+                        </div>
+                    </div>
+                    <button onclick="buyBusiness('${id}')" ${canBuy ? '' : 'disabled'} class="shrink-0 px-4 py-2 rounded-full text-[11px] font-bold transition hover:brightness-110 ${canBuy ? '' : 'opacity-50 cursor-not-allowed'}" style="background:${A};color:#0a0f0c;">Found · ${BUY_COST}g</button>
+                </div>`;
+        }
+
+        function renderEmpirePnl() {
+            const host = document.getElementById('empire-pnl-chart');
+            if (!host) return;
+            const hist = gameState.businessHistory || [];
+            if (hist.length === 0) {
+                host.innerHTML = `<div class="text-center text-champagne-500 text-[11px] py-8">Your first monthly report arrives at the start of the next day.</div>`;
+                return;
+            }
+            const data = hist.slice(-12);
+            const maxV = Math.max(1, ...data.map(d => Math.max(d.revenue, d.expenses)));
+            const W = 640, H = 150, padT = 10, padB = 24;
+            const innerH = H - padT - padB, baseY = padT + innerH;
+            const slot = W / data.length, barW = Math.min(14, slot / 3.4), gap = 3;
+            const netMin = Math.min(0, ...data.map(d => d.net));
+            const netMax = Math.max(1, ...data.map(d => d.net));
+            const netRange = (netMax - netMin) || 1;
+            let bars = "", netPts = [];
+            data.forEach((d, i) => {
+                const cx = slot * i + slot / 2;
+                const eh = innerH * (d.revenue / maxV), sh = innerH * (d.expenses / maxV);
+                bars += `<rect x="${(cx - barW - gap / 2).toFixed(1)}" y="${(baseY - eh).toFixed(1)}" width="${barW.toFixed(1)}" height="${eh.toFixed(1)}" rx="3" fill="rgba(52,211,153,0.72)"/>`;
+                bars += `<rect x="${(cx + gap / 2).toFixed(1)}" y="${(baseY - sh).toFixed(1)}" width="${barW.toFixed(1)}" height="${sh.toFixed(1)}" rx="3" fill="rgba(251,113,133,0.58)"/>`;
+                bars += `<text x="${cx.toFixed(1)}" y="${(H - 8).toFixed(1)}" text-anchor="middle" font-family="Inter" font-size="8" fill="#8E7039">M${d.month}</text>`;
+                netPts.push([cx, padT + innerH - innerH * ((d.net - netMin) / netRange)]);
+            });
+            const netLine = netPts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ');
+            const netDots = netPts.map(p => `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.5" fill="#EADFC9"/>`).join('');
+            host.innerHTML = `
+                <svg viewBox="0 0 ${W} ${H}" class="w-full h-auto" preserveAspectRatio="none" role="img" aria-label="Profit and loss by month">
+                    <line x1="0" y1="${baseY.toFixed(1)}" x2="${W}" y2="${baseY.toFixed(1)}" stroke="rgba(217,197,160,0.1)"/>
+                    ${bars}
+                    <path d="${netLine}" fill="none" stroke="#D9C5A0" stroke-width="2" stroke-dasharray="4 3" opacity="0.9"/>
+                    ${netDots}
+                </svg>`;
+        }
+
+        function renderEmpire() {
+            const popup = document.getElementById('popup-empire');
+            if (!popup || popup.classList.contains('hidden')) return;
+            checkMilestones(true); // silently catch any net-worth milestones on view
+            setTxt('empire-gold', gameState.gold + 'g');
+            setTxt('empire-networth-modal', empireNetWorth().toLocaleString() + 'g');
+            const proj = projectEmpire();
+            setTxt('empire-t-count', ownedBusinesses().length);
+            setTxt('empire-t-rev', '+' + proj.revenue + 'g');
+            setTxt('empire-t-exp', '-' + proj.expenses + 'g');
+            const netEl = document.getElementById('empire-t-net');
+            if (netEl) {
+                netEl.textContent = (proj.net >= 0 ? '+' : '') + proj.net + 'g';
+                netEl.className = 'font-serif text-2xl leading-none ' + (proj.net >= 0 ? 'text-emerald-300/90' : 'text-rose-300/80');
+            }
+
+            renderEmpirePnl();
+            renderMilestones();
+
+            const owned = ownedBusinesses();
+            const port = document.getElementById('empire-portfolio');
+            if (port) {
+                port.innerHTML = owned.length === 0
+                    ? `<div class="text-center text-champagne-500 text-[11px] py-6">You don't own any ventures yet — found one to start earning every month.</div>`
+                    : owned.map(renderOwnedCard).join("");
+            }
+
+            // "Found a business" button reflects how many ventures remain on the market
+            const avail = Object.keys(businessTemplates).filter(id => !gameState.businesses[id]);
+            const acqBtn = document.getElementById('empire-acquire-btn');
+            if (acqBtn) {
+                if (avail.length === 0) {
+                    acqBtn.disabled = true;
+                    acqBtn.className = 'w-full rounded-2xl px-5 py-3.5 text-sm font-bold bg-obsidian-800/60 text-champagne-500 border border-champagne-300/10 cursor-not-allowed inline-flex items-center justify-center gap-2';
+                    acqBtn.innerHTML = '<i class="fa-solid fa-crown"></i> Empire complete — every venture owned';
+                } else {
+                    acqBtn.disabled = false;
+                    acqBtn.className = 'w-full btn-gold bg-champagne-500 text-obsidian-950 rounded-2xl px-5 py-3.5 text-sm font-bold transition inline-flex items-center justify-center gap-2';
+                    acqBtn.innerHTML = `<i class="fa-solid fa-plus"></i> Found a New Business <span class="opacity-70 font-semibold">· ${avail.length} available</span>`;
+                }
+            }
+
+            // Keep the acquire picker live if it's open
+            const acq = document.getElementById('popup-acquire');
+            if (acq && !acq.classList.contains('hidden')) renderAcquire();
+        }
+
+        function renderMilestones() {
+            const host = document.getElementById('empire-milestones');
+            if (!host) return;
+            const unlocked = gameState.milestones || [];
+            host.innerHTML = milestones.map(m => {
+                const has = unlocked.includes(m.id);
+                return `
+                    <div class="flex items-center gap-2 rounded-full pl-2 pr-3 py-1 border ${has ? 'border-champagne-400/40 bg-champagne-500/10' : 'border-champagne-300/8 bg-obsidian-950/40'}" title="${m.desc}">
+                        <span class="w-5 h-5 rounded-full flex items-center justify-center text-[9px] ${has ? 'bg-champagne-500 text-obsidian-950' : 'bg-obsidian-800 text-champagne-600'}"><i class="fa-solid ${has ? m.icon : 'fa-lock'}"></i></span>
+                        <span class="text-[10px] font-semibold ${has ? 'text-champagne-200' : 'text-champagne-600'}">${m.name}</span>
+                    </div>`;
+            }).join("");
+        }
+
+        /* ===== Acquire picker (choose a new business) ===== */
+        function openAcquire() {
+            const avail = Object.keys(businessTemplates).filter(id => !gameState.businesses[id]);
+            if (avail.length === 0) { showToast("You already own every venture. 👑", "info"); return; }
+            const popup = document.getElementById('popup-acquire');
+            if (!popup) return;
+            playSound('open');
+            popup.classList.remove('hidden');
+            renderAcquire();
+        }
+
+        function foundBusiness(id) {
+            const had = !!gameState.businesses[id];
+            buyBusiness(id);
+            // Close the picker only if the purchase actually went through
+            if (!had && gameState.businesses[id]) closePopup('popup-acquire');
+        }
+
+        function renderAcquire() {
+            setTxt('acquire-gold', gameState.gold + 'g');
+            const host = document.getElementById('acquire-list');
+            if (!host) return;
+            const avail = Object.keys(businessTemplates).filter(id => !gameState.businesses[id]);
+            if (avail.length === 0) {
+                host.innerHTML = `<div class="col-span-full text-center text-champagne-500 text-[11px] py-8">You own every venture on the market. Empire complete. 👑</div>`;
+                return;
+            }
+            host.innerHTML = avail.map(renderAcquireCard).join("");
+        }
+
+        function renderAcquireCard(id) {
+            const t = businessTemplates[id];
+            const A = t.accent;
+            const canBuy = gameState.gold >= BUY_COST;
+            const startNet = bizIncome(1, 0) - bizOpCost(1);
+            return `
+                <div class="rounded-2xl overflow-hidden border flex flex-col" style="border-color:${A}44;box-shadow:0 12px 30px -20px ${A}88;">
+                    <div class="relative h-24 bg-obsidian-950">
+                        ${ventureArt(id)}
+                        <div class="absolute inset-0 p-3 flex items-start gap-2">
+                            <span class="w-8 h-8 rounded-xl flex items-center justify-center text-sm shrink-0" style="background:${A}22;border:1px solid ${A}66;color:${A}"><i class="fa-solid ${t.fa}"></i></span>
+                            <div>
+                                <p class="font-serif text-sm font-bold text-white leading-none drop-shadow">${t.name}</p>
+                                <p class="text-[9px] font-semibold uppercase tracking-wider mt-1" style="color:${A}">Starts as ${t.stages[0]}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-obsidian-900/50 flex flex-col gap-2 flex-1">
+                        <p class="text-[10px] text-champagne-400 leading-snug">${t.tagline}</p>
+                        <div class="flex items-center gap-3 text-[9px] text-champagne-500">
+                            <span><i class="fa-solid fa-coins mr-1" style="color:${A}"></i>~+${startNet}g/mo to start</span>
+                            <span><i class="fa-solid fa-wave-square mr-1" style="color:${A}"></i>${volLabel(t.volatility)} swings</span>
+                        </div>
+                        <button onclick="foundBusiness('${id}')" ${canBuy ? '' : 'disabled'} class="mt-1 w-full rounded-full px-4 py-2 text-[11px] font-bold transition hover:brightness-110 ${canBuy ? '' : 'opacity-50 cursor-not-allowed'}" style="background:${A};color:#0a0f0c;">${canBuy ? `Found · ${BUY_COST}g` : `Need ${BUY_COST}g`}</button>
+                    </div>
+                </div>`;
         }
 
         function showToast(message, type = "info") {
@@ -1781,6 +2645,9 @@
             // Keep the ledger live if it's open
             const treasury = document.getElementById("popup-treasury");
             if (treasury && !treasury.classList.contains("hidden")) renderTreasury();
+
+            renderEmpireSummary();
+            renderEmpire();
         }
 
         function renderStreak() {
