@@ -252,6 +252,14 @@
         @keyframes vwin { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
         .vwin { animation: vwin 3s ease-in-out infinite; }
 
+        /* Celebration confetti */
+        #confetti-root { position: fixed; inset: 0; z-index: 60; pointer-events: none; overflow: hidden; }
+        .confetti-bit { position: absolute; will-change: transform, opacity; border-radius: 1px; }
+        @keyframes confetti-fall {
+            0%   { transform: translate3d(0,0,0) rotate(0deg); opacity: 1; }
+            100% { transform: translate3d(var(--dx), var(--dy), 0) rotate(var(--dr)); opacity: 0; }
+        }
+
         /* Respect reduced-motion preferences */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
@@ -266,7 +274,7 @@
 <body class="bg-[#050807] text-champagne-100 font-sans min-h-screen selection:bg-champagne-500 selection:text-obsidian-950 pb-16 animate-fade-in">
 
     <!-- Primary Sovereign Modal Box -->
-    <div id="game-modal" class="fixed inset-0 bg-[#060A08]/90 z-50 flex items-center justify-center p-4 hidden backdrop-blur-md">
+    <div id="game-modal" class="fixed inset-0 bg-[#060A08]/90 z-50 flex items-center justify-center overflow-y-auto p-4 hidden backdrop-blur-md">
         <div class="glass-panel max-w-md w-full overflow-hidden rounded-3xl p-6 border border-champagne-400/20 animate-scale-up">
             <div class="flex items-center gap-3 mb-4">
                 <div class="w-10 h-10 rounded-full bg-champagne-500/10 flex items-center justify-center text-champagne-300 border border-champagne-300/20">
@@ -285,8 +293,8 @@
     </div>
 
     <!-- POPUP 1: Executive Profile Modal -->
-    <div id="popup-profile" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
-        <div class="glass-panel max-w-lg w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[90vh] flex flex-col">
+    <div id="popup-profile" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center overflow-y-auto p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-lg w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[85vh] flex flex-col">
             <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80">
                 <h3 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
                     <i class="fa-solid fa-user-tie text-champagne-500 text-sm"></i> Executive Profile
@@ -383,8 +391,8 @@
     </div>
 
     <!-- POPUP 2: Quest Board Modal -->
-    <div id="popup-quests" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
-        <div class="glass-panel max-w-2xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[90vh] flex flex-col">
+    <div id="popup-quests" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center overflow-y-auto p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[85vh] flex flex-col">
             <!-- Header bar with Plus Task button -->
             <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80 shrink-0">
                 <div>
@@ -418,14 +426,14 @@
             </div>
 
             <!-- Quests List Scrolling container -->
-            <div class="p-6 flex flex-col gap-3 flex-1 overflow-y-auto no-scrollbar" id="quests-container">
+            <div class="p-6 flex flex-col gap-3 flex-1 min-h-0 overflow-y-auto no-scrollbar" id="quests-container">
                 <!-- Javascript populates -->
             </div>
         </div>
     </div>
 
     <!-- POPUP 2-A: Add Task Modal (Nested) -->
-    <div id="popup-add-task" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 hidden backdrop-blur-md">
+    <div id="popup-add-task" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center overflow-y-auto p-4 hidden backdrop-blur-md">
         <div class="glass-panel max-w-md w-full overflow-hidden rounded-3xl p-6 border border-champagne-400/25 animate-scale-up">
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center gap-3">
@@ -466,8 +474,8 @@
     </div>
 
     <!-- POPUP 3: Procrastination Arena Modal -->
-    <div id="popup-arena" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
-        <div class="glass-panel max-w-2xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[90vh] flex flex-col">
+    <div id="popup-arena" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center overflow-y-auto p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[85vh] flex flex-col">
             <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80">
                 <div>
                     <h3 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
@@ -480,7 +488,7 @@
                 </button>
             </div>
 
-            <div class="p-6 overflow-y-auto flex-1 no-scrollbar">
+            <div class="p-6 overflow-y-auto flex-1 min-h-0 no-scrollbar">
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                     <!-- Boss Sprite Column -->
                     <div class="md:col-span-5 flex flex-col items-center justify-center p-4 bg-obsidian-900/50 rounded-2xl border border-champagne-300/10">
@@ -527,8 +535,8 @@
     </div>
 
     <!-- POPUP 4: Merchant Shop Modal -->
-    <div id="popup-shop" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
-        <div class="glass-panel max-w-4xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[90vh] flex flex-col">
+    <div id="popup-shop" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center overflow-y-auto p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-3xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[85vh] flex flex-col">
             <div class="p-6 border-b border-champagne-300/10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-obsidian-950/80">
                 <div>
                     <h3 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
@@ -556,7 +564,7 @@
     </div>
 
     <!-- POPUP 4-A: Add/Edit Reward Modal (Nested) -->
-    <div id="popup-add-reward" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 hidden backdrop-blur-md animate-scale-up">
+    <div id="popup-add-reward" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center overflow-y-auto p-4 hidden backdrop-blur-md animate-scale-up">
         <div class="glass-panel max-w-md w-full overflow-hidden rounded-3xl p-6 border border-champagne-400/25">
             <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center gap-3">
@@ -605,8 +613,8 @@
     </div>
 
     <!-- POPUP 5: Treasury Ledger Modal -->
-    <div id="popup-treasury" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
-        <div class="glass-panel max-w-2xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[90vh] flex flex-col">
+    <div id="popup-treasury" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center overflow-y-auto p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[85vh] flex flex-col">
             <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80 shrink-0">
                 <div>
                     <p class="text-[9px] uppercase tracking-[0.3em] text-champagne-500 font-semibold mb-1 flex items-center gap-2">
@@ -619,7 +627,7 @@
                 </button>
             </div>
 
-            <div class="p-6 overflow-y-auto flex-1 no-scrollbar flex flex-col gap-6">
+            <div class="p-6 overflow-y-auto flex-1 min-h-0 no-scrollbar flex flex-col gap-6">
                 <!-- Summary tiles -->
                 <div class="grid grid-cols-3 gap-3">
                     <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl p-4 text-center">
@@ -673,14 +681,14 @@
     </div>
 
     <!-- POPUP 6: Business Empire Modal -->
-    <div id="popup-empire" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
-        <div class="glass-panel max-w-3xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[92vh] flex flex-col">
+    <div id="popup-empire" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center overflow-y-auto p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-2xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[85vh] flex flex-col">
             <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80 shrink-0">
                 <div>
                     <p class="text-[9px] uppercase tracking-[0.3em] text-champagne-500 font-semibold mb-1 flex items-center gap-2">
                         <i class="fa-solid fa-city text-champagne-500"></i> Business Empire
                     </p>
-                    <h3 class="font-serif text-2xl font-bold gold-text leading-tight">Your Ventures</h3>
+                    <h3 class="font-serif text-2xl font-bold gold-text leading-tight">The Empire</h3>
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="text-right hidden sm:block">
@@ -697,66 +705,48 @@
                 </div>
             </div>
 
-            <div class="p-6 overflow-y-auto flex-1 no-scrollbar flex flex-col gap-6">
-                <!-- Projected monthly summary -->
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl p-3 text-center">
-                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold mb-1">Ventures</p>
-                        <p id="empire-t-count" class="font-serif text-2xl gold-text leading-none">0</p>
+            <!-- Tabs -->
+            <div class="px-6 pt-4 flex gap-1.5 shrink-0 border-b border-champagne-300/10">
+                <button id="empire-tabbtn-ventures" onclick="switchEmpireTab('ventures')" class="px-4 py-2.5 text-xs font-bold rounded-t-lg border-b-2 border-champagne-400 text-champagne-100 transition">Ventures</button>
+                <button id="empire-tabbtn-insights" onclick="switchEmpireTab('insights')" class="px-4 py-2.5 text-xs font-bold rounded-t-lg border-b-2 border-transparent text-champagne-500 hover:text-champagne-300 transition">Insights</button>
+            </div>
+
+            <div class="p-6 overflow-y-auto flex-1 min-h-0 no-scrollbar">
+                <!-- VENTURES TAB -->
+                <div id="empire-tab-ventures">
+                    <div class="flex items-center justify-between mb-4 text-xs text-champagne-400">
+                        <span><span id="empire-vcount" class="text-champagne-100 font-bold">0</span> ventures owned</span>
+                        <span>Net / month <span id="empire-vnet" class="font-bold text-champagne-100 ml-1">0g</span></span>
                     </div>
-                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl p-3 text-center">
-                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold mb-1">Revenue/mo</p>
-                        <p id="empire-t-rev" class="font-serif text-2xl text-emerald-300/90 leading-none">+0g</p>
-                    </div>
-                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl p-3 text-center">
-                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold mb-1">Expenses/mo</p>
-                        <p id="empire-t-exp" class="font-serif text-2xl text-rose-300/80 leading-none">-0g</p>
-                    </div>
-                    <div class="bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl p-3 text-center">
-                        <p class="text-[8px] uppercase tracking-[0.15em] text-champagne-400 font-semibold mb-1">Net/mo</p>
-                        <p id="empire-t-net" class="font-serif text-2xl leading-none text-champagne-300">0g</p>
-                    </div>
+                    <div id="empire-portfolio" class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4"></div>
+                    <button id="empire-acquire-btn" onclick="openAcquire()" class="w-full btn-gold bg-champagne-500 text-obsidian-950 rounded-2xl px-5 py-3.5 text-sm font-bold transition inline-flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Found a New Business
+                    </button>
                 </div>
 
-                <!-- Milestones -->
-                <div>
-                    <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-2">Milestones</p>
-                    <div id="empire-milestones" class="flex flex-wrap gap-2"></div>
-                </div>
-
-                <!-- Profit & Loss -->
-                <div>
-                    <div class="flex items-center justify-between mb-2">
-                        <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest">Profit &amp; loss by month</p>
-                        <div class="flex items-center gap-3 text-[8px] uppercase tracking-wider font-semibold">
-                            <span class="flex items-center gap-1 text-emerald-300/90"><span class="w-2 h-2 rounded-full bg-emerald-400/80"></span> Revenue</span>
-                            <span class="flex items-center gap-1 text-rose-300/80"><span class="w-2 h-2 rounded-full bg-rose-400/70"></span> Expenses</span>
-                            <span class="flex items-center gap-1 text-champagne-300"><span class="w-3 h-0.5 rounded-full bg-champagne-300"></span> Net</span>
-                        </div>
+                <!-- INSIGHTS TAB -->
+                <div id="empire-tab-insights" class="hidden space-y-6">
+                    <div>
+                        <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-3">Real-World Synergies <span class="text-champagne-600 normal-case tracking-normal font-medium ml-1">your goals power the empire</span></p>
+                        <div id="empire-synergies" class="flex flex-col gap-3"></div>
                     </div>
-                    <div class="bg-obsidian-900/40 rounded-2xl border border-champagne-300/10 p-3">
+                    <div>
+                        <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-3">Milestones <span id="empire-ms-count" class="text-champagne-600 ml-1">0 / 8</span></p>
+                        <div id="empire-milestones" class="flex flex-wrap gap-1.5"></div>
+                    </div>
+                    <div>
+                        <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-3">Profit &amp; Loss by month</p>
                         <div id="empire-pnl-chart" class="w-full"></div>
+                        <p class="text-[9px] text-champagne-600 mt-3">Each real day is one business month; revenue and costs settle at the start of a new day.</p>
                     </div>
-                    <p class="text-[9px] text-champagne-500 mt-2 flex items-center gap-1.5"><i class="fa-solid fa-circle-info"></i> Each real day is one business month. Revenue and operating costs settle at the start of a new day.</p>
                 </div>
-
-                <!-- Portfolio -->
-                <div>
-                    <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-2">Your ventures</p>
-                    <div id="empire-portfolio" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
-                </div>
-
-                <!-- Acquire a new venture -->
-                <button id="empire-acquire-btn" onclick="openAcquire()" class="w-full btn-gold bg-champagne-500 text-obsidian-950 rounded-2xl px-5 py-3.5 text-sm font-bold transition inline-flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-plus"></i> Found a New Business
-                </button>
             </div>
         </div>
     </div>
 
     <!-- POPUP 6-A: Acquire a Business (nested over the Empire) -->
-    <div id="popup-acquire" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
-        <div class="glass-panel max-w-2xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[92vh] flex flex-col">
+    <div id="popup-acquire" class="fixed inset-0 bg-black/85 z-50 flex items-center justify-center overflow-y-auto p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[85vh] flex flex-col">
             <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80 shrink-0">
                 <div>
                     <p class="text-[9px] uppercase tracking-[0.3em] text-champagne-500 font-semibold mb-1 flex items-center gap-2">
@@ -774,7 +764,7 @@
                     </button>
                 </div>
             </div>
-            <div class="p-6 overflow-y-auto flex-1 no-scrollbar">
+            <div class="p-6 overflow-y-auto flex-1 min-h-0 no-scrollbar">
                 <p class="text-[11px] text-champagne-400 mb-4 leading-relaxed">Every venture scales without limit and costs the same to found — pick the one whose journey you like best. They differ only in character and how wildly their months swing.</p>
                 <div id="acquire-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
             </div>
@@ -782,8 +772,8 @@
     </div>
 
     <!-- POPUP 6-B: Monthly Report -->
-    <div id="popup-report" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center p-4 hidden backdrop-blur-lg transition-all duration-300">
-        <div class="glass-panel max-w-md w-full rounded-3xl overflow-hidden border border-champagne-400/25 shadow-2xl relative animate-scale-up max-h-[92vh] flex flex-col">
+    <div id="popup-report" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center overflow-y-auto p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-md w-full rounded-3xl overflow-hidden border border-champagne-400/25 shadow-2xl relative animate-scale-up max-h-[85vh] flex flex-col">
             <div class="p-6 text-center border-b border-champagne-300/10 bg-obsidian-950/80 shrink-0">
                 <p class="text-[9px] uppercase tracking-[0.3em] text-champagne-500 font-semibold mb-1 flex items-center justify-center gap-2">
                     <i class="fa-solid fa-file-invoice-dollar text-champagne-500"></i> <span id="report-sub">Month 1</span>
@@ -792,7 +782,7 @@
                 <p id="report-net" class="font-serif text-4xl leading-none text-emerald-300">+0g</p>
                 <p id="report-net-label" class="text-[9px] uppercase tracking-[0.15em] text-champagne-400 font-semibold mt-2">net profit this month</p>
             </div>
-            <div id="report-lines" class="p-5 overflow-y-auto flex-1 no-scrollbar flex flex-col gap-2"></div>
+            <div id="report-lines" class="p-5 overflow-y-auto flex-1 min-h-0 no-scrollbar flex flex-col gap-2"></div>
             <div class="p-4 border-t border-champagne-300/10 bg-obsidian-950/60 shrink-0">
                 <button onclick="collectReport()" class="w-full btn-gold bg-champagne-500 text-obsidian-950 rounded-full px-5 py-2.5 text-sm font-bold transition inline-flex items-center justify-center gap-2">
                     <i class="fa-solid fa-hand-holding-dollar"></i> Collect
@@ -868,10 +858,10 @@
     <div id="toast-container" class="fixed top-24 right-6 z-50 flex flex-col gap-3 max-w-sm"></div>
 
     <!-- Main Workspace Container -->
-    <main class="max-w-7xl mx-auto px-6 mt-8 flex flex-col gap-8">
+    <main class="max-w-7xl mx-auto px-6 mt-5 flex flex-col gap-5">
         
-        <section class="glass-panel rounded-3xl p-6 md:p-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6 border-b border-champagne-300/10 pb-5">
+        <section class="glass-panel rounded-3xl p-5">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4 border-b border-champagne-300/10 pb-4">
                 <div>
                     <p class="text-[9px] uppercase tracking-[0.3em] text-champagne-500 font-semibold mb-1.5 flex items-center gap-2">
                         <i class="fa-solid fa-compass text-champagne-500"></i> The Long Campaign
@@ -886,12 +876,12 @@
             </div>
 
             <!-- SVG Visual Trail Map -->
-            <div class="map-canvas relative rounded-2xl p-4 overflow-hidden border border-champagne-300/10">
-                <svg viewBox="0 0 1000 200" class="w-full h-auto min-w-[650px]" fill="none">
+            <div class="map-canvas relative rounded-2xl p-3 overflow-hidden border border-champagne-300/10">
+                <svg viewBox="0 0 1000 125" class="w-full h-auto min-w-[560px]" fill="none">
                     <!-- Elegant Dotted Path Line -->
-                    <path id="map-trail" d="M 50 100 C 200 40, 300 160, 500 100 C 700 40, 800 160, 950 100" stroke="rgba(217, 197, 160, 0.08)" stroke-width="3" stroke-dasharray="8 8" />
+                    <path id="map-trail" d="M 50 52 C 200 28, 300 76, 500 52 C 700 28, 800 76, 950 52" stroke="rgba(217, 197, 160, 0.08)" stroke-width="3" stroke-dasharray="8 8" />
                     <!-- Filled colored progress line -->
-                    <path id="map-trail-filled" d="M 50 100 C 200 40, 300 160, 500 100 C 700 40, 800 160, 950 100" stroke="#B08E4F" stroke-width="3" stroke-linecap="round" stroke-dasharray="1000" stroke-dashoffset="1000" class="transition-all duration-1000 opacity-80" />
+                    <path id="map-trail-filled" d="M 50 52 C 200 28, 300 76, 500 52 C 700 28, 800 76, 950 52" stroke="#B08E4F" stroke-width="3" stroke-linecap="round" stroke-dasharray="1000" stroke-dashoffset="1000" class="transition-all duration-1000 opacity-80" />
 
                     <!-- Island / Goal Marker 1: Youtube -->
                     <g id="marker-youtube" class="cursor-pointer transition-transform duration-1000">
@@ -926,9 +916,9 @@
                 </svg>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
                 
-                <div class="bg-obsidian-900/40 p-4 rounded-2xl border border-champagne-300/10 flex items-center justify-between">
+                <div class="bg-obsidian-900/40 p-3 rounded-2xl border border-champagne-300/10 flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-9 h-9 rounded-full bg-champagne-500/5 flex items-center justify-center text-champagne-300 border border-champagne-300/10">
                             <i class="fa-brands fa-youtube"></i>
@@ -942,7 +932,7 @@
                            class="w-20 premium-input text-center px-2 py-1 rounded-lg text-sm font-semibold">
                 </div>
 
-                <div class="bg-obsidian-900/40 p-4 rounded-2xl border border-champagne-300/10 flex items-center justify-between">
+                <div class="bg-obsidian-900/40 p-3 rounded-2xl border border-champagne-300/10 flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-9 h-9 rounded-full bg-champagne-500/5 flex items-center justify-center text-champagne-300 border border-champagne-300/10">
                             <i class="fa-solid fa-vault"></i>
@@ -956,7 +946,7 @@
                            class="w-20 premium-input text-center px-2 py-1 rounded-lg text-sm font-semibold">
                 </div>
 
-                <div class="bg-obsidian-900/40 p-4 rounded-2xl border border-champagne-300/10 flex items-center justify-between">
+                <div class="bg-obsidian-900/40 p-3 rounded-2xl border border-champagne-300/10 flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-9 h-9 rounded-full bg-champagne-500/5 flex items-center justify-center text-champagne-300 border border-champagne-300/10">
                             <i class="fa-solid fa-dumbbell"></i>
@@ -978,52 +968,52 @@
             <p class="text-[9px] uppercase tracking-[0.35em] text-champagne-500 font-semibold whitespace-nowrap">Command Deck</p>
             <div class="h-px flex-1 bg-gradient-to-l from-transparent to-champagne-400/25"></div>
         </div>
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             
             <!-- Card 1: Open Profile Popup -->
-            <button onclick="openPopup('popup-profile')" class="glass-panel-interactive rounded-3xl p-6 text-left flex flex-col justify-between group h-48 relative overflow-hidden">
-                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-8xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">👤</div>
+            <button onclick="openPopup('popup-profile')" class="glass-panel-interactive rounded-3xl p-5 text-left flex flex-col justify-between group h-40 relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-7xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">👤</div>
                 <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/25 flex items-center justify-center text-champagne-300 text-lg shadow-[inset_0_1px_0_rgba(217,197,160,0.12)] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-champagne-300 group-hover:to-champagne-500 group-hover:text-obsidian-950 group-hover:scale-105 group-hover:shadow-[0_8px_20px_-6px_rgba(176,142,79,0.55)]">
                     <i class="fa-solid fa-user-tie"></i>
                 </div>
                 <div>
-                    <h3 class="font-serif text-lg font-bold text-champagne-100 mt-4 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Executive Profile</h3>
+                    <h3 class="font-serif text-base font-bold text-champagne-100 mt-3 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Executive Profile</h3>
                     <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Configure titles, allocate performance stats, and secure sandbox configs.</p>
                 </div>
             </button>
 
             <!-- Card 2: Open Quest Board Popup -->
-            <button onclick="openPopup('popup-quests')" class="glass-panel-interactive rounded-3xl p-6 text-left flex flex-col justify-between group h-48 relative overflow-hidden">
-                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-8xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">📜</div>
+            <button onclick="openPopup('popup-quests')" class="glass-panel-interactive rounded-3xl p-5 text-left flex flex-col justify-between group h-40 relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-7xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">📜</div>
                 <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/25 flex items-center justify-center text-champagne-300 text-lg shadow-[inset_0_1px_0_rgba(217,197,160,0.12)] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-champagne-300 group-hover:to-champagne-500 group-hover:text-obsidian-950 group-hover:scale-105 group-hover:shadow-[0_8px_20px_-6px_rgba(176,142,79,0.55)]">
                     <i class="fa-solid fa-scroll"></i>
                 </div>
                 <div>
-                    <h3 class="font-serif text-lg font-bold text-champagne-100 mt-4 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Quest Board</h3>
+                    <h3 class="font-serif text-base font-bold text-champagne-100 mt-3 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Quest Board</h3>
                     <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Manage daily campaigns, active checklists, and custom workflow targets.</p>
                 </div>
             </button>
 
             <!-- Card 3: Open Procrastination Arena Popup -->
-            <button onclick="openPopup('popup-arena')" class="glass-panel-interactive rounded-3xl p-6 text-left flex flex-col justify-between group h-48 relative overflow-hidden">
-                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-8xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">⚔️</div>
+            <button onclick="openPopup('popup-arena')" class="glass-panel-interactive rounded-3xl p-5 text-left flex flex-col justify-between group h-40 relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-7xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">⚔️</div>
                 <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/25 flex items-center justify-center text-champagne-300 text-lg shadow-[inset_0_1px_0_rgba(217,197,160,0.12)] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-champagne-300 group-hover:to-champagne-500 group-hover:text-obsidian-950 group-hover:scale-105 group-hover:shadow-[0_8px_20px_-6px_rgba(176,142,79,0.55)]">
                     <i class="fa-solid fa-skull"></i>
                 </div>
                 <div>
-                    <h3 class="font-serif text-lg font-bold text-champagne-100 mt-4 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Combat Arena</h3>
+                    <h3 class="font-serif text-base font-bold text-champagne-100 mt-3 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Combat Arena</h3>
                     <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Vaporize mental friction loops and tackle weekly creative blockers.</p>
                 </div>
             </button>
 
             <!-- Card 4: Open Merchant Shop Popup -->
-            <button onclick="openPopup('popup-shop')" class="glass-panel-interactive rounded-3xl p-6 text-left flex flex-col justify-between group h-48 relative overflow-hidden">
-                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-8xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">🪙</div>
+            <button onclick="openPopup('popup-shop')" class="glass-panel-interactive rounded-3xl p-5 text-left flex flex-col justify-between group h-40 relative overflow-hidden">
+                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-7xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">🪙</div>
                 <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/25 flex items-center justify-center text-champagne-300 text-lg shadow-[inset_0_1px_0_rgba(217,197,160,0.12)] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-champagne-300 group-hover:to-champagne-500 group-hover:text-obsidian-950 group-hover:scale-105 group-hover:shadow-[0_8px_20px_-6px_rgba(176,142,79,0.55)]">
                     <i class="fa-solid fa-shop"></i>
                 </div>
                 <div>
-                    <h3 class="font-serif text-lg font-bold text-champagne-100 mt-4 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Merchant Shop</h3>
+                    <h3 class="font-serif text-base font-bold text-champagne-100 mt-3 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Merchant Shop</h3>
                     <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Redeem treasury gold for guilt-free luxury breaks and rewards.</p>
                 </div>
             </button>
@@ -1036,7 +1026,7 @@
             <p class="text-[9px] uppercase tracking-[0.35em] text-champagne-500 font-semibold whitespace-nowrap">The Empire</p>
             <div class="h-px flex-1 bg-gradient-to-l from-transparent to-champagne-400/25"></div>
         </div>
-        <section class="glass-panel rounded-3xl p-6 md:p-8 relative overflow-hidden">
+        <section class="glass-panel rounded-3xl p-5 relative overflow-hidden">
             <div class="absolute -right-6 -bottom-10 text-champagne-500/[0.05] text-[10rem] leading-none select-none pointer-events-none">🏛️</div>
             <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative">
                 <div class="max-w-md">
@@ -1045,9 +1035,12 @@
                     </p>
                     <h2 class="font-serif text-2xl font-bold gold-text leading-tight">Put your gold to work</h2>
                     <p class="text-[11px] text-champagne-400 mt-1.5 leading-relaxed">Found a business and grow it as far as you like — every venture scales without limit. Expand it, sharpen its signature edge, and ride the good months.</p>
-                    <div class="mt-4 flex items-baseline gap-2">
-                        <span class="text-[9px] uppercase tracking-[0.2em] text-champagne-500 font-semibold">Net worth</span>
-                        <span id="empire-networth" class="font-serif text-xl gold-text leading-none">0g</span>
+                    <div class="mt-4 flex items-center gap-3 flex-wrap">
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-[9px] uppercase tracking-[0.2em] text-champagne-500 font-semibold">Net worth</span>
+                            <span id="empire-networth" class="font-serif text-xl gold-text leading-none">0g</span>
+                        </div>
+                        <span id="empire-synergy-pill" class="hidden items-center gap-1.5 text-[9px] font-bold px-2.5 py-1 rounded-full bg-champagne-500/15 border border-champagne-400/30 text-champagne-200"><i class="fa-solid fa-bolt"></i><span id="empire-synergy-pill-txt"></span></span>
                     </div>
                     <button onclick="openPopup('popup-empire')" class="mt-3 px-5 py-2.5 btn-gold bg-champagne-500 text-obsidian-950 text-xs font-semibold rounded-full transition inline-flex items-center gap-2">
                         <i class="fa-solid fa-briefcase"></i> Manage Empire
@@ -1167,6 +1160,32 @@
                     gain.gain.setValueAtTime(0.008, ctx.currentTime);
                     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.18);
                     osc.start(); osc.stop(ctx.currentTime + 0.2);
+                } else if (type === 'boom') {
+                    // Triumphant rising fanfare for a boom month
+                    const now = ctx.currentTime;
+                    const notes = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+                    notes.forEach((f, i) => {
+                        const o = ctx.createOscillator(); const g = ctx.createGain();
+                        o.type = 'triangle';
+                        o.frequency.setValueAtTime(f, now + i * 0.07);
+                        o.connect(g); g.connect(ctx.destination);
+                        g.gain.setValueAtTime(0.02, now + i * 0.07);
+                        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.07 + 0.35);
+                        o.start(now + i * 0.07); o.stop(now + i * 0.07 + 0.4);
+                    });
+                } else if (type === 'slump') {
+                    // Downcast descending tone for a slump month
+                    const now = ctx.currentTime;
+                    const notes = [440, 349.23, 261.63];
+                    notes.forEach((f, i) => {
+                        const o = ctx.createOscillator(); const g = ctx.createGain();
+                        o.type = 'sine';
+                        o.frequency.setValueAtTime(f, now + i * 0.12);
+                        o.connect(g); g.connect(ctx.destination);
+                        g.gain.setValueAtTime(0.018, now + i * 0.12);
+                        g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 0.3);
+                        o.start(now + i * 0.12); o.stop(now + i * 0.12 + 0.35);
+                    });
                 }
             } catch (e) { console.warn("Audio Context blocked by runtime context.", e); }
         };
@@ -1216,7 +1235,9 @@
             businessHistory: [],     // closed-month records for the P&L
             businessMonth: 0,        // how many months have elapsed
             lastBusinessTick: null,  // dateKey of the last month close
-            milestones: []           // unlocked empire milestone ids
+            milestones: [],          // unlocked empire milestone ids
+            legacy: 0,               // permanent empire revenue bonus from cash-outs
+            prestigeCount: 0         // how many ventures have been cashed out
         };
 
         let gameState = JSON.parse(JSON.stringify(defaultState));
@@ -1337,6 +1358,7 @@
             if (popup) {
                 playSound('open');
                 popup.classList.remove('hidden');
+                if (popupId === 'popup-empire') switchEmpireTab('ventures');
                 renderUI();
             }
         }
@@ -1954,6 +1976,21 @@
 
         function ownedBusinesses() { return Object.keys(gameState.businesses || {}); }
 
+        /* ===== Real-world synergies — your actual goals power the empire ===== */
+        function goalSubsProgress()   { return Math.min(1, (gameState.goals.subs || 0) / 2000); }
+        function goalWealthProgress() { return Math.min(1, (gameState.goals.wealth || 0) / 10000); }
+        function goalHealthProgress() { return Math.max(0, Math.min(1, 1 - Math.abs((gameState.goals.weight || 85) - 75) / 10)); }
+
+        // Each synergy returns a 0-based bonus fraction, driven by real-life progress.
+        function synStreak()  { return Math.min((gameState.streak || 0) * 0.025, 0.25); } // daily streak → global revenue
+        function synWealth()  { return goalWealthProgress() * 0.15; }                     // income goal → global revenue
+        function synSubs()    { return goalSubsProgress() * 0.20; }                       // subscriber goal → Media Studio
+        function synHealth()  { return goalHealthProgress() * 0.25; }                     // fitness goal → less volatility
+
+        function empireRevenueMult()      { return 1 + synStreak() + synWealth() + (gameState.legacy || 0); }
+        function businessRevenueMult(id)  { return empireRevenueMult() * (id === 'media' ? (1 + synSubs()) : 1); }
+        const PRESTIGE_LEVEL = 10; // minimum level before a venture can be cashed out
+
         // Net worth = liquid gold + the market value of every venture (≈10 months of net).
         function businessValue(id) { return Math.max(0, projectBusiness(id).net * 10); }
         function empireNetWorth() {
@@ -1982,7 +2019,7 @@
             const b = gameState.businesses[id];
             if (!b) return { revenue: 0, expenses: 0, net: 0 };
             const boost = b.boost || 0;
-            const revenue = bizIncome(b.level, boost);
+            const revenue = Math.round(bizIncome(b.level, boost) * businessRevenueMult(id));
             const expenses = bizOpCost(b.level);
             return { revenue, expenses, net: revenue - expenses };
         }
@@ -1996,7 +2033,8 @@
         function rollMonth(id) {
             const t = businessTemplates[id];
             const p = projectBusiness(id);
-            let mult = 1 + (Math.random() * 2 - 1) * t.volatility;
+            const effVol = t.volatility * (1 - synHealth()); // fitness goal steadies the swings
+            let mult = 1 + (Math.random() * 2 - 1) * effVol;
             const roll = Math.random();
             let tier = "steady";
             if (roll > 0.90) { mult *= 1.7; tier = "boom"; }
@@ -2093,6 +2131,29 @@
             showToast(`${t.boostName} upgraded to Level ${b.boost}! (+22% revenue)`, "success");
             checkMilestones(); saveGameState(); renderUI();
         }
+        function cashOutBusiness(id) {
+            const t = businessTemplates[id], b = gameState.businesses[id];
+            if (!b) return;
+            if (b.level < PRESTIGE_LEVEL) { showToast(`Reach Level ${PRESTIGE_LEVEL} to cash out ${t.name}.`, "info"); return; }
+            const payout = Math.round(businessValue(id) * 1.5);
+            const legacyGain = 0.05 + 0.005 * b.level; // scales with how big it grew
+            triggerModal(
+                `💰 Cash Out ${t.name}?`,
+                `Sell ${t.name} (${stageName(id, b.level)}) at its peak for ${payout.toLocaleString()}g and earn a permanent +${Math.round(legacyGain * 100)}% empire revenue bonus (Legacy). The business returns to the market to rebuild from scratch.`,
+                () => {
+                    gameState.gold += payout;
+                    logGold(payout, `Cashed out ${t.name}`, 'earn');
+                    gameState.legacy = (gameState.legacy || 0) + legacyGain;
+                    gameState.prestigeCount = (gameState.prestigeCount || 0) + 1;
+                    delete gameState.businesses[id];
+                    playSound('levelup');
+                    confettiBurst();
+                    showToast(`Cashed out ${t.name} for ${payout.toLocaleString()}g! Legacy now +${Math.round(gameState.legacy * 100)}%.`, "levelup");
+                    checkMilestones();
+                    saveGameState(); renderUI();
+                }
+            );
+        }
 
         /* ===== Empire rendering ===== */
         function setTxt(id, v) { const e = document.getElementById(id); if (e) e.textContent = v; }
@@ -2114,14 +2175,15 @@
             { id: 'titan',      icon: 'fa-building-columns', name: 'Titan',          desc: 'Reach a final-stage business',     test: () => ownedBusinesses().some(id => stageIndex(id, gameState.businesses[id].level) >= businessTemplates[id].stages.length - 1) },
             { id: 'banner',     icon: 'fa-fire',            name: 'Banner Month',   desc: 'Earn 500g net in a single month',  test: () => (gameState.businessHistory || []).some(h => h.net >= 500) },
             { id: 'mogul',      icon: 'fa-gem',             name: 'Mogul',          desc: 'Reach 5,000 net worth',            test: () => empireNetWorth() >= 5000 },
-            { id: 'tycoon',     icon: 'fa-chess-king',      name: 'Tycoon',         desc: 'Reach 25,000 net worth',           test: () => empireNetWorth() >= 25000 }
+            { id: 'tycoon',     icon: 'fa-chess-king',      name: 'Tycoon',         desc: 'Reach 25,000 net worth',           test: () => empireNetWorth() >= 25000 },
+            { id: 'legacy',     icon: 'fa-hand-holding-dollar', name: 'Serial Founder', desc: 'Cash out a venture at its peak', test: () => (gameState.prestigeCount || 0) >= 1 }
         ];
         function checkMilestones(silent) {
             if (!Array.isArray(gameState.milestones)) gameState.milestones = [];
             milestones.forEach(m => {
                 if (!gameState.milestones.includes(m.id) && m.test()) {
                     gameState.milestones.push(m.id);
-                    if (!silent) { playSound('levelup'); showToast(`🏆 Milestone unlocked — ${m.name}!`, 'levelup'); }
+                    if (!silent) { playSound('levelup'); confettiBurst(); showToast(`🏆 Milestone unlocked — ${m.name}!`, 'levelup'); }
                 }
             });
         }
@@ -2159,11 +2221,18 @@
                         </div>`;
                 }).join("");
             }
-            playSound('open');
+            // Sound cue reflects the headline mood of the report
+            const hasBoom = (r.lines || []).some(l => l.tier === 'boom');
+            const hasSlump = (r.lines || []).some(l => l.tier === 'slump');
+            if (hasBoom || r.net > 0) playSound('boom');
+            else if (hasSlump || r.net < 0) playSound('slump');
+            else playSound('open');
             popup.classList.remove('hidden');
         }
         function collectReport() {
+            const positive = lastEmpireReport && lastEmpireReport.net > 0;
             closePopup('popup-report');
+            if (positive) confettiBurst(50, 30);
             lastEmpireReport = null;
         }
 
@@ -2199,12 +2268,45 @@
             requestAnimationFrame(step);
         }
 
+        // Celebration confetti burst (origin as viewport %). Cheap, self-cleaning.
+        function confettiBurst(originX, originY, colors) {
+            if (typeof document === 'undefined') return;
+            let root = document.getElementById('confetti-root');
+            if (!root) { root = document.createElement('div'); root.id = 'confetti-root'; document.body.appendChild(root); }
+            const ox = (originX == null ? 50 : originX), oy = (originY == null ? 38 : originY);
+            const palette = colors || ['#EADFC9', '#D9C5A0', '#C7AC77', '#B08E4F', '#F5EFE4'];
+            const N = 46;
+            for (let i = 0; i < N; i++) {
+                const bit = document.createElement('div');
+                bit.className = 'confetti-bit';
+                const size = 5 + Math.random() * 6;
+                const dx = (Math.random() - 0.5) * 460;
+                const dy = 180 + Math.random() * 360;
+                const dr = (Math.random() - 0.5) * 900;
+                const dur = 900 + Math.random() * 900;
+                bit.style.cssText = `left:${ox}%;top:${oy}%;width:${size}px;height:${size * (0.5 + Math.random())}px;background:${palette[i % palette.length]};--dx:${dx}px;--dy:${dy}px;--dr:${dr}deg;animation:confetti-fall ${dur}ms cubic-bezier(0.2,0.6,0.3,1) forwards;`;
+                root.appendChild(bit);
+                setTimeout(() => bit.remove(), dur + 60);
+            }
+        }
+
         function renderEmpireSummary() {
             const proj = projectEmpire();
             setTxt('empire-owned-count', ownedBusinesses().length);
             const pn = document.getElementById('empire-proj-net');
             if (pn) pn.textContent = (proj.net >= 0 ? '+' : '') + proj.net + 'g';
             setTxt('empire-networth', empireNetWorth().toLocaleString() + 'g');
+            // Active global revenue bonus from real-life progress
+            const globalBonus = Math.round((empireRevenueMult() - 1) * 100);
+            const pill = document.getElementById('empire-synergy-pill');
+            if (pill) {
+                if (globalBonus > 0) {
+                    pill.classList.remove('hidden'); pill.classList.add('inline-flex');
+                    setTxt('empire-synergy-pill-txt', `+${globalBonus}% revenue bonus`);
+                } else {
+                    pill.classList.add('hidden'); pill.classList.remove('inline-flex');
+                }
+            }
             const last = gameState.businessHistory[gameState.businessHistory.length - 1];
             const le = document.getElementById('empire-last-net');
             if (le) {
@@ -2295,61 +2397,46 @@
             const stageUp = nextStage !== stage;
             const A = t.accent;
             const expPct = p.revenue > 0 ? Math.min(100, Math.round(p.expenses / p.revenue * 100)) : 0;
-            const pips = (boost > 0 ? Array.from({ length: Math.min(boost, 8) }).map(() => `<span class="inline-block w-1.5 h-1.5 rounded-full" style="background:${A}"></span>`).join('') : '')
-                + (boost > 8 ? `<span class="text-[8px] font-bold ml-0.5" style="color:${A}">+${boost - 8}</span>` : '');
+            const canCashOut = b.level >= PRESTIGE_LEVEL;
+            const cashPayout = Math.round(businessValue(id) * 1.5);
+            const cashLegacy = Math.round((0.05 + 0.005 * b.level) * 100);
+            const netCls = p.net >= 0 ? 'bg-emerald-500/15 text-emerald-300 border-emerald-400/25' : 'bg-rose-500/15 text-rose-300 border-rose-400/25';
+
+            const actionBtn = (onclick, enabled, icon, label, cost, style) => `
+                <button onclick="${onclick}" ${enabled ? '' : 'disabled'} class="w-full rounded-lg pl-1.5 pr-2.5 py-2 flex items-center gap-2 transition hover:brightness-125 ${enabled ? '' : 'opacity-45 cursor-not-allowed'}" style="${style}">
+                    <span class="w-6 h-6 rounded-md flex items-center justify-center text-[10px] shrink-0" style="${icon.chip}"><i class="fa-solid ${icon.name}"></i></span>
+                    <span class="text-[11px] font-bold text-champagne-100 flex-1 text-left truncate">${label}</span>
+                    <span class="text-[10px] font-bold shrink-0" style="${cost.style}">${cost.text}</span>
+                </button>`;
 
             return `
-                <div class="rounded-2xl overflow-hidden border" style="border-color:${A}44;box-shadow:0 12px 34px -20px ${A}88;">
-                    <div class="relative h-32 bg-obsidian-950">
+                <div class="rounded-2xl overflow-hidden border bg-obsidian-900/50" style="border-color:${A}3a;">
+                    <div class="relative h-28 bg-obsidian-950">
                         ${ventureArt(id)}
-                        <div class="absolute inset-0 p-3 flex flex-col justify-between">
-                            <div class="flex items-start justify-between">
-                                <div class="flex items-center gap-2">
-                                    <span class="w-8 h-8 rounded-xl flex items-center justify-center text-sm shrink-0" style="background:${A}22;border:1px solid ${A}66;color:${A}"><i class="fa-solid ${t.fa}"></i></span>
-                                    <div>
-                                        <p class="font-serif text-sm font-bold text-white leading-none drop-shadow">${t.name}</p>
-                                        <p class="text-[9px] font-semibold uppercase tracking-wider mt-1" style="color:${A}">${stage} · Lv ${b.level}</p>
-                                    </div>
-                                </div>
-                                <div class="text-right">
-                                    <p class="font-serif text-lg leading-none drop-shadow ${p.net >= 0 ? 'text-emerald-300' : 'text-rose-300'}">${p.net >= 0 ? '+' : ''}${p.net}g</p>
-                                    <p class="text-[8px] uppercase tracking-wider text-white/60">net / mo</p>
-                                </div>
+                        <div class="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-obsidian-950 via-obsidian-950/60 to-transparent"></div>
+                        <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full text-[11px] font-bold border ${netCls}">${p.net >= 0 ? '+' : ''}${p.net}g<span class="opacity-60 font-medium text-[9px]">/mo</span></span>
+                        <div class="absolute bottom-2.5 left-3 right-3 flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg flex items-center justify-center text-xs shrink-0" style="background:${A}26;border:1px solid ${A}66;color:${A}"><i class="fa-solid ${t.fa}"></i></span>
+                            <div class="min-w-0">
+                                <p class="font-serif text-sm font-bold text-white leading-none truncate">${t.name}</p>
+                                <p class="text-[9px] font-semibold uppercase tracking-wider mt-1 truncate" style="color:${A}">${stage} · Lv ${b.level}</p>
                             </div>
-                            <div class="flex items-center gap-1">${pips}</div>
                         </div>
                     </div>
-                    <div class="p-4 bg-obsidian-900/50 flex flex-col gap-3">
-                        <div>
-                            <div class="flex justify-between text-[9px] uppercase tracking-wider mb-1">
-                                <span class="text-emerald-300/90 font-semibold">Revenue +${p.revenue}g</span>
-                                <span class="text-rose-300/80 font-semibold">Costs -${p.expenses}g</span>
-                            </div>
-                            <div class="h-1.5 rounded-full bg-rose-400/30 overflow-hidden">
-                                <div class="h-full bg-emerald-400/70 rounded-full" style="width:${100 - expPct}%"></div>
-                            </div>
+                    <div class="p-3 flex flex-col gap-2">
+                        <div class="flex items-center gap-2">
+                            <div class="flex-1 h-1 rounded-full bg-rose-400/25 overflow-hidden"><div class="h-full bg-emerald-400/70 rounded-full" style="width:${100 - expPct}%"></div></div>
+                            <span class="text-[9px] text-champagne-500 whitespace-nowrap font-medium"><span class="text-emerald-300/80">+${p.revenue}</span> / <span class="text-rose-300/70">-${p.expenses}</span>g</span>
                         </div>
-                        ${(() => { const sp = bizSparkline(id, A); return sp ? `<div class="flex items-center gap-2"><span class="text-[8px] uppercase tracking-wider text-champagne-500 shrink-0">Net trend</span>${sp}</div>` : ''; })()}
-                        <button onclick="expandBusiness('${id}')" ${canExpand ? '' : 'disabled'} class="w-full rounded-xl px-4 py-3 flex items-center justify-between transition hover:brightness-125 ${canExpand ? '' : 'opacity-50 cursor-not-allowed'}" style="background:${A}1a;border:1px solid ${A}44;">
-                            <div class="flex items-center gap-3 text-left">
-                                <span class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:${A}2e;color:${A}"><i class="fa-solid fa-arrow-up-right-dots"></i></span>
-                                <div>
-                                    <p class="text-xs font-bold text-champagne-100">Expand${stageUp ? ` <span style="color:${A}">→ ${nextStage}</span>` : ''}</p>
-                                    <p class="text-[9px] text-champagne-400">Grow the operation · more revenue</p>
-                                </div>
-                            </div>
-                            <span class="text-xs font-bold px-2.5 py-1 rounded-full shrink-0" style="background:${A}2e;color:${A}">${exCost}g</span>
-                        </button>
-                        <button onclick="enhanceBusiness('${id}')" ${canEnhance ? '' : 'disabled'} class="w-full rounded-xl px-4 py-3 flex items-center justify-between transition hover:brightness-125 ${canEnhance ? '' : 'opacity-50 cursor-not-allowed'}" style="background:${A}1a;border:1px solid ${A}44;">
-                            <div class="flex items-center gap-3 text-left">
-                                <span class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:${A}2e;color:${A}"><i class="fa-solid ${t.boostIcon}"></i></span>
-                                <div>
-                                    <p class="text-xs font-bold text-champagne-100">${t.boostName} <span style="color:${A}">Lv ${boost}</span></p>
-                                    <p class="text-[9px] text-champagne-400">Signature edge · +22% revenue</p>
-                                </div>
-                            </div>
-                            <span class="text-xs font-bold px-2.5 py-1 rounded-full shrink-0" style="background:${A}2e;color:${A}">${enCost}g</span>
-                        </button>
+                        ${actionBtn(`expandBusiness('${id}')`, canExpand, { name: 'fa-arrow-up-right-dots', chip: `background:${A}2e;color:${A}` },
+                            `Expand${stageUp ? ` <span class="font-medium" style="color:${A}">→ ${nextStage}</span>` : ''}`,
+                            { text: `${exCost}g`, style: `color:${A}` }, `background:${A}14;border:1px solid ${A}3a;`)}
+                        ${actionBtn(`enhanceBusiness('${id}')`, canEnhance, { name: t.boostIcon, chip: `background:${A}2e;color:${A}` },
+                            `${t.boostName} <span class="font-medium" style="color:${A}">Lv ${boost}</span>`,
+                            { text: `${enCost}g`, style: `color:${A}` }, `background:${A}14;border:1px solid ${A}3a;`)}
+                        ${canCashOut ? actionBtn(`cashOutBusiness('${id}')`, true, { name: 'fa-hand-holding-dollar', chip: 'background:rgba(176,142,79,0.25);color:#EADFC9' },
+                            `Cash out <span class="font-medium text-champagne-400">+${cashLegacy}% legacy</span>`,
+                            { text: `${cashPayout.toLocaleString()}g`, style: 'color:#EADFC9' }, 'background:rgba(176,142,79,0.12);border:1px solid rgba(217,197,160,0.3);') : ''}
                     </div>
                 </div>`;
         }
@@ -2415,23 +2502,24 @@
             setTxt('empire-gold', gameState.gold + 'g');
             setTxt('empire-networth-modal', empireNetWorth().toLocaleString() + 'g');
             const proj = projectEmpire();
-            setTxt('empire-t-count', ownedBusinesses().length);
-            setTxt('empire-t-rev', '+' + proj.revenue + 'g');
-            setTxt('empire-t-exp', '-' + proj.expenses + 'g');
-            const netEl = document.getElementById('empire-t-net');
-            if (netEl) {
-                netEl.textContent = (proj.net >= 0 ? '+' : '') + proj.net + 'g';
-                netEl.className = 'font-serif text-2xl leading-none ' + (proj.net >= 0 ? 'text-emerald-300/90' : 'text-rose-300/80');
+            setTxt('empire-vcount', ownedBusinesses().length);
+            const vnet = document.getElementById('empire-vnet');
+            if (vnet) {
+                vnet.textContent = (proj.net >= 0 ? '+' : '') + proj.net + 'g';
+                vnet.className = 'font-bold ml-1 ' + (proj.net >= 0 ? 'text-emerald-300' : 'text-rose-300');
             }
+            const unlocked = (gameState.milestones || []).length;
+            setTxt('empire-ms-count', `${unlocked} / ${milestones.length}`);
 
             renderEmpirePnl();
             renderMilestones();
+            renderSynergies();
 
             const owned = ownedBusinesses();
             const port = document.getElementById('empire-portfolio');
             if (port) {
                 port.innerHTML = owned.length === 0
-                    ? `<div class="text-center text-champagne-500 text-[11px] py-6">You don't own any ventures yet — found one to start earning every month.</div>`
+                    ? `<div class="md:col-span-2 text-center text-champagne-500 text-[11px] py-8">You don't own any ventures yet — found one below to start earning every month.</div>`
                     : owned.map(renderOwnedCard).join("");
             }
 
@@ -2455,18 +2543,76 @@
             if (acq && !acq.classList.contains('hidden')) renderAcquire();
         }
 
+        function switchEmpireTab(name) {
+            ['ventures', 'insights'].forEach(tab => {
+                const panel = document.getElementById('empire-tab-' + tab);
+                const btn = document.getElementById('empire-tabbtn-' + tab);
+                const active = tab === name;
+                if (panel) panel.classList.toggle('hidden', !active);
+                if (btn) btn.className = `px-4 py-2.5 text-xs font-bold rounded-t-lg border-b-2 transition ${active ? 'border-champagne-400 text-champagne-100' : 'border-transparent text-champagne-500 hover:text-champagne-300'}`;
+            });
+        }
+
         function renderMilestones() {
             const host = document.getElementById('empire-milestones');
             if (!host) return;
             const unlocked = gameState.milestones || [];
             host.innerHTML = milestones.map(m => {
                 const has = unlocked.includes(m.id);
+                return `<span class="inline-flex items-center gap-1.5 text-[11px] font-semibold ${has ? 'text-champagne-200' : 'text-champagne-600/50'}" title="${m.desc}">
+                    <i class="fa-solid ${has ? m.icon : 'fa-lock'} text-[9px]" style="${has ? 'color:#C7AC77' : ''}"></i>${m.name}
+                </span>`;
+            }).join('<span class="text-champagne-600/30 mx-1">·</span>');
+        }
+
+        function renderSynergies() {
+            const host = document.getElementById('empire-synergies');
+            if (!host) return;
+            const rows = [
+                { name: 'Streak Momentum',   accent: '#C7AC77',                        val: synStreak(), max: 0.25, kind: 'rev',
+                  drive: `Daily streak · ${gameState.streak || 0} day${(gameState.streak || 0) === 1 ? '' : 's'}`, hint: 'Keep your daily streak alive' },
+                { name: 'Subscriber Reach',  accent: businessTemplates.media.accent,   val: synSubs(),   max: 0.20, kind: 'rev',
+                  drive: `YouTube goal · ${Math.round(goalSubsProgress() * 100)}%`, hint: 'Grow your subscriber count' },
+                { name: 'Wealth Prosperity', accent: '#8FB98A',                        val: synWealth(), max: 0.15, kind: 'rev',
+                  drive: `Income goal · ${Math.round(goalWealthProgress() * 100)}%`, hint: 'Progress toward $10K / month' },
+                { name: 'Healthy Discipline',accent: '#E0608A',                        val: synHealth(), max: 0.25, kind: 'vol',
+                  drive: `Fitness goal · ${Math.round(goalHealthProgress() * 100)}%`, hint: 'Reach your target weight' }
+            ];
+            const legacy = gameState.legacy || 0;
+            let html = '';
+            if (legacy > 0) {
+                html += `
+                    <div>
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <span class="w-1.5 h-1.5 rounded-full shrink-0 bg-champagne-300"></span>
+                                <span class="text-xs font-semibold text-champagne-100 truncate">Legacy</span>
+                                <span class="text-[10px] text-champagne-600 truncate hidden sm:inline">${gameState.prestigeCount || 0} cash-out${(gameState.prestigeCount || 0) === 1 ? '' : 's'} · permanent</span>
+                            </div>
+                            <span class="text-xs font-bold shrink-0 gold-text">+${Math.round(legacy * 100)}% revenue</span>
+                        </div>
+                        <div class="mt-1.5 h-0.5 rounded-full bg-champagne-300/10 overflow-hidden"><div class="h-full rounded-full bg-champagne-300" style="width:100%"></div></div>
+                    </div>`;
+            }
+            html += rows.map(r => {
+                const active = r.val > 0.001;
+                const pct = Math.round(r.val / r.max * 100);
+                const A = r.accent;
+                const effect = r.kind === 'rev' ? `+${Math.round(r.val * 100)}% revenue` : `−${Math.round(r.val * 100)}% volatility`;
                 return `
-                    <div class="flex items-center gap-2 rounded-full pl-2 pr-3 py-1 border ${has ? 'border-champagne-400/40 bg-champagne-500/10' : 'border-champagne-300/8 bg-obsidian-950/40'}" title="${m.desc}">
-                        <span class="w-5 h-5 rounded-full flex items-center justify-center text-[9px] ${has ? 'bg-champagne-500 text-obsidian-950' : 'bg-obsidian-800 text-champagne-600'}"><i class="fa-solid ${has ? m.icon : 'fa-lock'}"></i></span>
-                        <span class="text-[10px] font-semibold ${has ? 'text-champagne-200' : 'text-champagne-600'}">${m.name}</span>
+                    <div class="${active ? '' : 'opacity-50'}">
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background:${A}"></span>
+                                <span class="text-xs font-semibold text-champagne-100 truncate">${r.name}</span>
+                                <span class="text-[10px] text-champagne-600 truncate hidden sm:inline">${active ? r.drive : r.hint}</span>
+                            </div>
+                            <span class="text-xs font-bold shrink-0" style="color:${active ? A : '#6b7280'}">${active ? effect : '—'}</span>
+                        </div>
+                        <div class="mt-1.5 h-0.5 rounded-full bg-champagne-300/10 overflow-hidden"><div class="h-full rounded-full" style="width:${pct}%;background:${A}"></div></div>
                     </div>`;
             }).join("");
+            host.innerHTML = html;
         }
 
         /* ===== Acquire picker (choose a new business) ===== */
