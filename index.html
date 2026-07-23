@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kohan Executive - Premium Campaign Canvas</title>
+    <title>Kohan Executive</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome for sleek icons -->
@@ -18,8 +18,8 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'sans-serif'],
+                        serif: ['Playfair Display', 'Iowan Old Style', 'Palatino Linotype', 'Palatino', 'Georgia', 'serif'],
                     },
                     colors: {
                         obsidian: {
@@ -313,8 +313,7 @@
                         <span class="absolute -bottom-1 -right-1 bg-champagne-500 text-obsidian-950 text-[10px] font-bold w-6 h-6 rounded-full border border-obsidian-950 flex items-center justify-center shadow" id="avatar-level-bubble">1</span>
                     </div>
                     <div>
-                        <p class="text-xs text-champagne-400 font-bold uppercase tracking-widest" id="char-title">The Distracted Squire</p>
-                        <p class="text-[10px] text-champagne-500 mt-1">Upgrade your level by checking off daily operational tasks</p>
+                        <p class="text-xs text-champagne-400 font-bold uppercase tracking-widest" id="char-title">Rookie</p>
                     </div>
                     <div class="flex justify-center gap-2">
                         <button onclick="updateAvatarEmoji('🎩')" class="w-8 h-8 rounded-full bg-obsidian-950 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-sm transition">🎩</button>
@@ -329,7 +328,7 @@
                 <div class="flex flex-col gap-4">
                     <div class="flex justify-between items-center">
                         <h4 class="font-serif text-champagne-200 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
-                            <i class="fa-solid fa-sliders text-champagne-500"></i> Performance Attributes
+                            <i class="fa-solid fa-sliders text-champagne-500"></i> Attributes
                         </h4>
                         <div id="stat-points-container" class="hidden text-[10px] bg-champagne-500/10 text-champagne-300 px-3 py-1 rounded-full border border-champagne-400/20 font-bold">
                             Unallocated: <span id="stat-points-val">0</span>
@@ -379,13 +378,32 @@
                     </div>
                 </div>
             </div>
-            <div class="p-4 bg-obsidian-950/80 border-t border-champagne-300/10 flex justify-between items-center">
-                <span class="text-[10px] text-champagne-500 flex items-center gap-1.5 font-semibold uppercase tracking-wider">
-                    <i class="fa-solid fa-floppy-disk"></i> Saved on this device
-                </span>
-                <button onclick="triggerResetConfirmation()" class="text-[10px] text-red-400 hover:text-red-300 transition flex items-center gap-1 font-semibold uppercase tracking-wider">
-                    <i class="fa-solid fa-arrow-rotate-left"></i> Reset Progress
-                </button>
+            <div class="p-4 bg-obsidian-950/80 border-t border-champagne-300/10 shrink-0">
+                <div class="flex items-center justify-between gap-3 mb-3">
+                    <div>
+                        <p class="text-[10px] text-champagne-300 font-semibold uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-shield-halved"></i> Backup
+                        </p>
+                        <p class="text-[9px] text-champagne-600 mt-0.5">Stored in this browser only.</p>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <button onclick="exportSave()" class="px-3 py-1.5 rounded-full bg-champagne-500/10 border border-champagne-400/25 text-champagne-200 text-[10px] font-bold uppercase tracking-wider hover:bg-champagne-500/20 transition whitespace-nowrap">
+                            <i class="fa-solid fa-download mr-1"></i> Export
+                        </button>
+                        <button onclick="document.getElementById('import-save-file').click()" class="px-3 py-1.5 rounded-full bg-obsidian-900 border border-champagne-300/15 text-champagne-400 text-[10px] font-bold uppercase tracking-wider hover:text-champagne-200 transition whitespace-nowrap">
+                            <i class="fa-solid fa-upload mr-1"></i> Import
+                        </button>
+                        <input type="file" id="import-save-file" accept="application/json,.json" onchange="importSave(this)" class="hidden">
+                    </div>
+                </div>
+                <div class="flex justify-between items-center border-t border-champagne-300/10 pt-3">
+                    <span class="text-[10px] text-champagne-500 flex items-center gap-1.5 font-semibold uppercase tracking-wider">
+                        <i class="fa-solid fa-floppy-disk"></i> Saved on this device
+                    </span>
+                    <button onclick="triggerResetConfirmation()" class="text-[10px] text-red-400 hover:text-red-300 transition flex items-center gap-1 font-semibold uppercase tracking-wider">
+                        <i class="fa-solid fa-arrow-rotate-left"></i> Reset Progress
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -399,7 +417,6 @@
                     <h3 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
                         <i class="fa-solid fa-scroll text-champagne-500 text-sm"></i> Quest Board
                     </h3>
-                    <p class="text-[10px] text-champagne-400 mt-0.5">Toggle daily focuses, operational contracts, and bounty achievements.</p>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
                     <button onclick="resetDailies()" class="px-3 py-1.5 bg-champagne-500/10 hover:bg-champagne-500/20 text-champagne-300 font-semibold rounded-full text-xs border border-champagne-400/20 transition whitespace-nowrap">
@@ -451,12 +468,12 @@
 
             <div class="flex flex-col gap-4">
                 <div>
-                    <label class="block text-[10px] uppercase tracking-wider text-champagne-400 font-semibold mb-1.5">Task Description</label>
+                    <label class="block text-[10px] uppercase tracking-wider text-champagne-400 font-semibold mb-1.5">Task</label>
                     <input type="text" id="custom-bounty-title" placeholder="e.g. Script the thumbnail composition framework..." 
                            class="w-full bg-obsidian-950 premium-input text-xs rounded-full px-4 py-2 text-champagne-100 placeholder-champagne-600">
                 </div>
                 <div>
-                    <label class="block text-[10px] uppercase tracking-wider text-champagne-400 font-semibold mb-1.5">Attributed Stat Reward</label>
+                    <label class="block text-[10px] uppercase tracking-wider text-champagne-400 font-semibold mb-1.5">Stat</label>
                     <select id="custom-bounty-stat" class="w-full bg-obsidian-950 premium-input text-xs rounded-full px-4 py-2 text-champagne-300">
                         <option value="focus">🎯 Focus</option>
                         <option value="charisma">🎙️ Charisma</option>
@@ -468,20 +485,20 @@
 
             <div class="flex justify-end gap-3 mt-6">
                 <button onclick="closeAddTaskModal()" class="px-4 py-2 bg-transparent text-champagne-400 hover:text-champagne-100 text-xs font-semibold rounded-full transition">Cancel</button>
-                <button onclick="addCustomBounty()" class="px-5 py-2 btn-gold bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-xs font-semibold rounded-full transition shadow-lg">Enlist Bounty</button>
+                <button onclick="addCustomBounty()" class="px-5 py-2 btn-gold bg-champagne-500 hover:bg-champagne-400 text-obsidian-950 text-xs font-semibold rounded-full transition shadow-lg">Enlist Contract</button>
             </div>
         </div>
     </div>
 
-    <!-- POPUP 3: Procrastination Arena Modal -->
+    <!-- POPUP 3: Combat Arena Modal -->
     <div id="popup-arena" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center overflow-y-auto p-4 hidden backdrop-blur-lg transition-all duration-300">
         <div class="glass-panel max-w-xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[85vh] flex flex-col">
             <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80">
                 <div>
                     <h3 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
-                        <i class="fa-solid fa-skull text-champagne-500 text-sm"></i> Weekly Procrastination Arena
+                        <i class="fa-solid fa-skull text-champagne-500 text-sm"></i> Combat Arena
                     </h3>
-                    <p class="text-[10px] text-champagne-400 mt-0.5">Vaporize mental friction loops by landing constructive work strikes.</p>
+                    
                 </div>
                 <button onclick="closePopup('popup-arena')" class="w-8 h-8 rounded-full bg-obsidian-900 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-champagne-400 hover:text-champagne-100 transition">
                     <i class="fa-solid fa-xmark text-sm"></i>
@@ -493,8 +510,8 @@
                     <!-- Boss Sprite Column -->
                     <div class="md:col-span-5 flex flex-col items-center justify-center p-4 bg-obsidian-900/50 rounded-2xl border border-champagne-300/10">
                         <div class="flex justify-between w-full mb-3 text-[9px] text-champagne-400 uppercase font-semibold">
-                            <span>Friction Target</span>
-                            <span class="text-champagne-300">Switch Boss</span>
+                            <span>Target</span>
+                            <span class="text-champagne-300">Switch</span>
                         </div>
                         <div class="flex gap-1.5 mb-4 bg-obsidian-950 p-1 rounded-full border border-champagne-300/10">
                             <button onclick="selectBoss('siren')" id="tab-boss-siren" class="w-8 h-8 rounded-full flex items-center justify-center text-sm transition">🧜‍♀️</button>
@@ -506,7 +523,7 @@
                             🧜‍♀️
                         </div>
                         
-                        <h4 id="boss-display-title" class="font-serif font-bold text-champagne-200 mt-3 text-xs">The Scripting Siren</h4>
+                        <h4 id="boss-display-title" class="font-serif font-bold text-champagne-200 mt-3 text-xs">The Blank Page</h4>
                         <p id="boss-display-desc" class="text-[9px] text-champagne-400 text-center mt-1 leading-normal px-2"></p>
                     </div>
 
@@ -514,7 +531,7 @@
                     <div class="md:col-span-7 flex flex-col gap-4">
                         <div>
                             <div class="flex justify-between items-center text-[10px] mb-1.5 uppercase font-semibold text-champagne-400">
-                                <span>Defeat Blockers:</span>
+                                <span>Health</span>
                                 <span class="text-champagne-300 font-bold" id="boss-health-text">100 / 100 HP</span>
                             </div>
                             <div class="flex gap-1.5 bg-obsidian-950 p-3 rounded-2xl border border-champagne-300/10" id="boss-heart-container">
@@ -523,7 +540,7 @@
                         </div>
 
                         <div>
-                            <p class="text-[9px] text-champagne-400 font-bold mb-2 uppercase tracking-widest">Select Operational Attack Strike:</p>
+                            <p class="text-[9px] text-champagne-400 font-bold mb-2 uppercase tracking-widest">Attacks</p>
                             <div class="flex flex-col gap-2" id="boss-attack-actions">
                                 <!-- Javascript renders dynamically -->
                             </div>
@@ -542,7 +559,6 @@
                     <h3 class="font-serif text-lg font-bold text-champagne-200 flex items-center gap-2">
                         <i class="fa-solid fa-shop text-champagne-500 text-sm"></i> Shop Customizer
                     </h3>
-                    <p class="text-[10px] text-champagne-400 mt-0.5">Redeem gold for luxury items or modify/reorder any reward below.</p>
                 </div>
                 
                 <div class="flex gap-2 items-center ml-auto md:ml-0 shrink-0">
@@ -584,12 +600,12 @@
 
             <div class="flex flex-col gap-4">
                 <div>
-                    <label class="block text-[10px] uppercase tracking-wider text-champagne-400 font-semibold mb-1">Emoji Icon</label>
+                    <label class="block text-[10px] uppercase tracking-wider text-champagne-400 font-semibold mb-1">Icon</label>
                     <input type="text" id="custom-reward-icon" placeholder="e.g. 🍿" 
                            class="w-full bg-obsidian-950 premium-input text-xs rounded-full px-4 py-2.5 text-champagne-100 placeholder-champagne-600">
                 </div>
                 <div>
-                    <label class="block text-[10px] uppercase tracking-wider text-champagne-400 font-semibold mb-1">Reward Title</label>
+                    <label class="block text-[10px] uppercase tracking-wider text-champagne-400 font-semibold mb-1">Name</label>
                     <input type="text" id="custom-reward-name" placeholder="e.g. Cinema Night Out" 
                            class="w-full bg-obsidian-950 premium-input text-xs rounded-full px-4 py-2.5 text-champagne-100 placeholder-champagne-600">
                 </div>
@@ -599,7 +615,7 @@
                            class="w-full bg-obsidian-950 premium-input text-xs rounded-full px-4 py-2.5 text-champagne-100 placeholder-champagne-600">
                 </div>
                 <div>
-                    <label class="block text-[10px] uppercase tracking-wider text-champagne-400 font-semibold mb-1">Gold Cost</label>
+                    <label class="block text-[10px] uppercase tracking-wider text-champagne-400 font-semibold mb-1">Cost</label>
                     <input type="number" id="custom-reward-cost" placeholder="e.g. 50" 
                            class="w-full bg-obsidian-950 premium-input text-xs rounded-full px-4 py-2.5 text-champagne-100 placeholder-champagne-600">
                 </div>
@@ -727,7 +743,7 @@
                 <!-- INSIGHTS TAB -->
                 <div id="empire-tab-insights" class="hidden space-y-6">
                     <div>
-                        <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-3">Real-World Synergies <span class="text-champagne-600 normal-case tracking-normal font-medium ml-1">your goals power the empire</span></p>
+                        <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-3">Synergies</p>
                         <div id="empire-synergies" class="flex flex-col gap-3"></div>
                     </div>
                     <div>
@@ -737,7 +753,7 @@
                     <div>
                         <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-3">Profit &amp; Loss by month</p>
                         <div id="empire-pnl-chart" class="w-full"></div>
-                        <p class="text-[9px] text-champagne-600 mt-3">Each real day is one business month; revenue and costs settle at the start of a new day.</p>
+                        <p class="text-[9px] text-champagne-600 mt-3">1 real day = 1 business month.</p>
                     </div>
                 </div>
             </div>
@@ -765,7 +781,7 @@
                 </div>
             </div>
             <div class="p-6 overflow-y-auto flex-1 min-h-0 no-scrollbar">
-                <p class="text-[11px] text-champagne-400 mb-4 leading-relaxed">Every venture scales without limit and costs the same to found — pick the one whose journey you like best. They differ only in character and how wildly their months swing.</p>
+                <p class="text-[11px] text-champagne-400 mb-4 leading-relaxed">All ventures cost the same and scale without limit — they differ only in character.</p>
                 <div id="acquire-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
             </div>
         </div>
@@ -791,6 +807,49 @@
         </div>
     </div>
 
+    <!-- POPUP 7: Bounties (multi-day personal challenges) -->
+    <div id="popup-bounties" class="fixed inset-0 bg-black/85 z-40 flex items-center justify-center overflow-y-auto p-4 hidden backdrop-blur-lg transition-all duration-300">
+        <div class="glass-panel max-w-xl w-full rounded-3xl overflow-hidden border border-champagne-400/20 shadow-2xl relative animate-scale-up max-h-[85vh] flex flex-col">
+            <div class="p-6 border-b border-champagne-300/10 flex justify-between items-center bg-obsidian-950/80 shrink-0">
+                <div>
+                    <h3 class="font-serif text-2xl font-bold gold-text leading-tight">Bounties</h3>
+                </div>
+                <button onclick="closePopup('popup-bounties')" class="w-8 h-8 rounded-full bg-obsidian-900 hover:bg-obsidian-800 border border-champagne-300/10 flex items-center justify-center text-champagne-400 hover:text-champagne-100 transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <div id="bounty-list" class="p-5 overflow-y-auto flex-1 min-h-0 no-scrollbar flex flex-col gap-3"></div>
+
+            <div class="p-5 border-t border-champagne-300/10 bg-obsidian-950/60 shrink-0">
+                <p class="text-[9px] font-bold uppercase text-champagne-400 tracking-widest mb-2.5">New bounty</p>
+                <div class="flex gap-2 mb-2.5">
+                    <input type="text" id="bounty-icon" maxlength="2" placeholder="⏰" class="w-12 premium-input text-center text-sm rounded-xl px-2 py-2">
+                    <input type="text" id="bounty-title" placeholder="e.g. Wake up at 8am" class="flex-1 premium-input text-xs rounded-xl px-4 py-2">
+                </div>
+                <div class="flex gap-2">
+                    <select id="bounty-days" onchange="updateBountyPreview()" class="flex-1 bg-obsidian-950 premium-input text-xs rounded-xl px-3 py-2 text-champagne-300">
+                        <option value="3">3 days</option>
+                        <option value="7" selected>7 days — one week</option>
+                        <option value="14">14 days — two weeks</option>
+                        <option value="21">21 days — habit builder</option>
+                        <option value="30">30 days — one month</option>
+                    </select>
+                    <select id="bounty-diff" onchange="updateBountyPreview()" class="flex-1 bg-obsidian-950 premium-input text-xs rounded-xl px-3 py-2 text-champagne-300">
+                        <option value="easy">Easy — a simple habit</option>
+                        <option value="medium" selected>Medium — takes real effort</option>
+                        <option value="hard">Hard — genuinely difficult</option>
+                    </select>
+                    <button onclick="submitBounty()" class="btn-gold bg-champagne-500 text-obsidian-950 px-5 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap">
+                        <i class="fa-solid fa-plus mr-1"></i> Accept
+                    </button>
+                </div>
+                <p id="bounty-preview" class="text-[10px] text-champagne-400 mt-2.5"></p>
+                <p class="text-[9px] text-champagne-600 mt-1">One log per day. Miss a day and the chain resets.</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Persistent Header -->
     <header class="sticky top-0 z-30 bg-obsidian-950/70 backdrop-blur-xl border-b border-champagne-300/10 py-4 px-6 md:px-12 shadow-[0_10px_30px_-20px_rgba(0,0,0,0.9)] relative before:absolute before:inset-x-0 before:bottom-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-champagne-400/40 before:to-transparent">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
@@ -800,7 +859,6 @@
                     👑
                 </div>
                 <div>
-                    <p class="text-[8px] uppercase tracking-[0.35em] text-champagne-500 font-semibold mb-0.5">Command Canvas</p>
                     <h1 class="font-serif text-xl font-semibold tracking-wide gold-text leading-none">
                         Kohan <span class="italic font-normal">Executive</span>
                     </h1>
@@ -852,6 +910,11 @@
                     </div>
                 </button>
             </div>
+
+            <button id="btn-mute" onclick="toggleMute()" title="Toggle sound"
+                    class="w-9 h-9 rounded-full bg-obsidian-900/70 border border-champagne-300/12 flex items-center justify-center text-champagne-400 hover:text-champagne-200 hover:border-champagne-300/30 transition shrink-0">
+                <i class="fa-solid fa-volume-high text-xs"></i>
+            </button>
         </div>
     </header>
 
@@ -863,11 +926,7 @@
         <section class="glass-panel rounded-3xl p-5">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4 border-b border-champagne-300/10 pb-4">
                 <div>
-                    <p class="text-[9px] uppercase tracking-[0.3em] text-champagne-500 font-semibold mb-1.5 flex items-center gap-2">
-                        <i class="fa-solid fa-compass text-champagne-500"></i> The Long Campaign
-                    </p>
                     <h2 class="font-serif text-2xl font-bold gold-text leading-tight">Expedition Roadmap</h2>
-                    <p class="text-[11px] text-champagne-400 mt-1.5 max-w-md leading-relaxed">Your journey toward YouTube growth, $10,000 a month, and peak physical health.</p>
                 </div>
                 <div class="text-right shrink-0 bg-obsidian-900/50 border border-champagne-300/10 rounded-2xl px-5 py-3">
                     <p class="text-[8px] uppercase tracking-[0.2em] text-champagne-400 font-semibold">Global Expedition</p>
@@ -891,7 +950,15 @@
                         <text id="marker-subs-val" x="0" y="36" font-family="Inter" font-size="8" fill="#D9C5A0" font-weight="600" text-anchor="middle">120 / 2K</text>
                     </g>
 
-                    <!-- Island / Goal Marker 2: Capital Gold -->
+                    <!-- Island / Goal Marker 2: Client Long-Form Views -->
+                    <g id="marker-views" class="cursor-pointer transition-transform duration-1000">
+                        <circle r="14" fill="#0C120F" stroke="#B08E4F" stroke-width="1.5" />
+                        <text y="4" font-family="sans-serif" font-size="10" fill="#EADFC9" text-anchor="middle">📺</text>
+                        <rect x="-45" y="24" width="90" height="18" rx="9" fill="#0C120F" stroke="rgba(217, 197, 160, 0.15)" stroke-width="1"/>
+                        <text id="marker-views-val" x="0" y="36" font-family="Inter" font-size="8" fill="#D9C5A0" font-weight="600" text-anchor="middle">0 / 100K</text>
+                    </g>
+
+                    <!-- Island / Goal Marker 3: Capital Gold -->
                     <g id="marker-wealth" class="cursor-pointer transition-transform duration-1000">
                         <circle r="14" fill="#0C120F" stroke="#B08E4F" stroke-width="1.5" />
                         <text y="4" font-family="sans-serif" font-size="10" fill="#EADFC9" text-anchor="middle">💰</text>
@@ -916,7 +983,7 @@
                 </svg>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-4">
                 
                 <div class="bg-obsidian-900/40 p-3 rounded-2xl border border-champagne-300/10 flex items-center justify-between">
                     <div class="flex items-center gap-3">
@@ -929,6 +996,20 @@
                         </div>
                     </div>
                     <input type="number" id="input-subs" value="120" onchange="saveExpeditionGoals()" 
+                           class="w-20 premium-input text-center px-2 py-1 rounded-lg text-sm font-semibold">
+                </div>
+
+                <div class="bg-obsidian-900/40 p-3 rounded-2xl border border-champagne-300/10 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full bg-champagne-500/5 flex items-center justify-center text-champagne-300 border border-champagne-300/10">
+                            <i class="fa-solid fa-eye"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-champagne-400 uppercase font-semibold">Client Views</p>
+                            <p class="text-[9px] text-champagne-500">Target: 100,000</p>
+                        </div>
+                    </div>
+                    <input type="number" id="input-views" value="0" onchange="saveExpeditionGoals()" 
                            class="w-20 premium-input text-center px-2 py-1 rounded-lg text-sm font-semibold">
                 </div>
 
@@ -968,53 +1049,65 @@
             <p class="text-[9px] uppercase tracking-[0.35em] text-champagne-500 font-semibold whitespace-nowrap">Command Deck</p>
             <div class="h-px flex-1 bg-gradient-to-l from-transparent to-champagne-400/25"></div>
         </div>
-        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            
+            <!-- Card 0: Bounties -->
+            <button onclick="openPopup('popup-bounties')" class="glass-panel-interactive rounded-3xl p-5 text-left flex flex-col justify-between group h-32 relative overflow-hidden">
+                <div class="absolute -right-3 -bottom-4 text-champagne-500/[0.07] text-6xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">🏅</div>
+                <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/25 flex items-center justify-center text-champagne-300 text-lg shadow-[inset_0_1px_0_rgba(217,197,160,0.12)] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-champagne-300 group-hover:to-champagne-500 group-hover:text-obsidian-950 group-hover:scale-105 group-hover:shadow-[0_8px_20px_-6px_rgba(176,142,79,0.55)]">
+                    <i class="fa-solid fa-flag-checkered"></i>
+                </div>
+                <div>
+                    <h3 class="font-serif text-base font-bold text-champagne-100 mt-3 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Bounties</h3>
+                    <p id="deck-bounty-status" class="text-[10px] font-bold mt-1 text-champagne-300">No active bounties</p>
+                </div>
+            </button>
             
             <!-- Card 1: Open Profile Popup -->
-            <button onclick="openPopup('popup-profile')" class="glass-panel-interactive rounded-3xl p-5 text-left flex flex-col justify-between group h-40 relative overflow-hidden">
-                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-7xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">👤</div>
+            <button onclick="openPopup('popup-profile')" class="glass-panel-interactive rounded-3xl p-5 text-left flex flex-col justify-between group h-32 relative overflow-hidden">
+                <div class="absolute -right-3 -bottom-4 text-champagne-500/[0.07] text-6xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">👤</div>
                 <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/25 flex items-center justify-center text-champagne-300 text-lg shadow-[inset_0_1px_0_rgba(217,197,160,0.12)] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-champagne-300 group-hover:to-champagne-500 group-hover:text-obsidian-950 group-hover:scale-105 group-hover:shadow-[0_8px_20px_-6px_rgba(176,142,79,0.55)]">
                     <i class="fa-solid fa-user-tie"></i>
                 </div>
                 <div>
                     <h3 class="font-serif text-base font-bold text-champagne-100 mt-3 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Executive Profile</h3>
-                    <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Configure titles, allocate performance stats, and secure sandbox configs.</p>
+                    <p class="text-[10px] text-champagne-500 mt-1">Stats &amp; backup</p>
                 </div>
             </button>
 
             <!-- Card 2: Open Quest Board Popup -->
-            <button onclick="openPopup('popup-quests')" class="glass-panel-interactive rounded-3xl p-5 text-left flex flex-col justify-between group h-40 relative overflow-hidden">
-                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-7xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">📜</div>
+            <button onclick="openPopup('popup-quests')" class="glass-panel-interactive rounded-3xl p-5 text-left flex flex-col justify-between group h-32 relative overflow-hidden">
+                <div class="absolute -right-3 -bottom-4 text-champagne-500/[0.07] text-6xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">📜</div>
                 <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/25 flex items-center justify-center text-champagne-300 text-lg shadow-[inset_0_1px_0_rgba(217,197,160,0.12)] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-champagne-300 group-hover:to-champagne-500 group-hover:text-obsidian-950 group-hover:scale-105 group-hover:shadow-[0_8px_20px_-6px_rgba(176,142,79,0.55)]">
                     <i class="fa-solid fa-scroll"></i>
                 </div>
                 <div>
                     <h3 class="font-serif text-base font-bold text-champagne-100 mt-3 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Quest Board</h3>
-                    <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Manage daily campaigns, active checklists, and custom workflow targets.</p>
+                    <p class="text-[10px] text-champagne-500 mt-1">Daily tasks</p>
                 </div>
             </button>
 
-            <!-- Card 3: Open Procrastination Arena Popup -->
-            <button onclick="openPopup('popup-arena')" class="glass-panel-interactive rounded-3xl p-5 text-left flex flex-col justify-between group h-40 relative overflow-hidden">
-                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-7xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">⚔️</div>
+            <!-- Card 3: Open Combat Arena Popup -->
+            <button onclick="openPopup('popup-arena')" class="glass-panel-interactive rounded-3xl p-5 text-left flex flex-col justify-between group h-32 relative overflow-hidden">
+                <div class="absolute -right-3 -bottom-4 text-champagne-500/[0.07] text-6xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">⚔️</div>
                 <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/25 flex items-center justify-center text-champagne-300 text-lg shadow-[inset_0_1px_0_rgba(217,197,160,0.12)] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-champagne-300 group-hover:to-champagne-500 group-hover:text-obsidian-950 group-hover:scale-105 group-hover:shadow-[0_8px_20px_-6px_rgba(176,142,79,0.55)]">
                     <i class="fa-solid fa-skull"></i>
                 </div>
                 <div>
                     <h3 class="font-serif text-base font-bold text-champagne-100 mt-3 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Combat Arena</h3>
-                    <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Vaporize mental friction loops and tackle weekly creative blockers.</p>
+                    <p class="text-[10px] text-champagne-500 mt-1">Weekly bosses</p>
                 </div>
             </button>
 
             <!-- Card 4: Open Merchant Shop Popup -->
-            <button onclick="openPopup('popup-shop')" class="glass-panel-interactive rounded-3xl p-5 text-left flex flex-col justify-between group h-40 relative overflow-hidden">
-                <div class="absolute -right-4 -bottom-5 text-champagne-500/[0.07] text-7xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">🪙</div>
+            <button onclick="openPopup('popup-shop')" class="glass-panel-interactive rounded-3xl p-5 text-left flex flex-col justify-between group h-32 relative overflow-hidden">
+                <div class="absolute -right-3 -bottom-4 text-champagne-500/[0.07] text-6xl font-serif select-none transition-transform duration-500 group-hover:scale-125 group-hover:-rotate-6">🪙</div>
                 <div class="w-12 h-12 rounded-2xl bg-champagne-500/10 border border-champagne-400/25 flex items-center justify-center text-champagne-300 text-lg shadow-[inset_0_1px_0_rgba(217,197,160,0.12)] transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-champagne-300 group-hover:to-champagne-500 group-hover:text-obsidian-950 group-hover:scale-105 group-hover:shadow-[0_8px_20px_-6px_rgba(176,142,79,0.55)]">
                     <i class="fa-solid fa-shop"></i>
                 </div>
                 <div>
                     <h3 class="font-serif text-base font-bold text-champagne-100 mt-3 tracking-wide transition-colors duration-300 group-hover:text-champagne-300">Merchant Shop</h3>
-                    <p class="text-[11px] text-champagne-400 mt-1 leading-normal">Redeem treasury gold for guilt-free luxury breaks and rewards.</p>
+                    <p class="text-[10px] text-champagne-500 mt-1">Spend your gold</p>
                 </div>
             </button>
 
@@ -1028,14 +1121,10 @@
         </div>
         <section class="glass-panel rounded-3xl p-5 relative overflow-hidden">
             <div class="absolute -right-6 -bottom-10 text-champagne-500/[0.05] text-[10rem] leading-none select-none pointer-events-none">🏛️</div>
-            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative">
-                <div class="max-w-md">
-                    <p class="text-[9px] uppercase tracking-[0.3em] text-champagne-500 font-semibold mb-1.5 flex items-center gap-2">
-                        <i class="fa-solid fa-city"></i> Business Empire
-                    </p>
-                    <h2 class="font-serif text-2xl font-bold gold-text leading-tight">Put your gold to work</h2>
-                    <p class="text-[11px] text-champagne-400 mt-1.5 leading-relaxed">Found a business and grow it as far as you like — every venture scales without limit. Expand it, sharpen its signature edge, and ride the good months.</p>
-                    <div class="mt-4 flex items-center gap-3 flex-wrap">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 relative">
+                <div>
+                    <h2 class="font-serif text-2xl font-bold gold-text leading-tight">Business Empire</h2>
+                    <div class="mt-3 flex items-center gap-3 flex-wrap">
                         <div class="flex items-baseline gap-2">
                             <span class="text-[9px] uppercase tracking-[0.2em] text-champagne-500 font-semibold">Net worth</span>
                             <span id="empire-networth" class="font-serif text-xl gold-text leading-none">0g</span>
@@ -1089,6 +1178,7 @@
         });
 
         const playSound = (type) => {
+            if (gameState && gameState.muted) return;
             try {
                 initAudioContext();
                 if (!audioCtxInstance) return;
@@ -1205,6 +1295,7 @@
             unallocatedPoints: 0,
             goals: {
                 subs: 120,
+                views: 0,
                 wealth: 1500,
                 weight: 82.0
             },
@@ -1237,85 +1328,88 @@
             lastBusinessTick: null,  // dateKey of the last month close
             milestones: [],          // unlocked empire milestone ids
             legacy: 0,               // permanent empire revenue bonus from cash-outs
-            prestigeCount: 0         // how many ventures have been cashed out
+            prestigeCount: 0,        // how many ventures have been cashed out
+            bounties: [],            // multi-day personal challenges
+            lastArenaWeek: null,     // week key of the last boss reset
+            muted: false             // sound on/off
         };
 
         let gameState = JSON.parse(JSON.stringify(defaultState));
 
         const staticQuests = [
-            { id: "cold_outreach", title: "📨 Cold Outreach Campaign", desc: "Send cold outreach to leads", xp: 30, gold: 15, stat: "charisma" },
-            { id: "lead_harvester", title: "🔎 Gathering Leads", desc: "Gather a fresh list of leads contact databases", xp: 30, gold: 15, stat: "wealth" },
-            { id: "reel_monarch", title: "📱 Reels Production", desc: "Posting 2 high-quality Instagram Reels", xp: 40, gold: 20, stat: "charisma" },
-            { id: "iron_vigor", title: "🏋️ Weightlifting", desc: "Dedicated heavy physical load execution without scrolling", xp: 50, gold: 25, stat: "power" },
-            { id: "vox_ritual", title: "🗣️ Speech Training", desc: "Vocal tuning and public dialogue articulation practice", xp: 20, gold: 10, stat: "charisma" }
+            { id: "cold_outreach", title: "📨 Cold Outreach", desc: "Message new leads", xp: 30, gold: 15, stat: "charisma" },
+            { id: "lead_harvester", title: "🔎 Find Leads", desc: "Add new names to the list", xp: 30, gold: 15, stat: "wealth" },
+            { id: "reel_monarch", title: "📱 Post 2 Reels", desc: "Instagram", xp: 40, gold: 20, stat: "charisma" },
+            { id: "iron_vigor", title: "🏋️ Workout", desc: "Lift — phone away", xp: 50, gold: 25, stat: "power" },
+            { id: "vox_ritual", title: "🗣️ Speech Practice", desc: "Read out loud", xp: 20, gold: 10, stat: "charisma" }
         ];
 
         const campaignFocusConfig = {
             client_video: {
                 emoji: "📽️",
                 title: "Video Editing",
-                desc: "Focus on editing and assembling high-quality client videos",
+                desc: "Edit client videos",
                 xp: 100, gold: 50, stat: "focus"
             },
             client_thumb: {
                 emoji: "🎨",
                 title: "Thumbnail Design",
-                desc: "Conceptualize, draft and deliver premium thumbnail graphics",
+                desc: "Design client thumbnails",
                 xp: 80, gold: 40, stat: "focus"
             },
             sovereign_mix: {
                 emoji: "🔄",
-                title: "Client Mix Workflow",
-                desc: "Hybrid flow split evenly between client video and design",
+                title: "Mixed Client Work",
+                desc: "Video and design in one day",
                 xp: 90, gold: 45, stat: "focus"
             },
             my_videos: {
                 emoji: "🎬",
-                title: "Video Production",
-                desc: "Drafting, scripting or editing content for your own channel",
+                title: "My Channel",
+                desc: "Script, film or edit your own",
                 xp: 120, gold: 60, stat: "focus"
             },
             grand_alliance: {
                 emoji: "👑",
-                title: "Executive Alliance",
-                desc: "Unified alignment blending client work and personal channel strategy",
+                title: "Client + Channel",
+                desc: "Both in the same day",
                 xp: 110, gold: 55, stat: "focus"
             }
         };
 
         const bossTemplates = {
             siren: {
-                title: "The Scripting Siren",
+                title: "The Blank Page",
                 emoji: "🧜‍♀️",
-                desc: "Distracts you into scrolling loops when you attempt to draft raw scripts.",
+                desc: "The script still isn't written.",
                 moves: [
-                    { label: "📝 Outline Content Hook", dmg: 35, loot: "Define key audience-capturing frames" },
-                    { label: "📚 Script Main Pillar Concepts", dmg: 35, loot: "Formulate subpoints clearly" },
-                    { label: "📢 Perform Voice Reading Trial", dmg: 30, loot: "Perfect narrative alignment" }
+                    { label: "📝 Write the hook", dmg: 35, loot: "First 15 seconds" },
+                    { label: "📄 Write the full script", dmg: 35, loot: "Start to finish" },
+                    { label: "📢 Read it out loud", dmg: 30, loot: "Catch what doesn't flow" }
                 ],
                 gold: 100,
                 xp: 150
             },
             editor: {
-                title: "The Fragmented Editor Chimera",
+                title: "The Rough Cut",
                 emoji: "🦁",
-                desc: "Commands you to speed through editing processes and settle for mediocrity.",
+                desc: "The footage is sitting there unedited.",
                 moves: [
-                    { label: "🎬 Cut Unnecessary Silence Lines", dmg: 40, loot: "Achieve crisp dialogue transitions" },
-                    { label: "🎶 Align Rich Foley Audio Elements", dmg: 30, loot: "Provide contextual dynamic sound" },
-                    { label: "🎨 Format Clean Graphic Lower-Thirds", dmg: 30, loot: "Structure clean talking frames" }
+                    { label: "✂️ Cut the dead air", dmg: 40, loot: "Pauses, filler, mistakes" },
+                    { label: "🎶 Fix the audio", dmg: 30, loot: "Levels, music, effects" },
+                    { label: "🔤 Add text and graphics", dmg: 30, loot: "Titles and captions" }
                 ],
                 gold: 80,
                 xp: 120
             },
             specter: {
-                title: "The Static Specter",
+                title: "The Lazy Thumbnail",
                 emoji: "👻",
-                desc: "Tears down graphic focus to settle for single thumbnail styles with zero testing.",
+                desc: "One rushed thumbnail, never tested.",
                 moves: [
-                    { label: "💡 Draw 3 Diverse Graphical Designs", dmg: 35, loot: "Broaden visual conceptual ideas" },
-                    { label: "🎨 Formulate Color & Lighting Varieties", dmg: 35, loot: "Contrast testing with dark gradients" },
-                    { label: "⚖️ Complete Composition Evaluation", dmg: 30, loot: "Analyze mobile aspect ratio viewports" }
+                    { label: "💡 Sketch 3 ideas", dmg: 35, loot: "Different concepts, not variations" },
+                    { label: "🎨 Test colours and contrast", dmg: 35, loot: "Make it stand out" },
+                    { label: "📱 Check it at phone size", dmg: 30, loot: "Most people see it small" }
                 ],
                 gold: 80,
                 xp: 120
@@ -1324,9 +1418,9 @@
 
         const initialShopSetup = [
             { name: "Double-Espresso", icon: "☕", desc: "Focus boost", cost: 10 },
-            { name: "Sovereign Hour", icon: "📺", desc: "1 hour of entertainment", cost: 100 },
-            { name: "Sovereign Sunday Decree", icon: "🏖️", desc: "A clean work-free weekend afternoon blocks", cost: 150 },
-            { name: "Sandbox Sanctuary Session", icon: "⛏️", desc: "2 hours of Stardew Valley / relaxing gaming", cost: 80 }
+            { name: "1 Hour of TV", icon: "📺", desc: "Watch something", cost: 100 },
+            { name: "Free Afternoon", icon: "🏖️", desc: "No work, guilt-free", cost: 150 },
+            { name: "2 Hours Gaming", icon: "⛏️", desc: "Stardew Valley or similar", cost: 80 }
         ];
 
         let activeConfirmCallback = null;
@@ -1406,7 +1500,7 @@
 
         // Close on clicking backdrop
         window.addEventListener('click', (e) => {
-            const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-shop', 'popup-treasury', 'popup-empire', 'popup-acquire', 'popup-report', 'popup-add-reward', 'popup-add-task'];
+            const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-shop', 'popup-treasury', 'popup-empire', 'popup-acquire', 'popup-report', 'popup-bounties', 'popup-add-reward', 'popup-add-task'];
             popups.forEach(id => {
                 const modal = document.getElementById(id);
                 if (modal && e.target === modal) {
@@ -1424,7 +1518,7 @@
         // Close on ESC key
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-add-reward', 'popup-add-task', 'popup-shop', 'popup-treasury', 'popup-empire', 'popup-acquire', 'popup-report', 'game-modal'];
+                const popups = ['popup-profile', 'popup-quests', 'popup-arena', 'popup-add-reward', 'popup-add-task', 'popup-shop', 'popup-treasury', 'popup-empire', 'popup-acquire', 'popup-report', 'popup-bounties', 'game-modal'];
                 popups.forEach(id => {
                     const modal = document.getElementById(id);
                     if (modal && !modal.classList.contains('hidden')) {
@@ -1483,6 +1577,229 @@
             gameState.streak = (gap === 1) ? (gameState.streak || 0) + 1 : 1;
             gameState.lastCompletionDate = today;
             gameState.bestStreak = Math.max(gameState.bestStreak || 0, gameState.streak);
+        }
+
+        /* ============================================================
+           BOUNTIES — multi-day personal challenges, logged once a day
+           e.g. "Wake up at 8am" for 7 consecutive days
+           ============================================================ */
+        function bountyLog(b) { return Array.isArray(b.log) ? b.log : []; }
+        function bountyLoggedToday(b) { return bountyLog(b).includes(dateKey(new Date())); }
+
+        // Length of the consecutive run ending today (or yesterday, still alive).
+        function bountyRun(b) {
+            const log = bountyLog(b).slice().sort();
+            if (log.length === 0) return 0;
+            const today = dateKey(new Date());
+            const last = log[log.length - 1];
+            const gap = dayDiff(last, today);
+            if (gap > 1) return 0; // chain broken — missed a full day
+            let run = 1;
+            for (let i = log.length - 1; i > 0; i--) {
+                if (dayDiff(log[i - 1], log[i]) === 1) run++;
+                else break;
+            }
+            return run;
+        }
+        // True when days were missed and progress has lapsed.
+        function bountyBroken(b) {
+            const log = bountyLog(b);
+            return b.status === 'active' && log.length > 0 && bountyRun(b) === 0;
+        }
+        const bountyDifficulty = {
+            easy:   { label: "Easy",   mult: 1,    color: "#8FB98A", hint: "A simple habit" },
+            medium: { label: "Medium", mult: 1.75, color: "#C7AC77", hint: "Takes real effort" },
+            hard:   { label: "Hard",   mult: 3,    color: "#E0608A", hint: "Genuinely difficult" }
+        };
+        // Bounties demand sustained discipline, so they pay well — scaled by length AND difficulty.
+        function bountyReward(days, diff) {
+            const d = bountyDifficulty[diff] || bountyDifficulty.medium;
+            const n = Math.max(1, days || 1);
+            return {
+                gold: Math.round(n * 18 * d.mult),
+                xp: Math.round(n * 40 * d.mult),
+                daily: Math.round(10 * d.mult),   // XP for each daily check-in
+                label: d.label,
+                color: d.color
+            };
+        }
+
+        function createBounty(title, icon, days, diff) {
+            const clean = (title || "").trim();
+            if (!clean) { showToast("Give your bounty a title.", "warning"); return false; }
+            if (!Array.isArray(gameState.bounties)) gameState.bounties = [];
+            gameState.bounties.push({
+                id: 'b_' + Date.now(),
+                title: clean,
+                icon: (icon || "🎯").trim() || "🎯",
+                days: Math.max(1, parseInt(days) || 7),
+                diff: bountyDifficulty[diff] ? diff : 'medium',
+                log: [],
+                best: 0,
+                status: 'active',
+                createdAt: Date.now()
+            });
+            playSound('coin');
+            showToast(`Bounty accepted: "${clean}"`, "success");
+            saveGameState(); renderUI();
+            return true;
+        }
+
+        function logBountyToday(id) {
+            const b = (gameState.bounties || []).find(x => x.id === id);
+            if (!b || b.status !== 'active') return;
+            if (bountyLoggedToday(b)) { showToast("Already logged today — see you tomorrow.", "info"); return; }
+            if (!Array.isArray(b.log)) b.log = [];
+            b.log.push(dateKey(new Date()));
+
+            const run = bountyRun(b);
+            b.best = Math.max(b.best || 0, run);
+            const r = bountyReward(b.days, b.diff);
+            registerActivity();      // counts toward your daily streak
+            addXP(r.daily);          // daily check-in XP, scaled by difficulty
+
+            if (run >= b.days) {
+                b.status = 'complete';
+                b.completedAt = Date.now();
+                gameState.gold += r.gold;
+                logGold(r.gold, `Bounty cleared: ${b.title}`, 'earn');
+                addXP(r.xp);
+                playSound('levelup');
+                confettiBurst();
+                showToast(`🏅 Bounty complete — "${b.title}"! +${r.xp} XP & +${r.gold}g`, "levelup");
+            } else {
+                playSound('tick');
+                showToast(`Day ${run} of ${b.days} logged. Keep the chain alive!`, "success");
+            }
+            saveGameState(); renderUI();
+        }
+
+        function restartBounty(id) {
+            const b = (gameState.bounties || []).find(x => x.id === id);
+            if (!b) return;
+            b.log = [];
+            playSound('tick');
+            showToast(`"${b.title}" reset — fresh start.`, "info");
+            saveGameState(); renderUI();
+        }
+
+        function deleteBounty(id) {
+            const b = (gameState.bounties || []).find(x => x.id === id);
+            if (!b) return;
+            triggerModal("Abandon Bounty?", `Remove "${b.title}"? Any progress on it will be lost.`, () => {
+                gameState.bounties = (gameState.bounties || []).filter(x => x.id !== id);
+                showToast("Bounty abandoned.", "warning");
+                saveGameState(); renderUI();
+            });
+        }
+
+        function submitBounty() {
+            const t = document.getElementById('bounty-title');
+            const i = document.getElementById('bounty-icon');
+            const d = document.getElementById('bounty-days');
+            const f = document.getElementById('bounty-diff');
+            if (createBounty(t ? t.value : '', i ? i.value : '', d ? d.value : 7, f ? f.value : 'medium')) {
+                if (t) t.value = '';
+                if (i) i.value = '';
+                updateBountyPreview();
+            }
+        }
+
+        // Live "what will this pay" preview under the create form
+        function updateBountyPreview() {
+            const d = document.getElementById('bounty-days');
+            const f = document.getElementById('bounty-diff');
+            const out = document.getElementById('bounty-preview');
+            if (!out) return;
+            const r = bountyReward(d ? parseInt(d.value) : 7, f ? f.value : 'medium');
+            out.innerHTML = `Pays <span class="font-bold" style="color:${r.color}">+${r.gold}g</span> and <span class="font-bold" style="color:${r.color}">+${r.xp} XP</span> on completion, plus ${r.daily} XP per day logged.`;
+        }
+
+        function bountyCardHtml(b) {
+            const run = bountyRun(b);
+            const done = b.status === 'complete';
+            const broken = bountyBroken(b);
+            const loggedToday = bountyLoggedToday(b);
+            const r = bountyReward(b.days, b.diff);
+            const pct = Math.min(100, Math.round((done ? b.days : run) / b.days * 100));
+
+            // Day pips (dots for short runs, a bar for long ones)
+            let pips = '';
+            if (b.days <= 31) {
+                for (let i = 0; i < b.days; i++) {
+                    const filled = i < (done ? b.days : run);
+                    pips += `<span class="w-2 h-2 rounded-full ${filled ? 'bg-champagne-400' : 'bg-champagne-300/15'}"></span>`;
+                }
+                pips = `<div class="flex flex-wrap items-center gap-1.5">${pips}</div>`;
+            } else {
+                pips = `<div class="h-1.5 rounded-full bg-champagne-300/15 overflow-hidden"><div class="h-full bg-champagne-400 rounded-full" style="width:${pct}%"></div></div>`;
+            }
+
+            let action;
+            if (done) {
+                action = `<span class="text-[11px] font-bold text-emerald-300 flex items-center gap-1.5"><i class="fa-solid fa-circle-check"></i> Cleared</span>`;
+            } else if (loggedToday) {
+                action = `<span class="text-[11px] font-bold text-emerald-300 flex items-center gap-1.5"><i class="fa-solid fa-check"></i> Logged today</span>`;
+            } else {
+                action = `<button onclick="logBountyToday('${b.id}')" class="btn-gold bg-champagne-500 text-obsidian-950 px-4 py-2 rounded-full text-[11px] font-bold transition whitespace-nowrap">Log today</button>`;
+            }
+
+            return `
+                <div class="rounded-2xl border ${done ? 'border-emerald-400/25 bg-emerald-500/[0.04]' : 'border-champagne-300/12 bg-obsidian-900/40'} p-4">
+                    <div class="flex items-start justify-between gap-3 mb-3">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <span class="w-9 h-9 rounded-xl bg-champagne-500/10 border border-champagne-400/20 flex items-center justify-center text-base shrink-0">${b.icon}</span>
+                            <div class="min-w-0">
+                                <p class="text-sm font-bold text-champagne-100 truncate ${done ? 'line-through opacity-70' : ''}">${b.title}</p>
+                                <p class="text-[10px] text-champagne-500 flex items-center gap-1.5 flex-wrap">
+                                    <span class="font-bold" style="color:${r.color}">${r.label}</span>
+                                    <span class="text-champagne-600">·</span>
+                                    ${done ? `Completed · ${b.days} days` : `Day ${run} of ${b.days}`}
+                                    <span class="text-champagne-600">·</span>
+                                    <span>+${r.xp} XP, +${r.gold}g</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="shrink-0 flex items-center gap-2">
+                            ${action}
+                            <button onclick="deleteBounty('${b.id}')" class="w-7 h-7 rounded-full bg-obsidian-800/60 border border-champagne-300/10 text-champagne-500 hover:text-rose-300 transition text-[10px]" title="Abandon bounty"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                    ${pips}
+                    ${broken ? `<div class="mt-3 flex items-center justify-between gap-2 text-[10px] text-rose-300/90">
+                        <span><i class="fa-solid fa-link-slash mr-1"></i>Chain broken — you missed a day${b.best ? ` (best: ${b.best})` : ''}</span>
+                        <button onclick="restartBounty('${b.id}')" class="px-3 py-1 rounded-full bg-champagne-500/10 border border-champagne-400/25 text-champagne-200 font-bold transition hover:bg-champagne-500/20">Restart</button>
+                    </div>` : ''}
+                </div>`;
+        }
+
+        function renderBounties() {
+            updateBountyPreview();
+            const all = gameState.bounties || [];
+            const active = all.filter(b => b.status === 'active');
+            const done = all.filter(b => b.status === 'complete');
+            const toLog = active.filter(b => !bountyLoggedToday(b)).length;
+
+            // Command-deck card status line
+            const badge = document.getElementById('deck-bounty-status');
+            if (badge) {
+                if (active.length === 0) badge.textContent = 'No active bounties';
+                else if (toLog === 0) badge.textContent = `All ${active.length} logged today ✓`;
+                else badge.textContent = `${toLog} to log today`;
+                badge.className = 'text-[10px] font-bold mt-1 ' + (toLog > 0 ? 'text-champagne-300' : 'text-emerald-300/80');
+            }
+
+            const list = document.getElementById('bounty-list');
+            if (!list) return;
+            if (all.length === 0) {
+                list.innerHTML = `<div class="text-center text-champagne-500 text-[11px] py-8">No bounties yet. Set a challenge below — like waking up at 8am for 7 days straight.</div>`;
+                return;
+            }
+            let html = active.map(bountyCardHtml).join("");
+            if (done.length) {
+                html += `<p class="text-[9px] font-bold uppercase text-champagne-500 tracking-widest mt-2">Cleared</p>` + done.map(bountyCardHtml).join("");
+            }
+            list.innerHTML = html;
         }
 
         /* ===== Gold ledger: record every change with running balance ===== */
@@ -1788,24 +2105,101 @@
             });
         }
 
+        // Merge a saved object over the defaults so older/partial saves upgrade cleanly.
+        function mergeIntoState(parsed) {
+            const next = JSON.parse(JSON.stringify(defaultState));
+            for (const key in defaultState) {
+                if (parsed[key] !== undefined) {
+                    if (typeof defaultState[key] === 'object' && defaultState[key] !== null) {
+                        if (Array.isArray(defaultState[key])) {
+                            next[key] = Array.isArray(parsed[key]) ? parsed[key] : [...defaultState[key]];
+                        } else {
+                            next[key] = { ...defaultState[key], ...parsed[key] };
+                        }
+                    } else {
+                        next[key] = parsed[key];
+                    }
+                }
+            }
+            return next;
+        }
+
+        /* ===== Backup: export / import your save ===== */
+        function exportSave() {
+            try {
+                const blob = new Blob([JSON.stringify(gameState, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `kohan-executive-save-${dateKey(new Date())}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 1000);
+                playSound('coin');
+                showToast("Save exported. Keep it somewhere safe.", "success");
+            } catch (e) {
+                showToast("Couldn't export the save file.", "warning");
+            }
+        }
+
+        function importSave(input) {
+            const file = input && input.files && input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                let parsed = null;
+                try {
+                    parsed = JSON.parse(e.target.result);
+                } catch (err) { parsed = null; }
+
+                // Basic sanity check so a random JSON file can't wipe progress
+                if (!parsed || typeof parsed !== 'object' || parsed.level === undefined || parsed.goals === undefined) {
+                    showToast("That doesn't look like a valid save file.", "warning");
+                    input.value = '';
+                    return;
+                }
+                const lvl = parsed.level, gold = parsed.gold;
+                triggerModal(
+                    "Restore this backup?",
+                    `This will replace your current progress with the backup (Level ${lvl}, ${gold}g). Your current progress will be lost.`,
+                    () => {
+                        gameState = mergeIntoState(parsed);
+                        applyDailyRollover();
+                        saveGameState();
+                        renderUI();
+                        playSound('levelup');
+                        showToast("Backup restored successfully.", "success");
+                    }
+                );
+                input.value = '';
+            };
+            reader.onerror = () => { showToast("Couldn't read that file.", "warning"); input.value = ''; };
+            reader.readAsText(file);
+        }
+
+        /* ===== Sound toggle ===== */
+        function toggleMute() {
+            gameState.muted = !gameState.muted;
+            renderMute();
+            if (!gameState.muted) playSound('tick');   // confirm sound is back on
+            showToast(gameState.muted ? "Sound muted." : "Sound on.", "info");
+            saveGameState();
+        }
+        function renderMute() {
+            const btn = document.getElementById('btn-mute');
+            if (!btn) return;
+            const muted = !!gameState.muted;
+            btn.innerHTML = `<i class="fa-solid ${muted ? 'fa-volume-xmark' : 'fa-volume-high'} text-xs"></i>`;
+            btn.title = muted ? 'Sound off — click to unmute' : 'Sound on — click to mute';
+            btn.className = `w-9 h-9 rounded-full bg-obsidian-900/70 border flex items-center justify-center transition shrink-0 ${muted ? 'border-champagne-300/10 text-champagne-600' : 'border-champagne-300/12 text-champagne-400 hover:text-champagne-200 hover:border-champagne-300/30'}`;
+        }
+
         function loadGameState() {
             const parsed = storageHelper.load();
             if (parsed) {
                 try {
-                    gameState = JSON.parse(JSON.stringify(defaultState));
-                    for (const key in defaultState) {
-                        if (parsed[key] !== undefined) {
-                            if (typeof defaultState[key] === 'object' && defaultState[key] !== null) {
-                                if (Array.isArray(defaultState[key])) {
-                                    gameState[key] = Array.isArray(parsed[key]) ? parsed[key] : [...defaultState[key]];
-                                } else {
-                                    gameState[key] = { ...defaultState[key], ...parsed[key] };
-                                }
-                            } else {
-                                gameState[key] = parsed[key];
-                            }
-                        }
-                    }
+                    gameState = mergeIntoState(parsed);
                 } catch (e) {
                     console.error("Critical fallback triggered. Core defaults applied.", e);
                     gameState = JSON.parse(JSON.stringify(defaultState));
@@ -1826,6 +2220,17 @@
                     });
                 });
             }
+
+            // Refresh the wordier default reward names — only if left untouched.
+            const shopRenames = {
+                "Sovereign Hour": { name: "1 Hour of TV", desc: "Watch something" },
+                "Sovereign Sunday Decree": { name: "Free Afternoon", desc: "No work, guilt-free" },
+                "Sandbox Sanctuary Session": { name: "2 Hours Gaming", desc: "Stardew Valley or similar" }
+            };
+            (gameState.shopItems || []).forEach(item => {
+                const r = shopRenames[item && item.name];
+                if (r) { item.name = r.name; item.desc = r.desc; }
+            });
 
             // Seed the gold ledger with an opening balance on first run
             if (!Array.isArray(gameState.goldLog) || gameState.goldLog.length === 0) {
@@ -1868,6 +2273,9 @@
             } else {
                 gameState.streak = 0;
             }
+
+            // Bosses run on a weekly cycle, not a daily one.
+            applyWeeklyRollover();
 
             // Close out any business months that have passed (1 real day = 1 month).
             processBusinessMonths(today);
@@ -1921,7 +2329,6 @@
             }
         };
         const BUY_COST = 150;               // identical for every business
-        const INVEST_STEP = 50;             // legacy constant, unused by new model
         let lastEmpireReport = null;        // transient summary of the most recent month close
 
         /* Narrative flavour for each monthly outcome tier, themed per business. */
@@ -2159,12 +2566,6 @@
         function setTxt(id, v) { const e = document.getElementById(id); if (e) e.textContent = v; }
         function volLabel(v) { return v < 0.2 ? "Low" : (v < 0.5 ? "Medium" : "High"); }
 
-        function empireBtn(enabled, onclick, label) {
-            const base = "px-3 py-1.5 rounded-full text-[10px] font-semibold transition whitespace-nowrap ";
-            return enabled
-                ? `<button onclick="${onclick}" class="${base}btn-gold bg-champagne-500 text-obsidian-950">${label}</button>`
-                : `<button disabled class="${base}bg-obsidian-800/60 text-champagne-600 border border-champagne-300/10 cursor-not-allowed opacity-60">${label}</button>`;
-        }
 
         /* ===== Milestones ===== */
         const milestones = [
@@ -2237,21 +2638,6 @@
         }
 
         // Tiny sparkline of a single business's recent monthly net (from history).
-        function bizSparkline(id, accent) {
-            const series = (gameState.businessHistory || [])
-                .map(h => (h.per || []).find(x => x.id === id))
-                .filter(Boolean).map(x => x.net).slice(-10);
-            if (series.length < 2) return '';
-            const W = 100, H = 20;
-            const min = Math.min(...series), max = Math.max(...series);
-            const range = (max - min) || 1;
-            const pts = series.map((v, i) => `${(i / (series.length - 1) * W).toFixed(1)},${(H - ((v - min) / range) * H).toFixed(1)}`);
-            const zeroY = (H - ((0 - min) / range) * H);
-            return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" class="w-full h-5 block">
-                <line x1="0" y1="${zeroY.toFixed(1)}" x2="${W}" y2="${zeroY.toFixed(1)}" stroke="${accent}" stroke-opacity="0.2" stroke-dasharray="2 2"/>
-                <polyline points="${pts.join(' ')}" fill="none" stroke="${accent}" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
-            </svg>`;
-        }
 
         // Gently count a number element up to its new value.
         function animateCount(el, to, suffix) {
@@ -2441,23 +2827,6 @@
                 </div>`;
         }
 
-        function renderMarketCard(id) {
-            const t = businessTemplates[id];
-            const canBuy = gameState.gold >= BUY_COST;
-            const A = t.accent;
-            return `
-                <div class="rounded-2xl border p-4 flex items-center justify-between gap-3" style="border-color:${A}33;background:linear-gradient(90deg,${A}12,transparent);">
-                    <div class="flex items-center gap-3 min-w-0">
-                        <span class="w-11 h-11 rounded-2xl flex items-center justify-center text-lg shrink-0" style="background:${A}22;border:1px solid ${A}55;color:${A}"><i class="fa-solid ${t.fa}"></i></span>
-                        <div class="min-w-0">
-                            <p class="font-serif text-base font-bold text-champagne-100 truncate">${t.name}</p>
-                            <p class="text-[10px] text-champagne-500 truncate">${t.tagline}</p>
-                            <p class="text-[9px] mt-0.5" style="color:${A}">Begins as a ${t.stages[0]} · ${volLabel(t.volatility)} volatility</p>
-                        </div>
-                    </div>
-                    <button onclick="buyBusiness('${id}')" ${canBuy ? '' : 'disabled'} class="shrink-0 px-4 py-2 rounded-full text-[11px] font-bold transition hover:brightness-110 ${canBuy ? '' : 'opacity-50 cursor-not-allowed'}" style="background:${A};color:#0a0f0c;">Found · ${BUY_COST}g</button>
-                </div>`;
-        }
 
         function renderEmpirePnl() {
             const host = document.getElementById('empire-pnl-chart');
@@ -2729,8 +3098,8 @@
                 radialBar.style.strokeDashoffset = dashOffset;
             }
 
-            let calculatedTitle = "The Distracted Squire";
-            if (gameState.level >= 3) calculatedTitle = "Executive Apprentice";
+            let calculatedTitle = "Rookie";
+            if (gameState.level >= 3) calculatedTitle = "Apprentice";
             if (gameState.level >= 5) calculatedTitle = "Creative Director";
             if (gameState.level >= 8) calculatedTitle = "Operator";
             if (gameState.level >= 12) calculatedTitle = "Tycoon";
@@ -2756,18 +3125,25 @@
             }
 
             const inputSubs = document.getElementById("input-subs");
+            const inputViews = document.getElementById("input-views");
             const inputWealth = document.getElementById("input-wealth");
             const inputWeight = document.getElementById("input-weight");
 
             if (inputSubs) inputSubs.value = gameState.goals.subs;
+            if (inputViews) inputViews.value = gameState.goals.views || 0;
             if (inputWealth) inputWealth.value = gameState.goals.wealth;
             if (inputWeight) inputWeight.value = gameState.goals.weight;
 
             const markSubs = document.getElementById("marker-subs-val");
+            const markViews = document.getElementById("marker-views-val");
             const markWealth = document.getElementById("marker-wealth-val");
             const markWeight = document.getElementById("marker-weight-val");
 
             if (markSubs) markSubs.textContent = `${gameState.goals.subs} / 2K`;
+            if (markViews) {
+                const v = gameState.goals.views || 0;
+                markViews.textContent = `${v >= 1000 ? (v / 1000).toFixed(v % 1000 === 0 ? 0 : 1) + 'K' : v} / 100K`;
+            }
             if (markWealth) markWealth.textContent = `$${(gameState.goals.wealth / 1000).toFixed(1)}K / 10K`;
             if (markWeight) markWeight.textContent = `${gameState.goals.weight}kg / 75`;
 
@@ -2787,6 +3163,8 @@
             if (avatarRender) avatarRender.innerText = gameState.avatarEmoji;
             renderMerchantStore();
             renderStreak();
+            renderBounties();
+            renderMute();
 
             // Keep the ledger live if it's open
             const treasury = document.getElementById("popup-treasury");
@@ -2815,11 +3193,12 @@
 
         function calculateProgressPercent() {
             const subPart = Math.min(1, gameState.goals.subs / 2000);
+            const viewsPart = Math.min(1, (gameState.goals.views || 0) / 100000);
             const wealthPart = Math.min(1, gameState.goals.wealth / 10000);
             const startWeight = 85;
             const currentWeightDiff = Math.abs(gameState.goals.weight - 75);
             const weightPart = Math.max(0, Math.min(1, 1 - (currentWeightDiff / (startWeight - 75))));
-            return Math.round(((subPart + wealthPart + weightPart) / 3) * 100);
+            return Math.round(((subPart + viewsPart + wealthPart + weightPart) / 4) * 100);
         }
 
         function updateTravelerAndMarkers() {
@@ -2837,15 +3216,19 @@
                     traveler.setAttribute("transform", `translate(${travelPoint.x}, ${travelPoint.y})`);
                 }
 
-                const m1Point = path.getPointAtLength(totalLength * 0.22);
+                const m1Point = path.getPointAtLength(totalLength * 0.15);
                 const m1 = document.getElementById("marker-youtube");
                 if (m1) m1.setAttribute("transform", `translate(${m1Point.x}, ${m1Point.y})`);
 
-                const m2Point = path.getPointAtLength(totalLength * 0.50);
+                const mvPoint = path.getPointAtLength(totalLength * 0.38);
+                const mv = document.getElementById("marker-views");
+                if (mv) mv.setAttribute("transform", `translate(${mvPoint.x}, ${mvPoint.y})`);
+
+                const m2Point = path.getPointAtLength(totalLength * 0.61);
                 const m2 = document.getElementById("marker-wealth");
                 if (m2) m2.setAttribute("transform", `translate(${m2Point.x}, ${m2Point.y})`);
 
-                const m3Point = path.getPointAtLength(totalLength * 0.78);
+                const m3Point = path.getPointAtLength(totalLength * 0.84);
                 const m3 = document.getElementById("marker-vigor");
                 if (m3) m3.setAttribute("transform", `translate(${m3Point.x}, ${m3Point.y})`);
             } catch (e) {
@@ -2885,7 +3268,7 @@
             gameState.quests.campaign_focused_work = false;
             saveGameState();
             renderUI();
-            showToast(`Campaign aligned: ${campaignFocusConfig[focusKey].title}!`, "success");
+            showToast(`Focus set: ${campaignFocusConfig[focusKey].title}`, "success");
         }
 
         function renderQuestsBoard() {
@@ -2911,7 +3294,7 @@
                             </div>
                         </div>
                         <div>
-                            <span class="text-[8px] bg-champagne-500/10 text-champagne-300 px-2 py-0.5 rounded-full border border-champagne-400/20 font-bold uppercase tracking-wider mb-1.5 inline-block">Active Campaign Focus</span>
+                            <span class="text-[8px] bg-champagne-500/10 text-champagne-300 px-2 py-0.5 rounded-full border border-champagne-400/20 font-bold uppercase tracking-wider mb-1.5 inline-block">Focus</span>
                             <h4 class="font-semibold text-champagne-100 text-xs md:text-sm">
                                 ${campaignData.emoji} ${campaignData.title}
                             </h4>
@@ -2924,7 +3307,6 @@
                     </div>
                     <div class="text-right whitespace-nowrap pl-4">
                         <span class="text-champagne-200 text-sm md:text-base font-semibold">+${campaignData.xp} XP</span>
-                        <p class="text-[8px] uppercase tracking-wider text-champagne-500 mt-1">${campaignDone ? 'Claimed' : 'In Progress'}</p>
                     </div>
                 </div>
             `;
@@ -2961,7 +3343,6 @@
                         </div>
                         <div class="text-right whitespace-nowrap pl-4">
                             <span class="text-champagne-200 text-sm md:text-base font-semibold">+${q.xp} XP</span>
-                            <p class="text-[8px] uppercase tracking-wider text-champagne-500 mt-1">${isCompleted ? 'Completed' : 'Pending'}</p>
                         </div>
                     </div>
                 `;
@@ -2989,7 +3370,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <span class="text-[7px] bg-champagne-500/10 text-champagne-300 px-2 py-0.5 rounded-full border border-champagne-400/20 font-bold uppercase tracking-wider mb-1 inline-block">Contract Bounty</span>
+                                    <span class="text-[7px] bg-champagne-500/10 text-champagne-300 px-2 py-0.5 rounded-full border border-champagne-400/20 font-bold uppercase tracking-wider mb-1 inline-block">Contract</span>
                                     <h4 class="font-semibold text-champagne-200 text-xs md:text-sm">
                                         ${cb.title}
                                     </h4>
@@ -3004,7 +3385,6 @@
                                     <i class="fa-solid fa-trash-can"></i>
                                 </button>
                                 <span class="text-champagne-200 text-sm md:text-base font-semibold">+${cb.xp} XP</span>
-                                <p class="text-[8px] uppercase tracking-wider text-champagne-500 mt-0.5">${isCompleted ? 'Completed' : 'Active'}</p>
                             </div>
                         </div>
                     `;
@@ -3067,7 +3447,7 @@
             const val = titleField.value.trim();
 
             if (!val) {
-                showToast("Please write a bounty description.", "warning");
+                showToast("Please write a contract description.", "warning");
                 return;
             }
 
@@ -3086,7 +3466,7 @@
             playSound('heal');
             saveGameState();
             renderUI();
-            showToast(`Custom bounty enrolled: "${val}"`, "success");
+            showToast(`Contract enrolled: "${val}"`, "success");
         }
 
         function toggleCustomBounty(index) {
@@ -3096,15 +3476,15 @@
                 cb.done = true;
                 playSound('coin');
                 gameState.gold += cb.gold;
-                logGold(cb.gold, cb.title || "Contract bounty");
+                logGold(cb.gold, cb.title || "Contract");
                 registerActivity();
                 gameState.stats[cb.stat] = (gameState.stats[cb.stat] || 10) + 1;
                 addXP(cb.xp);
-                showToast(`Bounty complete: +${cb.xp} XP & +${cb.gold}g!`, "success");
+                showToast(`Contract complete: +${cb.xp} XP & +${cb.gold}g!`, "success");
             } else {
                 cb.done = false;
                 playSound('tick');
-                undoReward(cb.gold, cb.xp, cb.stat, 1, cb.title || "Contract bounty");
+                undoReward(cb.gold, cb.xp, cb.stat, 1, cb.title || "Contract");
                 showToast(`Reverted ${cb.gold}g and ${cb.xp} XP.`, "info");
             }
             saveGameState();
@@ -3467,37 +3847,55 @@
                 });
             }
 
-            ['siren', 'editor', 'specter'].forEach(bossId => {
-                if (gameState.bosses[bossId]) {
-                    gameState.bosses[bossId].moves = [false, false, false];
-                    gameState.bosses[bossId].hp = 100;
-                }
-            });
-
             if (!silent) {
                 saveGameState();
                 renderUI();
             }
         }
 
+        // Bosses are a WEEKLY challenge — they reset when the calendar week turns.
+        function weekKey(d) {
+            const dt = new Date(d);
+            const day = (dt.getDay() + 6) % 7;             // Monday = 0
+            dt.setDate(dt.getDate() - day);                // back to Monday
+            return dateKey(dt);
+        }
+        function resetBosses() {
+            ['siren', 'editor', 'specter'].forEach(bossId => {
+                if (gameState.bosses[bossId]) {
+                    gameState.bosses[bossId].moves = [false, false, false];
+                    gameState.bosses[bossId].hp = 100;
+                }
+            });
+        }
+        function applyWeeklyRollover() {
+            const wk = weekKey(new Date());
+            if (gameState.lastArenaWeek !== wk) {
+                if (gameState.lastArenaWeek) resetBosses();  // don't wipe on first ever load
+                gameState.lastArenaWeek = wk;
+            }
+        }
+
         function resetDailies() {
             playSound('tick');
             doDailyReset(false);
-            showToast("Quest board refreshed. Procrastination targets renewed!", "success");
+            showToast("Quest board refreshed for the day.", "success");
         }
 
         function saveExpeditionGoals() {
             const inputSubs = document.getElementById("input-subs");
+            const inputViews = document.getElementById("input-views");
             const inputWealth = document.getElementById("input-wealth");
             const inputWeight = document.getElementById("input-weight");
 
             gameState.goals.subs = inputSubs ? (parseInt(inputSubs.value) || 0) : 0;
+            gameState.goals.views = inputViews ? (parseInt(inputViews.value) || 0) : 0;
             gameState.goals.wealth = inputWealth ? (parseInt(inputWealth.value) || 0) : 0;
             gameState.goals.weight = inputWeight ? (parseFloat(inputWeight.value) || 0.0) : 0.0;
             
             saveGameState();
             renderUI();
-            showToast("Expedition status recalculated.", "success");
+            showToast("Goals updated.", "success");
         }
 
         function updateAvatarEmoji(emoji) {
@@ -3517,7 +3915,7 @@
                     gameState.goldLog = [{ t: Date.now(), delta: 0, balance: gameState.gold, reason: "Opening balance" }];
                     saveGameState();
                     renderUI();
-                    showToast("Progress returned to baseline.", "warning");
+                    showToast("Progress reset.", "warning");
                 }
             );
         }
